@@ -92,6 +92,20 @@ The dominant error mode in this dataset is card-tier confusion: the same policy 
 
 A second issue is label exhaustiveness. For generic questions the judgment often lists only one or two card tiers even when another tier's policy contains the same fact. For example, DOC-0023 for Q-005 and DOC-0053 for Q-011 are semantically valid but not labeled relevant. Strict Recall/MRR therefore understates retrieval quality; it should not be tuned away by overfitting to the 30 labeled queries.
 
+## Metadata-rule ablation
+
+The main table uses card-tier/year filtering and the metadata heuristic. A
+separate rules-free ablation is important:
+
+| Pipeline | Recall@1 | MRR | nDCG@5 | Retrieval P50 |
+|---|---:|---:|---:|---:|
+| Pure RRF, no metadata rules | **0.850** | **1.000** | **0.994** | 8.29 ms |
+| Pure BGE Cross-Encoder | 0.817 | 0.983 | 0.979 | 170.62 ms |
+| Metadata heuristic | 0.817 | 0.967 | 0.964 | 7.54 ms |
+
+See [ablation_metadata.md](ablation_metadata.md). The metadata rules are
+dataset-informed and should not be treated as a clean holdout.
+
 ## Reproducibility and limitations
 
 - All labels come from `data/eval_queries.json`; no judge or generated answer

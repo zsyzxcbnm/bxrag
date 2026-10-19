@@ -80,6 +80,7 @@ class Reranker(Protocol):
         parsed: ParsedQuery,
         hits: Sequence[SearchHit],
         top_n: int,
+        use_metadata: bool = True,
     ) -> list[SearchHit]:
         """Return the highest-scoring candidates."""
         ...
@@ -96,6 +97,7 @@ class HeuristicReranker:
         parsed: ParsedQuery,
         hits: Sequence[SearchHit],
         top_n: int,
+        use_metadata: bool = True,
     ) -> list[SearchHit]:
         query_token_list = _token_list(query)
         query_tokens = set(query_token_list)
@@ -130,20 +132,29 @@ class HeuristicReranker:
                 if any(synonym in text for synonym in _ANSWER_TERMS[term])
             )
             answer_type_score = answer_type_matches / max(1, len(requested_types))
-            tier_match = 1.0 if parsed.card_tier and hit.card_tier == parsed.card_tier else 0.0
+            tier_match = (
+                1.0
+                if use_metadata and parsed.card_tier and hit.card_tier == parsed.card_tier
+                else 0.0
+            )
             tier_penalty = (
-                -0.18 if parsed.card_tier and hit.card_tier != parsed.card_tier else 0.0
+                -0.18
+                if use_metadata and parsed.card_tier and hit.card_tier != parsed.card_tier
+                else 0.0
             )
             business_penalty = (
                 -0.12
-                if hit.card_tier == "Apex Business Select"
+                if use_metadata
+                and hit.card_tier == "Apex Business Select"
                 and not parsed.card_tier
                 and not business_context
                 else 0.0
             )
             year_match = (
                 1.0
-                if parsed.effective_year and hit.effective_year == parsed.effective_year
+                if use_metadata
+                and parsed.effective_year
+                and hit.effective_year == parsed.effective_year
                 else 0.0
             )
             prior = 1.0 / (1.0 + 0.08 * max(0, hit.rank - 1))
@@ -156,7 +167,7 @@ class HeuristicReranker:
                 + 0.03 * number_overlap
                 + 0.12 * tier_match
                 + 0.02 * year_match
-                + 0.15 * answer_type_score
+                + (0.15 * answer_type_score if use_metadata else 0.0)
                 + tier_penalty
                 + business_penalty
             )
@@ -215,6 +226,7 @@ class CrossEncoderReranker:
         parsed: ParsedQuery,
         hits: Sequence[SearchHit],
         top_n: int,
+        use_metadata: bool = True,
     ) -> list[SearchHit]:
         model = self._load()
         if model is None:
@@ -234,11 +246,14 @@ class CrossEncoderReranker:
         scored: list[SearchHit] = []
         for hit, raw_score in zip(hits, predictions, strict=True):
             cross_score = 1.0 / (1.0 + np.exp(-float(raw_score)))
-            metadata_score = heuristic_scores.get(hit.doc_id, 0.0)
+            if use_metadata:
+                score = 0.65 * cross_score + 0.35 * heuristic_scores.get(hit.doc_id, 0.0)
+            else:
+                score = cross_score
             scored.append(
                 replace(
                     hit,
-                    score=0.65 * cross_score + 0.35 * metadata_score,
+                    score=score,
                     source="cross-encoder",
                 )
             )

@@ -173,8 +173,9 @@ def chart_embeddings() -> None:
 
 
 def chart_rerankers() -> None:
-    heuristic = _load("results_bge_large_pgvector.json")["summary"]["hybrid_rerank"]
-    cross = _load("results_bge_reranker_gpu.json")["summary"]["hybrid_rerank"]
+    ablation = _load("ablation_metadata.json")["summary"]
+    heuristic = ablation["metadata_heuristic"]
+    cross = ablation["no_metadata_cross_encoder"]
     metric_keys = ["recall@1", "recall@3", "mrr", "ndcg@5"]
     metric_labels = ["Recall@1", "Recall@3", "MRR", "nDCG@5"]
     names = ["元数据启发式", "BGE Cross-Encoder"]
@@ -201,14 +202,14 @@ def chart_rerankers() -> None:
 
     axes[1].bar(
         [0 - 0.18, 1 - 0.18],
-        [heuristic["latency"]["p50_ms"], cross["latency"]["p50_ms"]],
+        [heuristic["retrieval_latency"]["p50_ms"], cross["retrieval_latency"]["p50_ms"]],
         width=0.36,
         label="P50",
         color="#3274a1",
     )
     axes[1].bar(
         [0 + 0.18, 1 + 0.18],
-        [heuristic["latency"]["p99_ms"], cross["latency"]["p99_ms"]],
+        [heuristic["retrieval_latency"]["p99_ms"], cross["retrieval_latency"]["p99_ms"]],
         width=0.36,
         label="P99",
         color="#e1812c",
@@ -220,6 +221,44 @@ def chart_rerankers() -> None:
     axes[1].legend()
     axes[1].grid(axis="y", alpha=0.25)
     _save(fig, "reranker_comparison_zh.png")
+
+
+def chart_ablation() -> None:
+    payload = _load("ablation_metadata.json")
+    names = {
+        "no_metadata_rrf": "纯 RRF",
+        "no_metadata_cross_encoder": "纯 Cross-Encoder",
+        "metadata_heuristic": "元数据启发式",
+    }
+    metric_keys = ["recall@1", "recall@3", "mrr", "ndcg@5"]
+    metric_labels = ["Recall@1", "Recall@3", "MRR", "nDCG@5"]
+    modes = list(names)
+    width = 0.24
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.8))
+    for index, mode in enumerate(modes):
+        values = [payload["summary"][mode]["metrics"][key] for key in metric_keys]
+        positions = [position + index * width for position in range(len(metric_keys))]
+        axes[0].bar(positions, values, width=width, label=names[mode], color=COLORS[index])
+    axes[0].set_xticks([position + width for position in range(len(metric_keys))])
+    axes[0].set_xticklabels(metric_labels)
+    axes[0].set_ylim(0, 1.05)
+    axes[0].set_ylabel("分数")
+    axes[0].set_title("元数据规则消融：检索质量", fontsize=12)
+    axes[0].legend(fontsize=8)
+    axes[0].grid(axis="y", alpha=0.25)
+
+    positions = list(range(len(modes)))
+    p50 = [payload["summary"][mode]["retrieval_latency"]["p50_ms"] for mode in modes]
+    p99 = [payload["summary"][mode]["retrieval_latency"]["p99_ms"] for mode in modes]
+    axes[1].bar([p - 0.18 for p in positions], p50, width=0.36, label="P50", color="#3274a1")
+    axes[1].bar([p + 0.18 for p in positions], p99, width=0.36, label="P99", color="#e1812c")
+    axes[1].set_xticks(positions)
+    axes[1].set_xticklabels([names[mode] for mode in modes], rotation=15, ha="right", fontsize=9)
+    axes[1].set_ylabel("毫秒 (ms)")
+    axes[1].set_title("元数据规则消融：检索延迟", fontsize=12)
+    axes[1].legend()
+    axes[1].grid(axis="y", alpha=0.25)
+    _save(fig, "ablation_metadata_zh.png")
 
 
 def chart_architecture() -> None:
@@ -280,6 +319,7 @@ def main() -> None:
     chart_index_tuning(index_tuning)
     chart_embeddings()
     chart_rerankers()
+    chart_ablation()
     chart_architecture()
     print("中文图表已生成到", FIGURES)
 

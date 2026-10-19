@@ -29,6 +29,11 @@ GPU query embedding adds about **25 ms** P50. Approximate end-to-end latency is
 [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).
 
+Important ablation: the rules-free RRF baseline is stronger on the 30 labeled
+queries (Recall@1 0.850, MRR 1.000, nDCG@5 0.994). The card-tier/year hard
+filters and metadata heuristic are dataset-informed and are reported separately
+in [reports/ablation_metadata.md](reports/ablation_metadata.md).
+
 | Embedding | Dense Recall@1 | Dense MRR | Hybrid + rerank Recall@1 | Hybrid + rerank MRR | nDCG@5 |
 |---|---:|---:|---:|---:|---:|
 | TF-IDF + SVD baseline | 0.761 | 0.917 | 0.783 | 0.950 | 0.950 |

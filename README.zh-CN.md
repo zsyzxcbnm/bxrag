@@ -30,7 +30,12 @@ GPU 上查询 Embedding 约 **25 ms P50 / 30 ms P99**，因此混合检索+重�
 - [HNSW 索引参数扫描](reports/index_tuning.zh-CN.md)
 - [Embedding 方案对比](reports/embedding_comparison.zh-CN.md)
 - [重排序器对比](reports/reranker_comparison.zh-CN.md)
+- [元数据规则消融](reports/ablation_metadata.zh-CN.md)
 - [战略架构路线图](docs/roadmap.zh-CN.md)
+
+重要消融结论：不做人工元数据规则、直接使用 RRF 的基线反而最好
+（Recall@1 **0.850**、MRR **1.000**、nDCG@5 **0.994**）。卡种/年份硬过滤和
+启发式规则是为这份 30 条数据设计的，应视为有调优偏差的方案。
 
 ## 架构
 

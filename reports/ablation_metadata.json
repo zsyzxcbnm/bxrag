@@ -1,0 +1,2279 @@
+{
+  "metadata": {
+    "query_count": 30,
+    "repeats": 3,
+    "embedding_model": "G:\\博贤\\data\\models\\bge-large-en-v1.5",
+    "embedding_dim": 1024,
+    "cross_encoder": "G:\\博贤\\data\\models\\bge-reranker-large",
+    "cross_encoder_device": "cuda",
+    "cross_encoder_fp16": true
+  },
+  "summary": {
+    "no_metadata_rrf": {
+      "metrics": {
+        "mrr": 1.0,
+        "recall@1": 0.85,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 0.955556,
+        "precision@3": 0.433333,
+        "ndcg@3": 0.966667,
+        "recall@5": 1.0,
+        "precision@5": 0.286667,
+        "ndcg@5": 0.993614,
+        "recall@10": 1.0,
+        "precision@10": 0.143333,
+        "ndcg@10": 0.993614
+      },
+      "retrieval_latency": {
+        "p50_ms": 8.289,
+        "p99_ms": 12.824
+      },
+      "embedding_latency": {
+        "p50_ms": 21.863,
+        "p99_ms": 27.18
+      },
+      "stage_mean_ms": {
+        "embed_ms": 7.428,
+        "dense_ms": 3.318,
+        "sparse_ms": 4.361,
+        "fusion_ms": 0.608,
+        "total_ms": 16.022
+      }
+    },
+    "no_metadata_cross_encoder": {
+      "metrics": {
+        "mrr": 0.983333,
+        "recall@1": 0.816667,
+        "precision@1": 0.966667,
+        "ndcg@1": 0.966667,
+        "recall@3": 0.944444,
+        "precision@3": 0.422222,
+        "ndcg@3": 0.946543,
+        "recall@5": 1.0,
+        "precision@5": 0.286667,
+        "ndcg@5": 0.978857,
+        "recall@10": 1.0,
+        "precision@10": 0.143333,
+        "ndcg@10": 0.978857
+      },
+      "retrieval_latency": {
+        "p50_ms": 170.624,
+        "p99_ms": 182.041
+      },
+      "embedding_latency": {
+        "p50_ms": 21.326,
+        "p99_ms": 28.573
+      },
+      "stage_mean_ms": {
+        "embed_ms": 7.394,
+        "dense_ms": 3.991,
+        "sparse_ms": 4.566,
+        "fusion_ms": 0.591,
+        "rerank_ms": 158.21,
+        "total_ms": 175.072
+      }
+    },
+    "metadata_heuristic": {
+      "metrics": {
+        "mrr": 0.966667,
+        "recall@1": 0.816667,
+        "precision@1": 0.966667,
+        "ndcg@1": 0.966667,
+        "recall@3": 0.944444,
+        "precision@3": 0.444444,
+        "ndcg@3": 0.951024,
+        "recall@5": 0.966667,
+        "precision@5": 0.28,
+        "ndcg@5": 0.964498,
+        "recall@10": 0.966667,
+        "precision@10": 0.14,
+        "ndcg@10": 0.964498
+      },
+      "retrieval_latency": {
+        "p50_ms": 7.542,
+        "p99_ms": 10.551
+      },
+      "embedding_latency": {
+        "p50_ms": 21.17,
+        "p99_ms": 27.612
+      },
+      "stage_mean_ms": {
+        "embed_ms": 7.259,
+        "dense_ms": 3.247,
+        "sparse_ms": 2.732,
+        "fusion_ms": 0.484,
+        "rerank_ms": 1.203,
+        "total_ms": 15.377
+      }
+    }
+  },
+  "per_query": {
+    "no_metadata_rrf": {
+      "Q-001": {
+        "ranked_doc_ids": [
+          "DOC-0001",
+          "DOC-0005",
+          "DOC-0003",
+          "DOC-0002",
+          "DOC-0004"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.2,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-002": {
+        "ranked_doc_ids": [
+          "DOC-0003",
+          "DOC-0014",
+          "DOC-0037",
+          "DOC-0033",
+          "DOC-0006"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-003": {
+        "ranked_doc_ids": [
+          "DOC-0005",
+          "DOC-0001",
+          "DOC-0013",
+          "DOC-0009",
+          "DOC-0004"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-004": {
+        "ranked_doc_ids": [
+          "DOC-0016",
+          "DOC-0018",
+          "DOC-0019",
+          "DOC-0017",
+          "DOC-0030"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-005": {
+        "ranked_doc_ids": [
+          "DOC-0020",
+          "DOC-0023",
+          "DOC-0022",
+          "DOC-0021",
+          "DOC-0027"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7039180890341347,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9060254355346823,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9060254355346823
+        }
+      },
+      "Q-006": {
+        "ranked_doc_ids": [
+          "DOC-0026",
+          "DOC-0024",
+          "DOC-0027",
+          "DOC-0025",
+          "DOC-0020"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-007": {
+        "ranked_doc_ids": [
+          "DOC-0031",
+          "DOC-0035",
+          "DOC-0032",
+          "DOC-0039",
+          "DOC-0034"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-008": {
+        "ranked_doc_ids": [
+          "DOC-0036",
+          "DOC-0035",
+          "DOC-0037",
+          "DOC-0032",
+          "DOC-0038"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-009": {
+        "ranked_doc_ids": [
+          "DOC-0040",
+          "DOC-0041",
+          "DOC-0147",
+          "DOC-0039",
+          "DOC-0149"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-010": {
+        "ranked_doc_ids": [
+          "DOC-0046",
+          "DOC-0049",
+          "DOC-0050",
+          "DOC-0035",
+          "DOC-0060"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-011": {
+        "ranked_doc_ids": [
+          "DOC-0050",
+          "DOC-0052",
+          "DOC-0051",
+          "DOC-0053",
+          "DOC-0086"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-012": {
+        "ranked_doc_ids": [
+          "DOC-0054",
+          "DOC-0057",
+          "DOC-0056",
+          "DOC-0101",
+          "DOC-0055"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-013": {
+        "ranked_doc_ids": [
+          "DOC-0061",
+          "DOC-0062",
+          "DOC-0063",
+          "DOC-0035",
+          "DOC-0054"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-014": {
+        "ranked_doc_ids": [
+          "DOC-0065",
+          "DOC-0067",
+          "DOC-0066",
+          "DOC-0106",
+          "DOC-0068"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-015": {
+        "ranked_doc_ids": [
+          "DOC-0065",
+          "DOC-0114",
+          "DOC-0115",
+          "DOC-0066",
+          "DOC-0106"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-016": {
+        "ranked_doc_ids": [
+          "DOC-0076",
+          "DOC-0031",
+          "DOC-0035",
+          "DOC-0077",
+          "DOC-0084"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-017": {
+        "ranked_doc_ids": [
+          "DOC-0077",
+          "DOC-0033",
+          "DOC-0037",
+          "DOC-0044",
+          "DOC-0041"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-018": {
+        "ranked_doc_ids": [
+          "DOC-0094",
+          "DOC-0095",
+          "DOC-0091",
+          "DOC-0096",
+          "DOC-0102"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-019": {
+        "ranked_doc_ids": [
+          "DOC-0058",
+          "DOC-0059",
+          "DOC-0060",
+          "DOC-0031",
+          "DOC-0050"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-020": {
+        "ranked_doc_ids": [
+          "DOC-0099",
+          "DOC-0091",
+          "DOC-0100",
+          "DOC-0097",
+          "DOC-0046"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-021": {
+        "ranked_doc_ids": [
+          "DOC-0037",
+          "DOC-0035",
+          "DOC-0033",
+          "DOC-0036",
+          "DOC-0038"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-022": {
+        "ranked_doc_ids": [
+          "DOC-0043",
+          "DOC-0035",
+          "DOC-0031",
+          "DOC-0001",
+          "DOC-0039"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-023": {
+        "ranked_doc_ids": [
+          "DOC-0057",
+          "DOC-0030",
+          "DOC-0126",
+          "DOC-0056",
+          "DOC-0102"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-024": {
+        "ranked_doc_ids": [
+          "DOC-0073",
+          "DOC-0114",
+          "DOC-0074",
+          "DOC-0065",
+          "DOC-0031"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-025": {
+        "ranked_doc_ids": [
+          "DOC-0024",
+          "DOC-0027",
+          "DOC-0025",
+          "DOC-0020",
+          "DOC-0026"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-026": {
+        "ranked_doc_ids": [
+          "DOC-0061",
+          "DOC-0043",
+          "DOC-0101",
+          "DOC-0062",
+          "DOC-0035"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-027": {
+        "ranked_doc_ids": [
+          "DOC-0106",
+          "DOC-0065",
+          "DOC-0110",
+          "DOC-0024",
+          "DOC-0084"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-028": {
+        "ranked_doc_ids": [
+          "DOC-0149",
+          "DOC-0033",
+          "DOC-0041",
+          "DOC-0044",
+          "DOC-0142"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-029": {
+        "ranked_doc_ids": [
+          "DOC-0060",
+          "DOC-0036",
+          "DOC-0032",
+          "DOC-0040",
+          "DOC-0107"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-030": {
+        "ranked_doc_ids": [
+          "DOC-0039",
+          "DOC-0138",
+          "DOC-0001",
+          "DOC-0009",
+          "DOC-0150"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      }
+    },
+    "no_metadata_cross_encoder": {
+      "Q-001": {
+        "ranked_doc_ids": [
+          "DOC-0001",
+          "DOC-0005",
+          "DOC-0004",
+          "DOC-0002",
+          "DOC-0003"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.2,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-002": {
+        "ranked_doc_ids": [
+          "DOC-0014",
+          "DOC-0003",
+          "DOC-0011",
+          "DOC-0037",
+          "DOC-0006"
+        ],
+        "metrics": {
+          "mrr": 0.5,
+          "recall@1": 0.0,
+          "precision@1": 0.0,
+          "ndcg@1": 0.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 0.6309297535714575,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 0.6309297535714575,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 0.6309297535714575
+        }
+      },
+      "Q-003": {
+        "ranked_doc_ids": [
+          "DOC-0005",
+          "DOC-0001",
+          "DOC-0006",
+          "DOC-0008",
+          "DOC-0007"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-004": {
+        "ranked_doc_ids": [
+          "DOC-0018",
+          "DOC-0016",
+          "DOC-0019",
+          "DOC-0017",
+          "DOC-0027"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-005": {
+        "ranked_doc_ids": [
+          "DOC-0020",
+          "DOC-0023",
+          "DOC-0022",
+          "DOC-0021",
+          "DOC-0024"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7039180890341347,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9060254355346823,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9060254355346823
+        }
+      },
+      "Q-006": {
+        "ranked_doc_ids": [
+          "DOC-0024",
+          "DOC-0026",
+          "DOC-0027",
+          "DOC-0016",
+          "DOC-0025"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9469024295259745,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9469024295259745
+        }
+      },
+      "Q-007": {
+        "ranked_doc_ids": [
+          "DOC-0031",
+          "DOC-0058",
+          "DOC-0032",
+          "DOC-0060",
+          "DOC-0035"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-008": {
+        "ranked_doc_ids": [
+          "DOC-0036",
+          "DOC-0035",
+          "DOC-0037",
+          "DOC-0038",
+          "DOC-0062"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-009": {
+        "ranked_doc_ids": [
+          "DOC-0041",
+          "DOC-0040",
+          "DOC-0042",
+          "DOC-0147",
+          "DOC-0039"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9469024295259745,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9469024295259745
+        }
+      },
+      "Q-010": {
+        "ranked_doc_ids": [
+          "DOC-0046",
+          "DOC-0049",
+          "DOC-0047",
+          "DOC-0058",
+          "DOC-0076"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-011": {
+        "ranked_doc_ids": [
+          "DOC-0050",
+          "DOC-0052",
+          "DOC-0051",
+          "DOC-0053",
+          "DOC-0058"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-012": {
+        "ranked_doc_ids": [
+          "DOC-0054",
+          "DOC-0057",
+          "DOC-0055",
+          "DOC-0101",
+          "DOC-0056"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-013": {
+        "ranked_doc_ids": [
+          "DOC-0061",
+          "DOC-0062",
+          "DOC-0063",
+          "DOC-0071",
+          "DOC-0064"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-014": {
+        "ranked_doc_ids": [
+          "DOC-0065",
+          "DOC-0066",
+          "DOC-0068",
+          "DOC-0067",
+          "DOC-0119"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-015": {
+        "ranked_doc_ids": [
+          "DOC-0065",
+          "DOC-0120",
+          "DOC-0115",
+          "DOC-0066",
+          "DOC-0067"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-016": {
+        "ranked_doc_ids": [
+          "DOC-0076",
+          "DOC-0077",
+          "DOC-0078",
+          "DOC-0031",
+          "DOC-0060"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-017": {
+        "ranked_doc_ids": [
+          "DOC-0077",
+          "DOC-0078",
+          "DOC-0076",
+          "DOC-0033",
+          "DOC-0082"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-018": {
+        "ranked_doc_ids": [
+          "DOC-0094",
+          "DOC-0096",
+          "DOC-0091",
+          "DOC-0101",
+          "DOC-0097"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-019": {
+        "ranked_doc_ids": [
+          "DOC-0058",
+          "DOC-0059",
+          "DOC-0060",
+          "DOC-0050",
+          "DOC-0106"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-020": {
+        "ranked_doc_ids": [
+          "DOC-0099",
+          "DOC-0100",
+          "DOC-0091",
+          "DOC-0097",
+          "DOC-0061"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-021": {
+        "ranked_doc_ids": [
+          "DOC-0037",
+          "DOC-0038",
+          "DOC-0035",
+          "DOC-0036",
+          "DOC-0033"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-022": {
+        "ranked_doc_ids": [
+          "DOC-0043",
+          "DOC-0001",
+          "DOC-0031",
+          "DOC-0035",
+          "DOC-0039"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-023": {
+        "ranked_doc_ids": [
+          "DOC-0057",
+          "DOC-0030",
+          "DOC-0054",
+          "DOC-0064",
+          "DOC-0056"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-024": {
+        "ranked_doc_ids": [
+          "DOC-0073",
+          "DOC-0117",
+          "DOC-0079",
+          "DOC-0121",
+          "DOC-0114"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-025": {
+        "ranked_doc_ids": [
+          "DOC-0024",
+          "DOC-0025",
+          "DOC-0027",
+          "DOC-0026",
+          "DOC-0016"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-026": {
+        "ranked_doc_ids": [
+          "DOC-0061",
+          "DOC-0064",
+          "DOC-0062",
+          "DOC-0101",
+          "DOC-0091"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-027": {
+        "ranked_doc_ids": [
+          "DOC-0106",
+          "DOC-0108",
+          "DOC-0065",
+          "DOC-0110",
+          "DOC-0107"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-028": {
+        "ranked_doc_ids": [
+          "DOC-0149",
+          "DOC-0138",
+          "DOC-0041",
+          "DOC-0145",
+          "DOC-0003"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-029": {
+        "ranked_doc_ids": [
+          "DOC-0060",
+          "DOC-0059",
+          "DOC-0107",
+          "DOC-0025",
+          "DOC-0066"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-030": {
+        "ranked_doc_ids": [
+          "DOC-0039",
+          "DOC-0136",
+          "DOC-0138",
+          "DOC-0140",
+          "DOC-0150"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      }
+    },
+    "metadata_heuristic": {
+      "Q-001": {
+        "ranked_doc_ids": [
+          "DOC-0001",
+          "DOC-0005",
+          "DOC-0009",
+          "DOC-0013",
+          "DOC-0150"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.2,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-002": {
+        "ranked_doc_ids": [
+          "DOC-0003",
+          "DOC-0014",
+          "DOC-0037",
+          "DOC-0033",
+          "DOC-0041"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-003": {
+        "ranked_doc_ids": [
+          "DOC-0005",
+          "DOC-0001",
+          "DOC-0009",
+          "DOC-0013",
+          "DOC-0150"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-004": {
+        "ranked_doc_ids": [
+          "DOC-0016",
+          "DOC-0018",
+          "DOC-0017",
+          "DOC-0020",
+          "DOC-0028"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-005": {
+        "ranked_doc_ids": [
+          "DOC-0020",
+          "DOC-0022",
+          "DOC-0023",
+          "DOC-0021",
+          "DOC-0024"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-006": {
+        "ranked_doc_ids": [
+          "DOC-0026",
+          "DOC-0024",
+          "DOC-0025",
+          "DOC-0020",
+          "DOC-0022"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-007": {
+        "ranked_doc_ids": [
+          "DOC-0031",
+          "DOC-0035",
+          "DOC-0039",
+          "DOC-0058",
+          "DOC-0060"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-008": {
+        "ranked_doc_ids": [
+          "DOC-0036",
+          "DOC-0032",
+          "DOC-0062",
+          "DOC-0040",
+          "DOC-0045"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-009": {
+        "ranked_doc_ids": [
+          "DOC-0040",
+          "DOC-0041",
+          "DOC-0147",
+          "DOC-0039",
+          "DOC-0145"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "ndcg@3": 0.7653606369886217,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 0.9674679834891693,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 0.9674679834891693
+        }
+      },
+      "Q-010": {
+        "ranked_doc_ids": [
+          "DOC-0046",
+          "DOC-0050",
+          "DOC-0035",
+          "DOC-0060",
+          "DOC-0091"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-011": {
+        "ranked_doc_ids": [
+          "DOC-0050",
+          "DOC-0052",
+          "DOC-0051",
+          "DOC-0086",
+          "DOC-0078"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-012": {
+        "ranked_doc_ids": [
+          "DOC-0054",
+          "DOC-0101",
+          "DOC-0094",
+          "DOC-0065",
+          "DOC-0016"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-013": {
+        "ranked_doc_ids": [
+          "DOC-0061",
+          "DOC-0054",
+          "DOC-0071",
+          "DOC-0035",
+          "DOC-0073"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-014": {
+        "ranked_doc_ids": [
+          "DOC-0065",
+          "DOC-0066",
+          "DOC-0067",
+          "DOC-0106",
+          "DOC-0114"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.3,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-015": {
+        "ranked_doc_ids": [
+          "DOC-0065",
+          "DOC-0114",
+          "DOC-0115",
+          "DOC-0066",
+          "DOC-0110"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-016": {
+        "ranked_doc_ids": [
+          "DOC-0076",
+          "DOC-0031",
+          "DOC-0035",
+          "DOC-0039",
+          "DOC-0043"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-017": {
+        "ranked_doc_ids": [
+          "DOC-0077",
+          "DOC-0033",
+          "DOC-0037",
+          "DOC-0044",
+          "DOC-0041"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-018": {
+        "ranked_doc_ids": [
+          "DOC-0094",
+          "DOC-0091",
+          "DOC-0101",
+          "DOC-0099",
+          "DOC-0046"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-019": {
+        "ranked_doc_ids": [
+          "DOC-0058",
+          "DOC-0060",
+          "DOC-0031",
+          "DOC-0050",
+          "DOC-0106"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-020": {
+        "ranked_doc_ids": [
+          "DOC-0099",
+          "DOC-0091",
+          "DOC-0097",
+          "DOC-0046",
+          "DOC-0031"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-021": {
+        "ranked_doc_ids": [
+          "DOC-0037",
+          "DOC-0033",
+          "DOC-0044",
+          "DOC-0041",
+          "DOC-0018"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-022": {
+        "ranked_doc_ids": [
+          "DOC-0043",
+          "DOC-0035",
+          "DOC-0039",
+          "DOC-0031",
+          "DOC-0001"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-023": {
+        "ranked_doc_ids": [
+          "DOC-0057",
+          "DOC-0030",
+          "DOC-0126",
+          "DOC-0102",
+          "DOC-0087"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-024": {
+        "ranked_doc_ids": [
+          "DOC-0073",
+          "DOC-0114",
+          "DOC-0065",
+          "DOC-0031",
+          "DOC-0117"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-025": {
+        "ranked_doc_ids": [
+          "DOC-0024",
+          "DOC-0025",
+          "DOC-0026",
+          "DOC-0020",
+          "DOC-0027"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-026": {
+        "ranked_doc_ids": [
+          "DOC-0061",
+          "DOC-0043",
+          "DOC-0101",
+          "DOC-0035",
+          "DOC-0009"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-027": {
+        "ranked_doc_ids": [
+          "DOC-0106",
+          "DOC-0065",
+          "DOC-0110",
+          "DOC-0024",
+          "DOC-0084"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-028": {
+        "ranked_doc_ids": [
+          "DOC-0149",
+          "DOC-0041",
+          "DOC-0033",
+          "DOC-0044",
+          "DOC-0142"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      },
+      "Q-029": {
+        "ranked_doc_ids": [
+          "DOC-0036",
+          "DOC-0032",
+          "DOC-0040",
+          "DOC-0107",
+          "DOC-0047"
+        ],
+        "metrics": {
+          "mrr": 0.0,
+          "recall@1": 0.0,
+          "precision@1": 0.0,
+          "ndcg@1": 0.0,
+          "recall@3": 0.0,
+          "precision@3": 0.0,
+          "ndcg@3": 0.0,
+          "recall@5": 0.0,
+          "precision@5": 0.0,
+          "ndcg@5": 0.0,
+          "recall@10": 0.0,
+          "precision@10": 0.0,
+          "ndcg@10": 0.0
+        }
+      },
+      "Q-030": {
+        "ranked_doc_ids": [
+          "DOC-0039",
+          "DOC-0009",
+          "DOC-0001",
+          "DOC-0136",
+          "DOC-0150"
+        ],
+        "metrics": {
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "ndcg@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.3333333333333333,
+          "ndcg@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.2,
+          "ndcg@5": 1.0,
+          "recall@10": 1.0,
+          "precision@10": 0.1,
+          "ndcg@10": 1.0
+        }
+      }
+    }
+  }
+}

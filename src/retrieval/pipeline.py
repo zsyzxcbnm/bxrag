@@ -104,6 +104,7 @@ class RetrievalPipeline:
         mode: RetrievalMode = "hybrid_rerank",
         top_k: int | None = None,
         chunk_strategy: str = "document",
+        use_metadata: bool = True,
     ) -> RetrievalResult:
         """Run one of four retrieval modes and return ranked document hits."""
 
@@ -112,7 +113,7 @@ class RetrievalPipeline:
 
         started = time.perf_counter()
         parsed = parse_query(query)
-        filters = self._filters(parsed)
+        filters = self._filters(parsed) if use_metadata else {}
         timings: dict[str, float] = {}
         limit = top_k or self.settings.final_k
 
@@ -165,6 +166,7 @@ class RetrievalPipeline:
                     parsed,
                     hits[: self.settings.rerank_candidates],
                     top_n=limit,
+                    use_metadata=use_metadata,
                 )
                 timings["rerank_ms"] = (time.perf_counter() - rerank_started) * 1000
 

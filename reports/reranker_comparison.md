@@ -5,34 +5,36 @@
 - Embedding: BGE-large-en-v1.5, CUDA
 - Rerank candidates: 20
 - Queries: 30, repeats: 3
-- Cross-Encoder: `bge-reranker-large`, CUDA fp16, blended 65% Cross-Encoder +
-  35% metadata heuristic
+- Cross-Encoder: `bge-reranker-large`, CUDA fp16, pure score (no metadata blend)
 - Metadata heuristic: card-tier, answer-type, year and business-context rules
 
-| Reranker | Recall@1 | Recall@3 | MRR | nDCG@5 | Retrieval P50 | Retrieval P95 | Retrieval P99 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Metadata heuristic | **0.817** | **0.944** | **0.967** | **0.964** | **7.68 ms** | **9.34 ms** | **10.36 ms** |
-| BGE Cross-Encoder | 0.817 | 0.933 | 0.967 | 0.961 | 162.86 ms | 183.78 ms | 849.36 ms |
+| Reranker | Recall@1 | Recall@3 | MRR | nDCG@5 | Retrieval P50 | Retrieval P99 |
+|---|---:|---:|---:|---:|---:|---:|
+| Metadata heuristic | **0.817** | **0.944** | 0.967 | 0.964 | **7.54 ms** | **10.55 ms** |
+| BGE Cross-Encoder (pure) | **0.817** | **0.944** | **0.983** | **0.979** | 170.62 ms | 182.04 ms |
 
 ![Reranker comparison](figures/reranker_comparison_zh.png)
 
-The Cross-Encoder P99 includes a cold-start spike; even after warm-up its P50 is
-about 160 ms, roughly 20x the heuristic path.
+The Cross-Encoder P50 is about 170 ms, roughly 20x the heuristic path.
 
 ## Conclusion
 
 `bge-reranker-large` loads and runs correctly on the 4GB GPU in fp16 (about
-1.1GB of model memory). It can produce semantic relevance scores, but on this
-synthetic credit-card policy benchmark it does not beat the metadata-aware
-heuristic:
+1.1GB of model memory). In pure mode it improves ranking quality over the
+metadata heuristic:
 
-- nDCG@5 drops from 0.964 to 0.961.
-- Recall@3 drops from 0.944 to 0.933.
-- Retrieval P50 rises from about 8 ms to about 163 ms.
+- MRR rises from 0.967 to 0.983.
+- nDCG@5 rises from 0.964 to 0.979.
+- Retrieval P50 rises from about 8 ms to about 170 ms.
 
-The likely reason is that the benchmark's hardest cases are card-tier and
-answer-type distinctions, not general semantic similarity. The heuristic
-explicitly encodes those constraints.
+However, the rules-free RRF baseline is still stronger on this particular
+30-query set (Recall@1 0.850, MRR 1.000, nDCG@5 0.994). See
+`ablation_metadata.md`.
+
+The likely reason is that hard card-tier/year filtering removes useful
+candidates, while the Cross-Encoder can compare the query and passage more
+flexibly. A simple 65/35 blend with the heuristic actually reduced nDCG@5 to
+0.961, so pure Cross-Encoder scoring is the better control.
 
 The production default therefore remains the heuristic reranker. The
 Cross-Encoder is kept as an optional provider for larger or more semantic
