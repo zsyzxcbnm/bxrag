@@ -22,10 +22,11 @@ class Settings(BaseSettings):
     postgres_dsn: str = "postgresql://apex:apex@localhost:5432/apex"
     backend: Literal["postgres", "memory"] = "postgres"
 
-    embedding_provider: Literal["local", "openai"] = "local"
+    embedding_provider: Literal["local", "openai", "sentence-transformers"] = "local"
     embedding_model: str = "local-tfidf-svd"
     embedding_dim: int = 128
     openai_api_key: str | None = None
+    embedding_device: str | None = None
 
     reranker_provider: Literal["heuristic", "cross-encoder"] = "heuristic"
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"

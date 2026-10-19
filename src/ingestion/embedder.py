@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Protocol, cast, runtime_checkable
@@ -28,6 +29,10 @@ class Embedder(Protocol):
 
     def embed(self, texts: Sequence[str]) -> np.ndarray:
         """Return an ``(n_texts, dim)`` float32 matrix."""
+        ...
+
+    def embed_query(self, query: str) -> np.ndarray:
+        """Embed one query with provider-specific instructions."""
         ...
 
     def save(self, path: Path) -> None:
@@ -73,6 +78,9 @@ class LocalTfidfSvdEmbedder:
         matrix = self._vectorizer.transform(texts)
         vectors = self._svd.transform(matrix)
         return cast(np.ndarray, np.asarray(normalize(vectors), dtype=np.float32))
+
+    def embed_query(self, query: str) -> np.ndarray:
+        return cast(np.ndarray, self.embed([query])[0])
 
     def save(self, path: Path) -> None:
         if self._vectorizer is None or self._svd is None:
@@ -120,6 +128,60 @@ class OpenAIEmbedder:
             vectors.extend(item.embedding for item in ordered)
         return cast(np.ndarray, np.asarray(normalize(np.asarray(vectors)), dtype=np.float32))
 
+    def embed_query(self, query: str) -> np.ndarray:
+        return cast(np.ndarray, self.embed([query])[0])
+
+    def save(self, path: Path) -> None:
+        del path
+
+
+class SentenceTransformerEmbedder:
+    """Local Sentence-Transformers embedding with Qwen3 query instructions."""
+
+    def __init__(
+        self,
+        model_name: str,
+        device: str | None = None,
+        max_seq_length: int = 512,
+    ) -> None:
+        os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
+        os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+        from sentence_transformers import SentenceTransformer
+
+        self.name = model_name
+        self._model = SentenceTransformer(model_name, device=device)
+        self._model.max_seq_length = max_seq_length
+        self.device = str(self._model.device)
+        dimension_getter = getattr(
+            self._model,
+            "get_embedding_dimension",
+            self._model.get_sentence_embedding_dimension,
+        )
+        dimension = dimension_getter()
+        if dimension is None:
+            raise RuntimeError(f"Could not determine embedding dimension for {model_name}")
+        self.dim = int(dimension)
+
+    def fit(self, texts: Sequence[str]) -> None:
+        del texts
+
+    def _encode(self, texts: Sequence[str], prompt_name: str | None = None) -> np.ndarray:
+        vectors = self._model.encode(
+            list(texts),
+            batch_size=32,
+            show_progress_bar=False,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+            prompt_name=prompt_name,
+        )
+        return cast(np.ndarray, np.asarray(vectors, dtype=np.float32))
+
+    def embed(self, texts: Sequence[str]) -> np.ndarray:
+        return self._encode(texts)
+
+    def embed_query(self, query: str) -> np.ndarray:
+        return cast(np.ndarray, self._encode([query], prompt_name="query")[0])
+
     def save(self, path: Path) -> None:
         del path
 
@@ -136,6 +198,12 @@ def build_embedder(
             model=settings.embedding_model,
             api_key=settings.openai_api_key,
             dim=settings.embedding_dim,
+        )
+
+    if settings.embedding_provider == "sentence-transformers":
+        return SentenceTransformerEmbedder(
+            model_name=settings.embedding_model,
+            device=settings.embedding_device or None,
         )
 
     artifact_path = settings.artifacts_dir / "local_embedder.joblib"

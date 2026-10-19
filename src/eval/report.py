@@ -46,6 +46,20 @@ def _metric_table(summary: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _embedding_table(summary: dict[str, Any]) -> str:
+    lines = [
+        "| Pipeline | Embedding P50 (ms) | Embedding P99 (ms) |",
+        "|---|---:|---:|",
+    ]
+    for mode, label in _MODE_LABELS.items():
+        item = summary[mode]["latency"]
+        lines.append(
+            f"| {label} | {item.get('embedding_p50_ms', 0):.2f} | "
+            f"{item.get('embedding_p99_ms', 0):.2f} |"
+        )
+    return "\n".join(lines)
+
+
 def _plot_metrics(summary: dict[str, Any], output: Path) -> None:
     metrics = ["recall@1", "recall@5", "mrr", "ndcg@5"]
     modes = list(_MODE_LABELS)
@@ -189,19 +203,25 @@ Generated at `{metadata["generated_at"]}`.
 - Storage backend: `{metadata["backend"]}`
 - Embedding: `{metadata["embedding_model"]}` ({metadata["embedding_dim"]} dimensions)
 - Embedding provider: `{metadata["embedding_provider"]}`
+- Embedding device: `{metadata["embedding_device"]}`
 - Reranker: `{metadata["reranker"]}`
 - RRF `k`: **{metadata["rrf_k"]}**
 - RRF weights: dense **{metadata["dense_weight"]}**, sparse **{metadata["sparse_weight"]}**
 - Rerank candidates: **{metadata["rerank_candidates"]}**
 
-The local TF-IDF + SVD embedding and metadata-aware heuristic reranker make the
-evaluation reproducible without network access or API keys. The OpenAI
-embedding and Sentence-Transformers Cross-Encoder providers can be enabled
-through `.env`.
+The configured embedding provider and metadata-aware heuristic reranker are
+recorded above so the run is reproducible. The OpenAI embedding and
+Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
 ## Results
 
 {_metric_table(payload["summary"])}
+
+The table's P50/P99 columns measure the retrieval path (query embedding excluded):
+vector search, sparse search, fusion and reranking. Query-embedding latency is
+reported separately because it depends on the model and device:
+
+{_embedding_table(payload["summary"])}
 
 ![Retrieval quality](figures/metrics_comparison.png)
 
@@ -240,8 +260,9 @@ scale-dependent exercise rather than a 150-row benchmark.
   is used for the retrieval metrics.
 - This is a small synthetic benchmark. Hyperparameters are global, not tuned
   per query.
-- The local LSA embedding is an offline fallback, not a production embedding
-  model. The same interface accepts OpenAI or BGE embeddings.
+- Dense quality depends on the selected embedding model. The local LSA
+  embedding is an offline fallback; Qwen3/OpenAI embeddings can be selected
+  through the provider configuration.
 - End-to-end latency includes query embedding and reranking; database-only
   latency is reported separately in the raw JSON.
 """

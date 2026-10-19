@@ -219,6 +219,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     eval_parser = subparsers.add_parser("eval", help="Run all retrieval ablations")
     eval_parser.add_argument("--repeats", type=int, default=3)
+    eval_parser.add_argument("--dense-weight", type=float, default=None)
+    eval_parser.add_argument("--sparse-weight", type=float, default=None)
     _add_backend_argument(eval_parser)
 
     search = subparsers.add_parser("search", help="Run a single query")
@@ -270,6 +272,10 @@ def main() -> None:
     elif args.command == "index":
         _init_db(settings, reset=args.reset)
     elif args.command == "eval":
+        if args.dense_weight is not None:
+            settings.dense_weight = args.dense_weight
+        if args.sparse_weight is not None:
+            settings.sparse_weight = args.sparse_weight
         _evaluate(settings, repeats=args.repeats, backend=args.backend or settings.backend)
     elif args.command == "search":
         _search(

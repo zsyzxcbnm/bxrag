@@ -1,31 +1,42 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T11:36:35.671015+00:00`.
+Generated at `2026-10-19T12:08:10.860736+00:00`.
 
 ## Setup
 
 - Queries: **30**
 - Storage backend: `postgres`
-- Embedding: `local-tfidf-svd` (128 dimensions)
-- Embedding provider: `local`
+- Embedding: `G:\博贤\data\models\Qwen3-Embedding-0.6B` (1024 dimensions)
+- Embedding provider: `sentence-transformers`
+- Embedding device: `cpu`
 - Reranker: `heuristic`
 - RRF `k`: **60**
-- RRF weights: dense **0.4**, sparse **0.6**
+- RRF weights: dense **0.7**, sparse **0.3**
 - Rerank candidates: **20**
 
-The local TF-IDF + SVD embedding and metadata-aware heuristic reranker make the
-evaluation reproducible without network access or API keys. The OpenAI
-embedding and Sentence-Transformers Cross-Encoder providers can be enabled
-through `.env`.
+The configured embedding provider and metadata-aware heuristic reranker are
+recorded above so the run is reproducible. The OpenAI embedding and
+Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
 ## Results
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.761 | 0.900 | 0.933 | 0.260 | 0.917 | 0.902 | 4.48 | 9.29 |
-| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 5.39 | 7.14 |
-| Hybrid (RRF) | 0.783 | 0.911 | 0.967 | 0.280 | 0.950 | 0.941 | 7.70 | 11.62 |
-| Hybrid + rerank | 0.783 | 0.944 | 0.967 | 0.280 | 0.950 | 0.950 | 9.12 | 11.91 |
+| Dense only | 0.817 | 0.900 | 0.956 | 0.273 | 0.967 | 0.944 | 44.23 | 53.89 |
+| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 2.58 | 4.35 |
+| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.955 | 47.90 | 55.10 |
+| Hybrid + rerank | 0.817 | 0.933 | 0.967 | 0.280 | 0.967 | 0.961 | 51.04 | 53.76 |
+
+The table's P50/P99 columns measure the retrieval path (query embedding excluded):
+vector search, sparse search, fusion and reranking. Query-embedding latency is
+reported separately because it depends on the model and device:
+
+| Pipeline | Embedding P50 (ms) | Embedding P99 (ms) |
+|---|---:|---:|
+| Dense only | 428.69 | 491.10 |
+| Sparse only | 0.00 | 0.00 |
+| Hybrid (RRF) | 397.74 | 479.81 |
+| Hybrid + rerank | 393.78 | 460.97 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 
@@ -60,8 +71,7 @@ scale-dependent exercise rather than a 150-row benchmark.
 
 Queries where hybrid + rerank moved the first relevant document upward:
 
-- Q-006: rank 2 -> 1 — When will I receive my provisional credit during a transaction dispute?
-- Q-011: rank 2 -> 1 — Do Apex Reward points expire if I keep my account active?
+- None in this run.
 
 Queries where hybrid + rerank moved the first relevant document downward:
 
@@ -77,7 +87,8 @@ A second issue is label exhaustiveness. For generic questions the judgment often
   is used for the retrieval metrics.
 - This is a small synthetic benchmark. Hyperparameters are global, not tuned
   per query.
-- The local LSA embedding is an offline fallback, not a production embedding
-  model. The same interface accepts OpenAI or BGE embeddings.
+- Dense quality depends on the selected embedding model. The local LSA
+  embedding is an offline fallback; Qwen3/OpenAI embeddings can be selected
+  through the provider configuration.
 - End-to-end latency includes query embedding and reranking; database-only
   latency is reported separately in the raw JSON.

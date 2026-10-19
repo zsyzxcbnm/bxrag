@@ -52,6 +52,7 @@ class EvalRunner:
     def run(self, queries: list[QueryExample]) -> dict[str, Any]:
         """Run all modes and return a JSON-serializable result payload."""
 
+        self.pipeline.embedder.embed_query("warmup retrieval query")
         payload: dict[str, Any] = {
             "metadata": {
                 "generated_at": datetime.now(UTC).isoformat(),
@@ -60,6 +61,7 @@ class EvalRunner:
                 "embedding_provider": self.settings.embedding_provider,
                 "embedding_model": self.pipeline.embedder.name,
                 "embedding_dim": self.pipeline.embedder.dim,
+                "embedding_device": getattr(self.pipeline.embedder, "device", "n/a"),
                 "reranker": self.pipeline.reranker.name,
                 "rerank_candidates": self.settings.rerank_candidates,
                 "rrf_k": self.settings.rrf_k,
@@ -71,8 +73,10 @@ class EvalRunner:
         }
 
         for mode in MODES:
+            self.pipeline.clear_query_cache()
             mode_metrics: dict[str, list[float]] = {}
-            latencies: list[float] = []
+            retrieval_latencies: list[float] = []
+            embedding_latencies: list[float] = []
             stage_latencies: dict[str, list[float]] = {}
             per_query: dict[str, Any] = {}
 
@@ -84,14 +88,30 @@ class EvalRunner:
                     mode_metrics.setdefault(name, []).append(value)
 
                 query_latencies = [first_result.timings_ms["total_ms"]]
+                query_retrieval = [
+                    sum(
+                        value
+                        for stage, value in first_result.timings_ms.items()
+                        if stage not in {"embed_ms", "total_ms"}
+                    )
+                ]
+                query_embedding = [first_result.timings_ms.get("embed_ms", 0.0)]
                 for stage, value in first_result.timings_ms.items():
                     stage_latencies.setdefault(stage, []).append(value)
                 for _ in range(self.repeats - 1):
                     repeated = self.pipeline.search(query.query, mode=mode)
                     query_latencies.append(repeated.timings_ms["total_ms"])
+                    query_retrieval.append(
+                        sum(
+                            value
+                            for stage, value in repeated.timings_ms.items()
+                            if stage not in {"embed_ms", "total_ms"}
+                        )
+                    )
                     for stage, value in repeated.timings_ms.items():
                         stage_latencies.setdefault(stage, []).append(value)
-                latencies.extend(query_latencies)
+                retrieval_latencies.extend(query_retrieval)
+                embedding_latencies.extend(query_embedding)
 
                 per_query[query.query_id] = {
                     "query": query.query,
@@ -103,6 +123,8 @@ class EvalRunner:
                     "metrics": metrics,
                     "latency_ms": {
                         "median": statistics.median(query_latencies),
+                        "retrieval_median": statistics.median(query_retrieval),
+                        "embedding_median": statistics.median(query_embedding),
                         "min": min(query_latencies),
                         "max": max(query_latencies),
                     },
@@ -128,11 +150,13 @@ class EvalRunner:
                 for name, values in mode_metrics.items()
             }
             summary_latency = {
-                "p50_ms": round(percentile(latencies, 50), 3),
-                "p95_ms": round(percentile(latencies, 95), 3),
-                "p99_ms": round(percentile(latencies, 99), 3),
-                "mean_ms": round(statistics.fmean(latencies), 3),
-                "samples": len(latencies),
+                "p50_ms": round(percentile(retrieval_latencies, 50), 3),
+                "p95_ms": round(percentile(retrieval_latencies, 95), 3),
+                "p99_ms": round(percentile(retrieval_latencies, 99), 3),
+                "mean_ms": round(statistics.fmean(retrieval_latencies), 3),
+                "samples": len(retrieval_latencies),
+                "embedding_p50_ms": round(percentile(embedding_latencies, 50), 3),
+                "embedding_p99_ms": round(percentile(embedding_latencies, 99), 3),
             }
             payload["summary"][mode] = {
                 "metrics": summary_metrics,

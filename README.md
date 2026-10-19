@@ -16,11 +16,17 @@ chat model sounds convincing.
 - Markdown report, CSV raw results and PNG charts.
 - A memory backend that mirrors the database interface for offline validation.
 
-Current PostgreSQL + pgvector run: dense-only Recall@1 **0.761** / MRR
-**0.917**; hybrid + rerank Recall@1 **0.783** / MRR **0.950**, P50 **9.1 ms**
-and P99 **11.9 ms**. See
+Current PostgreSQL + pgvector run with local Qwen3-Embedding-0.6B: dense-only
+Recall@1 **0.817** / MRR **0.967**; hybrid + rerank Recall@1 **0.817** / MRR
+**0.967** / nDCG@5 **0.961**, retrieval P50 **51 ms** and P99 **54 ms** (CPU
+query embedding adds about **394 ms** P50). See
 [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).
+
+| Embedding | Dense Recall@1 | Dense MRR | Hybrid + rerank Recall@1 | Hybrid + rerank MRR | nDCG@5 |
+|---|---:|---:|---:|---:|---:|
+| TF-IDF + SVD baseline | 0.761 | 0.917 | 0.783 | 0.950 | 0.950 |
+| Qwen3-Embedding-0.6B | **0.817** | **0.967** | **0.817** | **0.967** | **0.961** |
 
 ## Architecture
 
@@ -118,6 +124,33 @@ RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
 Install `pip install -e ".[cross-encoder]"` first. If the model cannot be loaded,
 the reranker falls back to the heuristic implementation instead of failing the
 whole evaluation.
+
+## Qwen3-Embedding-0.6B
+
+The Qwen3 embedding is served through the same provider interface:
+
+```text
+EMBEDDING_PROVIDER=sentence-transformers
+EMBEDDING_MODEL=G:/博贤/data/models/Qwen3-Embedding-0.6B
+EMBEDDING_DIM=1024
+EMBEDDING_DEVICE=cpu
+```
+
+The model directory is intentionally ignored by Git. Install the optional
+dependency with `pip install -e ".[cross-encoder]"`, then rebuild the schema
+because the dimension changes from 128 to 1024:
+
+```powershell
+python -m src.cli reset-db --yes
+python -m src.cli ingest
+python -m src.cli eval --dense-weight 0.7 --sparse-weight 0.3
+```
+
+On this Windows/Anaconda setup an OpenMP runtime conflict appears when PyTorch
+and scikit-learn are loaded together; `KMP_DUPLICATE_LIB_OK=TRUE` is set by the
+embedding adapter as a local workaround. A clean virtual environment is
+preferable for deployment. The CPU embedding latency is much higher than the
+PostgreSQL retrieval path; a CUDA/ONNX/TEI deployment is the next optimization.
 
 ## Commands
 

@@ -36,6 +36,12 @@ class RetrievalPipeline:
         self.dense = DenseRetriever(database)
         self.sparse = SparseRetriever(database)
         self.reranker = reranker or build_reranker(settings)
+        self._query_cache: dict[str, np.ndarray] = {}
+
+    def clear_query_cache(self) -> None:
+        """Clear cached query vectors before a fresh latency measurement."""
+
+        self._query_cache.clear()
 
     @staticmethod
     def _filters(parsed: ParsedQuery) -> dict[str, str]:
@@ -110,13 +116,22 @@ class RetrievalPipeline:
         timings: dict[str, float] = {}
         limit = top_k or self.settings.final_k
 
-        embed_started = time.perf_counter()
-        query_vector = self.embedder.embed([query])[0]
-        timings["embed_ms"] = (time.perf_counter() - embed_started) * 1000
+        query_vector: np.ndarray | None = None
+        if mode in {"dense_only", "hybrid", "hybrid_rerank"}:
+            embed_started = time.perf_counter()
+            query_vector = self._query_cache.get(query)
+            if query_vector is None:
+                query_vector = self.embedder.embed_query(query)
+                self._query_cache[query] = query_vector
+            timings["embed_ms"] = (time.perf_counter() - embed_started) * 1000
+        else:
+            timings["embed_ms"] = 0.0
 
         dense_hits: list[SearchHit] = []
         sparse_hits: list[SearchHit] = []
         if mode in {"dense_only", "hybrid", "hybrid_rerank"}:
+            if query_vector is None:
+                raise RuntimeError("Dense retrieval requires a query vector")
             dense_hits, elapsed, _ = self._dense_with_fallback(
                 query_vector, chunk_strategy, filters
             )
