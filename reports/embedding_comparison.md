@@ -23,12 +23,17 @@ The important tradeoff is latency:
 - Qwen3 query embedding: about **387 ms** P50 / **460 ms** P99 on CPU.
 - Both retrieval paths are about 8-12 ms P50/P99.
 
+With CUDA PyTorch on the RTX 3050 Ti, BGE query embedding drops to about
+**25 ms** P50 and **30 ms** P99. The approximate end-to-end hybrid + rerank
+latency is then **32 ms P50 / 40 ms P99**.
+
 ## Cost
 
 On the current CPU-only PyTorch environment:
 
 - PostgreSQL retrieval path: about 9 ms P50 / 13 ms P99.
-- BGE query embedding: about 175 ms P50.
+- BGE query embedding on CPU: about 175 ms P50.
+- BGE query embedding on CUDA: about 25 ms P50 / 30 ms P99.
 - Qwen3 query embedding: about 387 ms P50 / 460 ms P99.
 - The first model load takes roughly 14 seconds.
 

@@ -60,6 +60,19 @@ def _embedding_table(summary: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _end_to_end_table(summary: dict[str, Any]) -> str:
+    lines = [
+        "| Pipeline | Approx. end-to-end P50 (ms) | Approx. end-to-end P99 (ms) |",
+        "|---|---:|---:|",
+    ]
+    for mode, label in _MODE_LABELS.items():
+        item = summary[mode]["latency"]
+        p50 = item.get("p50_ms", 0) + item.get("embedding_p50_ms", 0)
+        p99 = item.get("p99_ms", 0) + item.get("embedding_p99_ms", 0)
+        lines.append(f"| {label} | {p50:.2f} | {p99:.2f} |")
+    return "\n".join(lines)
+
+
 def _plot_metrics(summary: dict[str, Any], output: Path) -> None:
     metrics = ["recall@1", "recall@5", "mrr", "ndcg@5"]
     modes = list(_MODE_LABELS)
@@ -222,6 +235,11 @@ vector search, sparse search, fusion and reranking. Query-embedding latency is
 reported separately because it depends on the model and device:
 
 {_embedding_table(payload["summary"])}
+
+Approximate end-to-end latency (retrieval + embedding percentiles; this is a
+sum of percentiles, not a joint distribution):
+
+{_end_to_end_table(payload["summary"])}
 
 ![Retrieval quality](figures/metrics_comparison.png)
 

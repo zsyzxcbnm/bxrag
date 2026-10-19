@@ -5,6 +5,7 @@ dist/
 /kb_documents.json
 /eval_queries.json
 .venv/
+.venv-gpu/
 venv/
 __pycache__/
 *.py[cod]

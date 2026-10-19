@@ -18,9 +18,9 @@ chat model sounds convincing.
 
 Current PostgreSQL + pgvector run with local BGE-large-en-v1.5: dense-only
 Recall@1 **0.772** / MRR **0.922**; hybrid + rerank Recall@1 **0.817** / MRR
-**0.967** / nDCG@5 **0.964**, retrieval P50 **9.1 ms** and P99 **13.3 ms**;
-CPU query embedding adds about **175 ms** P50. The HNSW sweep reports 2.5 ms P50
-/ 7-8 ms P99. See
+**0.967** / nDCG@5 **0.964**, retrieval P50 **7.7 ms** and P99 **10.4 ms**;
+GPU query embedding adds about **25 ms** P50. Approximate end-to-end latency is
+**32 ms P50 / 40 ms P99**. The HNSW sweep reports 2.5 ms P50 / 7-8 ms P99. See
 [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).
 
@@ -149,6 +149,25 @@ python -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
 ```
 
 See [reports/results_bge_large_pgvector.md](reports/results_bge_large_pgvector.md).
+
+### GPU inference
+
+The main Anaconda environment currently has CPU-only PyTorch. A separate CUDA
+environment is available at `G:\博贤\.venv-gpu`:
+
+```powershell
+$env:EMBEDDING_PROVIDER='sentence-transformers'
+$env:EMBEDDING_MODEL='G:\博贤\data\models\bge-large-en-v1.5'
+$env:EMBEDDING_DIM='1024'
+$env:EMBEDDING_DEVICE='cuda'
+$env:KMP_DUPLICATE_LIB_OK='TRUE'
+
+& 'G:\博贤\.venv-gpu\Scripts\python.exe' -m src.cli eval `
+  --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
+```
+
+On the RTX 3050 Ti, BGE query embedding is about **25 ms P50** and the complete
+hybrid + rerank path is about **32 ms P50 / 40 ms P99**.
 
 ## Qwen3-Embedding-0.6B
 

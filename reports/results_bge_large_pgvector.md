@@ -1,6 +1,6 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T13:05:07.793244+00:00`.
+Generated at `2026-10-19T13:21:59.876866+00:00`.
 
 ## Setup
 
@@ -8,7 +8,7 @@ Generated at `2026-10-19T13:05:07.793244+00:00`.
 - Storage backend: `postgres`
 - Embedding: `G:\博贤\data\models\bge-large-en-v1.5` (1024 dimensions)
 - Embedding provider: `sentence-transformers`
-- Embedding device: `cpu`
+- Embedding device: `cuda:0`
 - Reranker: `heuristic`
 - RRF `k`: **60**
 - RRF weights: dense **0.5**, sparse **0.5**
@@ -22,10 +22,10 @@ Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 3.55 | 9.99 |
-| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 3.03 | 5.82 |
-| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 7.77 | 14.00 |
-| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 9.10 | 13.26 |
+| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 3.06 | 8.12 |
+| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 2.83 | 4.57 |
+| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 6.28 | 9.58 |
+| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 7.68 | 10.36 |
 
 The table's P50/P99 columns measure the retrieval path (query embedding excluded):
 vector search, sparse search, fusion and reranking. Query-embedding latency is
@@ -33,10 +33,20 @@ reported separately because it depends on the model and device:
 
 | Pipeline | Embedding P50 (ms) | Embedding P99 (ms) |
 |---|---:|---:|
-| Dense only | 168.12 | 196.96 |
+| Dense only | 20.60 | 28.88 |
 | Sparse only | 0.00 | 0.00 |
-| Hybrid (RRF) | 178.89 | 207.52 |
-| Hybrid + rerank | 174.65 | 253.86 |
+| Hybrid (RRF) | 27.38 | 31.12 |
+| Hybrid + rerank | 24.65 | 30.02 |
+
+Approximate end-to-end latency (retrieval + embedding percentiles; this is a
+sum of percentiles, not a joint distribution):
+
+| Pipeline | Approx. end-to-end P50 (ms) | Approx. end-to-end P99 (ms) |
+|---|---:|---:|
+| Dense only | 23.66 | 37.00 |
+| Sparse only | 2.83 | 4.57 |
+| Hybrid (RRF) | 33.66 | 40.70 |
+| Hybrid + rerank | 32.33 | 40.38 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 
