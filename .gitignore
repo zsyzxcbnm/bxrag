@@ -1,5 +1,6 @@
 .env
 .git-local/
+dist/
 /AI Engineer 技术评估.pdf
 /kb_documents.json
 /eval_queries.json
