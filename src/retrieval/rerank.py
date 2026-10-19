@@ -80,6 +80,7 @@ class Reranker(Protocol):
         top_n: int,
     ) -> list[SearchHit]:
         """Return the highest-scoring candidates."""
+        ...
 
 
 class HeuristicReranker:

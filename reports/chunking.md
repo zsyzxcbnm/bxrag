@@ -5,9 +5,9 @@ This comparison holds the retrieval stack fixed (dense + sparse + weighted RRF
 
 | Strategy | Chunks | Avg tokens | Recall@1 | Recall@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Document-level | 150 | 47.3 | 0.817 | 0.933 | 0.967 | 0.934 | 4.54 | 5.25 |
-| Fixed window | 282 | 29.9 | 0.772 | 0.900 | 0.917 | 0.894 | 4.54 | 11.21 |
-| Semantic | 163 | 49.9 | 0.817 | 0.933 | 0.967 | 0.934 | 4.53 | 5.32 |
+| Document-level | 150 | 47.3 | 0.817 | 0.933 | 0.967 | 0.934 | 5.16 | 6.41 |
+| Fixed window | 282 | 29.9 | 0.772 | 0.900 | 0.917 | 0.894 | 5.10 | 6.36 |
+| Semantic | 163 | 49.9 | 0.817 | 0.933 | 0.967 | 0.934 | 5.28 | 6.90 |
 
 ![Chunking comparison](figures/chunking_comparison.png)
 

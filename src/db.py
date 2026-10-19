@@ -33,18 +33,20 @@ class Database:
         self.hnsw_ef_construction = int(hnsw_ef_construction)
         self.hnsw_ef_search = int(hnsw_ef_search)
 
-    def connect(self) -> psycopg.Connection[dict[str, Any]]:
+    def connect(self, register_adapter: bool = True) -> psycopg.Connection[dict[str, Any]]:
         """Open a connection with vector adapters and dictionary rows."""
 
         connection = psycopg.connect(self.dsn, row_factory=dict_row)
-        register_vector(connection)
+        if register_adapter:
+            register_vector(connection)
         return connection
 
     def init_schema(self, reset: bool = False) -> None:
         """Create extension, tables and indexes."""
 
-        with self.connect() as connection:
+        with self.connect(register_adapter=False) as connection:
             connection.execute("CREATE EXTENSION IF NOT EXISTS vector")
+            register_vector(connection)
             if reset:
                 connection.execute("DROP TABLE IF EXISTS chunks CASCADE")
                 connection.execute("DROP TABLE IF EXISTS documents CASCADE")

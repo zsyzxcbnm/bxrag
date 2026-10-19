@@ -24,12 +24,15 @@ class Embedder(Protocol):
 
     def fit(self, texts: Sequence[str]) -> None:
         """Fit the embedding model when the provider requires training."""
+        ...
 
     def embed(self, texts: Sequence[str]) -> np.ndarray:
         """Return an ``(n_texts, dim)`` float32 matrix."""
+        ...
 
     def save(self, path: Path) -> None:
         """Persist model artifacts when applicable."""
+        ...
 
 
 class LocalTfidfSvdEmbedder:
