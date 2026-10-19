@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-10-19T12:08:10.860736+00:00",
+    "generated_at": "2026-10-19T12:37:00.272894+00:00",
     "query_count": 30,
     "backend": "postgres",
     "embedding_provider": "sentence-transformers",
@@ -31,18 +31,18 @@
         "ndcg@10": 0.94386
       },
       "latency": {
-        "p50_ms": 44.225,
-        "p95_ms": 47.877,
-        "p99_ms": 53.887,
-        "mean_ms": 45.539,
+        "p50_ms": 3.842,
+        "p95_ms": 5.033,
+        "p99_ms": 9.253,
+        "mean_ms": 4.258,
         "samples": 90,
-        "embedding_p50_ms": 428.688,
-        "embedding_p99_ms": 491.103
+        "embedding_p50_ms": 440.874,
+        "embedding_p99_ms": 482.577
       },
       "stage_mean_ms": {
-        "embed_ms": 142.699,
-        "dense_ms": 45.539,
-        "total_ms": 188.669
+        "embed_ms": 141.656,
+        "dense_ms": 4.258,
+        "total_ms": 146.395
       }
     },
     "sparse_only": {
@@ -62,18 +62,18 @@
         "ndcg@10": 0.934991
       },
       "latency": {
-        "p50_ms": 2.578,
-        "p95_ms": 3.862,
-        "p99_ms": 4.353,
-        "mean_ms": 2.722,
+        "p50_ms": 2.666,
+        "p95_ms": 4.258,
+        "p99_ms": 5.103,
+        "mean_ms": 2.897,
         "samples": 90,
         "embedding_p50_ms": 0.0,
         "embedding_p99_ms": 0.0
       },
       "stage_mean_ms": {
         "embed_ms": 0.0,
-        "sparse_ms": 2.722,
-        "total_ms": 3.08
+        "sparse_ms": 2.897,
+        "total_ms": 3.298
       }
     },
     "hybrid": {
@@ -93,20 +93,20 @@
         "ndcg@10": 0.955499
       },
       "latency": {
-        "p50_ms": 47.897,
-        "p95_ms": 52.29,
-        "p99_ms": 55.1,
-        "mean_ms": 48.532,
+        "p50_ms": 6.856,
+        "p95_ms": 8.61,
+        "p99_ms": 11.787,
+        "mean_ms": 7.131,
         "samples": 90,
-        "embedding_p50_ms": 397.735,
-        "embedding_p99_ms": 479.811
+        "embedding_p50_ms": 406.803,
+        "embedding_p99_ms": 500.489
       },
       "stage_mean_ms": {
-        "embed_ms": 136.122,
-        "dense_ms": 44.861,
-        "sparse_ms": 3.167,
-        "fusion_ms": 0.504,
-        "total_ms": 185.163
+        "embed_ms": 137.815,
+        "dense_ms": 3.682,
+        "sparse_ms": 2.933,
+        "fusion_ms": 0.517,
+        "total_ms": 145.487
       }
     },
     "hybrid_rerank": {
@@ -126,21 +126,21 @@
         "ndcg@10": 0.961365
       },
       "latency": {
-        "p50_ms": 51.042,
-        "p95_ms": 53.006,
-        "p99_ms": 53.764,
-        "mean_ms": 50.563,
+        "p50_ms": 8.18,
+        "p95_ms": 10.205,
+        "p99_ms": 11.762,
+        "mean_ms": 8.328,
         "samples": 90,
-        "embedding_p50_ms": 393.779,
-        "embedding_p99_ms": 460.973
+        "embedding_p50_ms": 386.735,
+        "embedding_p99_ms": 460.159
       },
       "stage_mean_ms": {
-        "embed_ms": 133.452,
-        "dense_ms": 45.656,
-        "sparse_ms": 3.151,
-        "fusion_ms": 0.486,
-        "rerank_ms": 1.271,
-        "total_ms": 184.513
+        "embed_ms": 131.008,
+        "dense_ms": 3.616,
+        "sparse_ms": 2.909,
+        "fusion_ms": 0.499,
+        "rerank_ms": 1.304,
+        "total_ms": 139.848
       }
     }
   },
@@ -176,17 +176,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 46.87310000008438,
-          "retrieval_median": 46.42129999410827,
-          "embedding_median": 462.90320000844076,
-          "min": 44.2860000039218,
-          "max": 542.2897999960696
+          "median": 4.445900005521253,
+          "retrieval_median": 3.9832000038586557,
+          "embedding_median": 441.838300001109,
+          "min": 4.354899996542372,
+          "max": 481.9649999990361
         },
         "top_hits": [
           {
             "doc_id": "DOC-0001",
             "title": "Apex Platinum - 0% Intro APR Balance Transfer Rules (2024)",
-            "score": 0.832108,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -194,7 +194,7 @@
           {
             "doc_id": "DOC-0005",
             "title": "Apex Platinum - Balance Transfer Processing Timelines (2025)",
-            "score": 0.737177,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -202,7 +202,7 @@
           {
             "doc_id": "DOC-0150",
             "title": "Apex Platinum - Credit Balance Refund Requests (2025)",
-            "score": 0.73065,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -210,7 +210,7 @@
           {
             "doc_id": "DOC-0009",
             "title": "Apex Platinum - Interest Allocation & Payment Prioritization (2024)",
-            "score": 0.697906,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -218,7 +218,7 @@
           {
             "doc_id": "DOC-0013",
             "title": "Apex Platinum - Balance Transfer Limits & Caps (2025)",
-            "score": 0.695875,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -258,17 +258,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.403299995698035,
-          "retrieval_median": 43.733099999371916,
-          "embedding_median": 475.4118999990169,
-          "min": 43.861600002855994,
-          "max": 519.6705999987898
+          "median": 5.217900004936382,
+          "retrieval_median": 4.2901999986497685,
+          "embedding_median": 395.0742999877548,
+          "min": 4.141699988394976,
+          "max": 399.8649999994086
         },
         "top_hits": [
           {
             "doc_id": "DOC-0003",
             "title": "Apex Everyday Freedom - 0% Intro APR Terms (2024)",
-            "score": 0.69496,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -276,7 +276,7 @@
           {
             "doc_id": "DOC-0037",
             "title": "Apex Everyday Freedom - Foreign Transaction Fee Rules (2024)",
-            "score": 0.691124,
+            "score": 0.970588,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -284,7 +284,7 @@
           {
             "doc_id": "DOC-0011",
             "title": "Apex Everyday Freedom - Expiration & Interest Calculation (2024)",
-            "score": 0.681563,
+            "score": 0.941176,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -292,7 +292,7 @@
           {
             "doc_id": "DOC-0014",
             "title": "Apex Everyday Freedom - Balance Transfer Cap Guidelines (2025)",
-            "score": 0.64697,
+            "score": 0.911765,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -300,7 +300,7 @@
           {
             "doc_id": "DOC-0044",
             "title": "Apex Everyday Freedom - Returned Payment Fee Policy (2024)",
-            "score": 0.644825,
+            "score": 0.882353,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -340,17 +340,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.37570000078995,
-          "retrieval_median": 47.73519998707343,
-          "embedding_median": 472.0646000059787,
-          "min": 44.18680000526365,
-          "max": 520.2319999953033
+          "median": 4.208800004562363,
+          "retrieval_median": 3.7684999988414347,
+          "embedding_median": 416.46369999216404,
+          "min": 3.886600010446273,
+          "max": 421.1278000002494
         },
         "top_hits": [
           {
             "doc_id": "DOC-0005",
             "title": "Apex Platinum - Balance Transfer Processing Timelines (2025)",
-            "score": 0.89122,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -358,7 +358,7 @@
           {
             "doc_id": "DOC-0001",
             "title": "Apex Platinum - 0% Intro APR Balance Transfer Rules (2024)",
-            "score": 0.761081,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -366,7 +366,7 @@
           {
             "doc_id": "DOC-0009",
             "title": "Apex Platinum - Interest Allocation & Payment Prioritization (2024)",
-            "score": 0.704201,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -374,7 +374,7 @@
           {
             "doc_id": "DOC-0013",
             "title": "Apex Platinum - Balance Transfer Limits & Caps (2025)",
-            "score": 0.701742,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -382,7 +382,7 @@
           {
             "doc_id": "DOC-0150",
             "title": "Apex Platinum - Credit Balance Refund Requests (2025)",
-            "score": 0.701114,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -424,17 +424,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.655799993663095,
-          "retrieval_median": 47.278799989726394,
-          "embedding_median": 495.7649999996647,
-          "min": 47.44049999862909,
-          "max": 544.8053000000073
+          "median": 3.790999995544553,
+          "retrieval_median": 3.4259999956702814,
+          "embedding_median": 449.3666999915149,
+          "min": 3.4767000033752993,
+          "max": 454.22319999488536
         },
         "top_hits": [
           {
             "doc_id": "DOC-0016",
             "title": "Apex Platinum - Zero Liability Fraud Protection Policy (2024)",
-            "score": 0.721353,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -442,7 +442,7 @@
           {
             "doc_id": "DOC-0018",
             "title": "Apex Everyday Freedom - Unauthorized Charge Reporting (2024)",
-            "score": 0.721119,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -450,7 +450,7 @@
           {
             "doc_id": "DOC-0017",
             "title": "Apex Preferred Travel - Zero Liability Coverage (2024)",
-            "score": 0.689885,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -458,7 +458,7 @@
           {
             "doc_id": "DOC-0019",
             "title": "Apex Business Select - Commercial Fraud Liability (2024)",
-            "score": 0.663964,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -466,7 +466,7 @@
           {
             "doc_id": "DOC-0030",
             "title": "Apex Business Select - Employee Abuse & Fraud Coverage (2025)",
-            "score": 0.564488,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -508,17 +508,17 @@
           "ndcg@10": 0.9060254355346823
         },
         "latency_ms": {
-          "median": 48.26399999728892,
-          "retrieval_median": 47.142399998847395,
-          "embedding_median": 450.25199999508914,
-          "min": 47.47109999880195,
-          "max": 496.58170000475366
+          "median": 3.77660000231117,
+          "retrieval_median": 3.417300002183765,
+          "embedding_median": 366.4774000062607,
+          "min": 3.771300005610101,
+          "max": 371.1792999965837
         },
         "top_hits": [
           {
             "doc_id": "DOC-0020",
             "title": "Apex Platinum - Merchant Chargeback Dispute Timeline (2024)",
-            "score": 0.754851,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -526,7 +526,7 @@
           {
             "doc_id": "DOC-0023",
             "title": "Apex Business Select - B2B Chargeback Requirements (2024)",
-            "score": 0.752317,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -534,7 +534,7 @@
           {
             "doc_id": "DOC-0022",
             "title": "Apex Everyday Freedom - Merchant Dispute Procedure (2024)",
-            "score": 0.655154,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -542,7 +542,7 @@
           {
             "doc_id": "DOC-0021",
             "title": "Apex Preferred Travel - Billing Dispute Deadlines (2024)",
-            "score": 0.624862,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -550,7 +550,7 @@
           {
             "doc_id": "DOC-0024",
             "title": "Apex Platinum - Provisional Credit Allocation Rules (2025)",
-            "score": 0.610009,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -592,17 +592,17 @@
           "ndcg@10": 0.8854598815714874
         },
         "latency_ms": {
-          "median": 48.555100001976825,
-          "retrieval_median": 47.60609999357257,
-          "embedding_median": 479.68970000511035,
-          "min": 47.935100010363385,
-          "max": 527.6994000014383
+          "median": 4.514200001722202,
+          "retrieval_median": 4.018999999971129,
+          "embedding_median": 425.42869999306276,
+          "min": 4.246399999829009,
+          "max": 430.5986999970628
         },
         "top_hits": [
           {
             "doc_id": "DOC-0024",
             "title": "Apex Platinum - Provisional Credit Allocation Rules (2025)",
-            "score": 0.767856,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -610,7 +610,7 @@
           {
             "doc_id": "DOC-0027",
             "title": "Apex Business Select - Corporate Provisional Credit Rules (2025)",
-            "score": 0.710808,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -618,7 +618,7 @@
           {
             "doc_id": "DOC-0025",
             "title": "Apex Preferred Travel - Provisional Credit Terms (2025)",
-            "score": 0.635352,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -626,7 +626,7 @@
           {
             "doc_id": "DOC-0020",
             "title": "Apex Platinum - Merchant Chargeback Dispute Timeline (2024)",
-            "score": 0.575534,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -634,7 +634,7 @@
           {
             "doc_id": "DOC-0026",
             "title": "Apex Everyday Freedom - Disputed Amount Credit Timelines (2025)",
-            "score": 0.565696,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -674,17 +674,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.19290000805631,
-          "retrieval_median": 43.76050000428222,
-          "embedding_median": 467.6640999969095,
-          "min": 43.636999995214865,
-          "max": 514.5994000049541
+          "median": 3.897800008417107,
+          "retrieval_median": 3.495999990263954,
+          "embedding_median": 455.54189999529626,
+          "min": 3.7327000027289614,
+          "max": 460.68259999447037
         },
         "top_hits": [
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.822332,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -692,7 +692,7 @@
           {
             "doc_id": "DOC-0039",
             "title": "Apex Platinum - Late Payment Fee Schedule & Grace Period (2025)",
-            "score": 0.681977,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -700,7 +700,7 @@
           {
             "doc_id": "DOC-0035",
             "title": "Apex Platinum - Foreign Transaction Fee Structure (2024)",
-            "score": 0.668094,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -708,7 +708,7 @@
           {
             "doc_id": "DOC-0043",
             "title": "Apex Platinum - Cash Advance APR & Fee Structure (2024)",
-            "score": 0.644577,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -716,7 +716,7 @@
           {
             "doc_id": "DOC-0104",
             "title": "Apex Platinum - Travel Concierge Service Rules (2025)",
-            "score": 0.643542,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -756,17 +756,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.315500010270625,
-          "retrieval_median": 43.68889999750536,
-          "embedding_median": 455.8556999982102,
-          "min": 43.365599995013326,
-          "max": 500.10309999925084
+          "median": 4.826500007766299,
+          "retrieval_median": 4.345699999248609,
+          "embedding_median": 453.2478000037372,
+          "min": 3.900600000633858,
+          "max": 458.36310001323
         },
         "top_hits": [
           {
             "doc_id": "DOC-0036",
             "title": "Apex Preferred Travel - Foreign Transaction Exemptions (2024)",
-            "score": 0.890168,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -774,7 +774,7 @@
           {
             "doc_id": "DOC-0072",
             "title": "Apex Preferred Travel - Travel Advisory Registration (2025)",
-            "score": 0.733538,
+            "score": 0.96875,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -782,7 +782,7 @@
           {
             "doc_id": "DOC-0032",
             "title": "Apex Preferred Travel - Annual Fee & Refund Conditions (2024)",
-            "score": 0.709982,
+            "score": 0.9375,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -790,7 +790,7 @@
           {
             "doc_id": "DOC-0010",
             "title": "Apex Preferred Travel - Payment Application Hierarchy (2024)",
-            "score": 0.68946,
+            "score": 0.90625,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -798,7 +798,7 @@
           {
             "doc_id": "DOC-0045",
             "title": "Apex Preferred Travel - Penalty APR Regulations (2024)",
-            "score": 0.671665,
+            "score": 0.875,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -840,17 +840,17 @@
           "ndcg@10": 0.6508205185601091
         },
         "latency_ms": {
-          "median": 47.908400010783225,
-          "retrieval_median": 47.376600006828085,
-          "embedding_median": 448.84510000701994,
-          "min": 43.968300000415184,
-          "max": 496.585300003062
+          "median": 4.496299996390007,
+          "retrieval_median": 4.007399998954497,
+          "embedding_median": 395.4014999908395,
+          "min": 4.006899995147251,
+          "max": 400.40850000514183
         },
         "top_hits": [
           {
             "doc_id": "DOC-0040",
             "title": "Apex Preferred Travel - Late Fee & Cutoff Times (2025)",
-            "score": 0.583333,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -858,7 +858,7 @@
           {
             "doc_id": "DOC-0149",
             "title": "Apex Everyday Freedom - Payment Due Date Adjustment Rules (2024)",
-            "score": 0.540372,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -866,7 +866,7 @@
           {
             "doc_id": "DOC-0147",
             "title": "Apex Platinum - Payment Credit Posting Rules (2025)",
-            "score": 0.531032,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -874,7 +874,7 @@
           {
             "doc_id": "DOC-0132",
             "title": "Apex Business Select - Custom Bill Due Date Selection (2024)",
-            "score": 0.530083,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -882,7 +882,7 @@
           {
             "doc_id": "DOC-0041",
             "title": "Apex Everyday Freedom - Late Payment Assessment (2025)",
-            "score": 0.522958,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -922,17 +922,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.45549999643117,
-          "retrieval_median": 46.10330000286922,
-          "embedding_median": 456.76040000398643,
-          "min": 44.527499994728714,
-          "max": 503.26789999962784
+          "median": 5.104000010760501,
+          "retrieval_median": 4.666100008762442,
+          "embedding_median": 463.5511999949813,
+          "min": 4.5728999975835904,
+          "max": 469.2441999941366
         },
         "top_hits": [
           {
             "doc_id": "DOC-0046",
             "title": "Apex Platinum - Travel Perk Lounge Access Terms (2024)",
-            "score": 0.750523,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -940,7 +940,7 @@
           {
             "doc_id": "DOC-0104",
             "title": "Apex Platinum - Travel Concierge Service Rules (2025)",
-            "score": 0.626156,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -948,7 +948,7 @@
           {
             "doc_id": "DOC-0060",
             "title": "Apex Platinum - Global Entry / TSA PreCheck Credit (2025)",
-            "score": 0.610631,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -956,7 +956,7 @@
           {
             "doc_id": "DOC-0058",
             "title": "Apex Platinum - Annual Travel Credit Administration (2025)",
-            "score": 0.592368,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -964,7 +964,7 @@
           {
             "doc_id": "DOC-0099",
             "title": "Apex Platinum - Trip Delay Reimbursement Policy (2025)",
-            "score": 0.590781,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1006,17 +1006,17 @@
           "ndcg@10": 0.9674679834891693
         },
         "latency_ms": {
-          "median": 47.526100010145456,
-          "retrieval_median": 45.03739999199752,
-          "embedding_median": 431.3442999991821,
-          "min": 44.439100005547516,
-          "max": 476.8105999974068
+          "median": 4.590899989125319,
+          "retrieval_median": 4.092800008947961,
+          "embedding_median": 449.998099997174,
+          "min": 4.288700001779944,
+          "max": 455.57279999775346
         },
         "top_hits": [
           {
             "doc_id": "DOC-0050",
             "title": "Apex Platinum - Points Redemption Value and Expiration (2025)",
-            "score": 0.740885,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1024,7 +1024,7 @@
           {
             "doc_id": "DOC-0052",
             "title": "Apex Everyday Freedom - Points Expiration Rules (2025)",
-            "score": 0.731215,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -1032,7 +1032,7 @@
           {
             "doc_id": "DOC-0053",
             "title": "Apex Business Select - Corporate Points Valuation (2025)",
-            "score": 0.726553,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -1040,7 +1040,7 @@
           {
             "doc_id": "DOC-0051",
             "title": "Apex Preferred Travel - Reward Redemption Rates (2025)",
-            "score": 0.683831,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -1048,7 +1048,7 @@
           {
             "doc_id": "DOC-0058",
             "title": "Apex Platinum - Annual Travel Credit Administration (2025)",
-            "score": 0.57094,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1088,17 +1088,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.737100001540966,
-          "retrieval_median": 47.23900000681169,
-          "embedding_median": 439.8911999887787,
-          "min": 44.30159999174066,
-          "max": 487.5508999975864
+          "median": 6.187000006320886,
+          "retrieval_median": 5.01819999772124,
+          "embedding_median": 427.87799998768605,
+          "min": 4.62849999894388,
+          "max": 433.46980000205804
         },
         "top_hits": [
           {
             "doc_id": "DOC-0054",
             "title": "Apex Platinum - Cell Phone Protection Benefit (2024)",
-            "score": 0.869023,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1106,7 +1106,7 @@
           {
             "doc_id": "DOC-0106",
             "title": "Apex Platinum - Credit Line Assessment Criteria (2024)",
-            "score": 0.666677,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1114,7 +1114,7 @@
           {
             "doc_id": "DOC-0101",
             "title": "Apex Platinum - Emergency Medical Evacuation Coverage (2024)",
-            "score": 0.66491,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1122,7 +1122,7 @@
           {
             "doc_id": "DOC-0094",
             "title": "Apex Platinum - Auto Rental Collision Damage Waiver (2024)",
-            "score": 0.650144,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1130,7 +1130,7 @@
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.65009,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1170,17 +1170,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.33499999868218,
-          "retrieval_median": 43.74670000106562,
-          "embedding_median": 453.4136000002036,
-          "min": 43.71050000190735,
-          "max": 499.10620000446215
+          "median": 3.676000007544644,
+          "retrieval_median": 3.261599995312281,
+          "embedding_median": 443.46319999021944,
+          "min": 3.6149000079603866,
+          "max": 448.2525000057649
         },
         "top_hits": [
           {
             "doc_id": "DOC-0061",
             "title": "Apex Platinum - Emergency Cash Disbursement & Replacement (2024)",
-            "score": 0.878056,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1188,7 +1188,7 @@
           {
             "doc_id": "DOC-0071",
             "title": "Apex Platinum - Travel Notification & Security Overrides (2025)",
-            "score": 0.682776,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1196,7 +1196,7 @@
           {
             "doc_id": "DOC-0016",
             "title": "Apex Platinum - Zero Liability Fraud Protection Policy (2024)",
-            "score": 0.654161,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1204,7 +1204,7 @@
           {
             "doc_id": "DOC-0058",
             "title": "Apex Platinum - Annual Travel Credit Administration (2025)",
-            "score": 0.649621,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1212,7 +1212,7 @@
           {
             "doc_id": "DOC-0097",
             "title": "Apex Platinum - Lost Baggage Reimbursement (2025)",
-            "score": 0.645675,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1254,17 +1254,17 @@
           "ndcg@10": 0.9060254355346823
         },
         "latency_ms": {
-          "median": 47.73350000323262,
-          "retrieval_median": 44.69270000117831,
-          "embedding_median": 367.535700002918,
-          "min": 44.51639999751933,
-          "max": 412.57369999948423
+          "median": 3.46989999525249,
+          "retrieval_median": 3.125699993688613,
+          "embedding_median": 376.6811000095913,
+          "min": 3.3284999954048544,
+          "max": 381.203099997947
         },
         "top_hits": [
           {
             "doc_id": "DOC-0065",
             "title": "Apex Platinum - Credit Limit Increase Eligibility Rules (2025)",
-            "score": 0.72687,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1272,7 +1272,7 @@
           {
             "doc_id": "DOC-0068",
             "title": "Apex Business Select - Corporate Credit Limit Adjustments (2025)",
-            "score": 0.620396,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -1280,7 +1280,7 @@
           {
             "doc_id": "DOC-0067",
             "title": "Apex Everyday Freedom - Credit Increase Rules (2025)",
-            "score": 0.576161,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -1288,7 +1288,7 @@
           {
             "doc_id": "DOC-0066",
             "title": "Apex Preferred Travel - Credit Line Review Policy (2025)",
-            "score": 0.569885,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -1296,7 +1296,7 @@
           {
             "doc_id": "DOC-0024",
             "title": "Apex Platinum - Provisional Credit Allocation Rules (2025)",
-            "score": 0.520215,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1336,17 +1336,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.800899992580526,
-          "retrieval_median": 47.46089999389369,
-          "embedding_median": 435.4620999947656,
-          "min": 44.32699999597389,
-          "max": 483.4474999952363
+          "median": 3.3904000010807067,
+          "retrieval_median": 3.009599997312762,
+          "embedding_median": 461.66090000770055,
+          "min": 3.2928000000538304,
+          "max": 465.6572999956552
         },
         "top_hits": [
           {
             "doc_id": "DOC-0065",
             "title": "Apex Platinum - Credit Limit Increase Eligibility Rules (2025)",
-            "score": 0.663102,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1354,7 +1354,7 @@
           {
             "doc_id": "DOC-0068",
             "title": "Apex Business Select - Corporate Credit Limit Adjustments (2025)",
-            "score": 0.509957,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -1362,7 +1362,7 @@
           {
             "doc_id": "DOC-0114",
             "title": "Apex Platinum - Over-Limit Transaction Authorizations (2024)",
-            "score": 0.506244,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1370,7 +1370,7 @@
           {
             "doc_id": "DOC-0066",
             "title": "Apex Preferred Travel - Credit Line Review Policy (2025)",
-            "score": 0.497906,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -1378,7 +1378,7 @@
           {
             "doc_id": "DOC-0115",
             "title": "Apex Everyday Freedom - Strict Credit Cap Rule (2024)",
-            "score": 0.491906,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1418,17 +1418,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.03160000219941,
-          "retrieval_median": 43.60260000976268,
-          "embedding_median": 404.8602000111714,
-          "min": 43.55329999816604,
-          "max": 451.3952999986941
+          "median": 4.159499992965721,
+          "retrieval_median": 3.7450999952852726,
+          "embedding_median": 379.59919999411795,
+          "min": 3.86399999842979,
+          "max": 384.73579999117646
         },
         "top_hits": [
           {
             "doc_id": "DOC-0076",
             "title": "Apex Platinum - Authorized User Rights and Liability (2024)",
-            "score": 0.780038,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1436,7 +1436,7 @@
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.770421,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1444,7 +1444,7 @@
           {
             "doc_id": "DOC-0035",
             "title": "Apex Platinum - Foreign Transaction Fee Structure (2024)",
-            "score": 0.727555,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1452,7 +1452,7 @@
           {
             "doc_id": "DOC-0043",
             "title": "Apex Platinum - Cash Advance APR & Fee Structure (2024)",
-            "score": 0.694805,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1460,7 +1460,7 @@
           {
             "doc_id": "DOC-0016",
             "title": "Apex Platinum - Zero Liability Fraud Protection Policy (2024)",
-            "score": 0.681739,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1500,17 +1500,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.31500000646338,
-          "retrieval_median": 43.963599993730895,
-          "embedding_median": 395.2271999878576,
-          "min": 43.800800005556084,
-          "max": 439.786599992658
+          "median": 3.243700004532002,
+          "retrieval_median": 2.89429999247659,
+          "embedding_median": 360.97229999722913,
+          "min": 3.1789000058779493,
+          "max": 365.1114999956917
         },
         "top_hits": [
           {
             "doc_id": "DOC-0077",
             "title": "Apex Everyday Freedom - Authorized User Fee Structure (2024)",
-            "score": 0.922723,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1518,7 +1518,7 @@
           {
             "doc_id": "DOC-0033",
             "title": "Apex Everyday Freedom - No Annual Fee Guarantee (2024)",
-            "score": 0.795304,
+            "score": 0.970588,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1526,7 +1526,7 @@
           {
             "doc_id": "DOC-0041",
             "title": "Apex Everyday Freedom - Late Payment Assessment (2025)",
-            "score": 0.733675,
+            "score": 0.941176,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -1534,7 +1534,7 @@
           {
             "doc_id": "DOC-0067",
             "title": "Apex Everyday Freedom - Credit Increase Rules (2025)",
-            "score": 0.73093,
+            "score": 0.911765,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -1542,7 +1542,7 @@
           {
             "doc_id": "DOC-0037",
             "title": "Apex Everyday Freedom - Foreign Transaction Fee Rules (2024)",
-            "score": 0.730451,
+            "score": 0.882353,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1582,17 +1582,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.003500006510876,
-          "retrieval_median": 43.50770000019111,
-          "embedding_median": 408.03959999175277,
-          "min": 43.94930000125896,
-          "max": 451.88369999232236
+          "median": 4.009399999631569,
+          "retrieval_median": 3.59809999645222,
+          "embedding_median": 377.8654999914579,
+          "min": 3.8767999940318987,
+          "max": 382.77340000786353
         },
         "top_hits": [
           {
             "doc_id": "DOC-0094",
             "title": "Apex Platinum - Auto Rental Collision Damage Waiver (2024)",
-            "score": 0.804039,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1600,7 +1600,7 @@
           {
             "doc_id": "DOC-0101",
             "title": "Apex Platinum - Emergency Medical Evacuation Coverage (2024)",
-            "score": 0.641344,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1608,7 +1608,7 @@
           {
             "doc_id": "DOC-0091",
             "title": "Apex Platinum - Trip Cancellation & Interruption Insurance (2024)",
-            "score": 0.640986,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1616,7 +1616,7 @@
           {
             "doc_id": "DOC-0104",
             "title": "Apex Platinum - Travel Concierge Service Rules (2025)",
-            "score": 0.621365,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1624,7 +1624,7 @@
           {
             "doc_id": "DOC-0060",
             "title": "Apex Platinum - Global Entry / TSA PreCheck Credit (2025)",
-            "score": 0.606986,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1664,17 +1664,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.22599999816157,
-          "retrieval_median": 43.80109999328852,
-          "embedding_median": 423.73150000639725,
-          "min": 43.729499986511655,
-          "max": 468.1411999918055
+          "median": 4.301199995097704,
+          "retrieval_median": 3.8300000014714897,
+          "embedding_median": 448.46790000156034,
+          "min": 4.01729998702649,
+          "max": 453.46790000621695
         },
         "top_hits": [
           {
             "doc_id": "DOC-0058",
             "title": "Apex Platinum - Annual Travel Credit Administration (2025)",
-            "score": 0.844206,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1682,7 +1682,7 @@
           {
             "doc_id": "DOC-0060",
             "title": "Apex Platinum - Global Entry / TSA PreCheck Credit (2025)",
-            "score": 0.746664,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1690,7 +1690,7 @@
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.723622,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1698,7 +1698,7 @@
           {
             "doc_id": "DOC-0046",
             "title": "Apex Platinum - Travel Perk Lounge Access Terms (2024)",
-            "score": 0.720277,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1706,7 +1706,7 @@
           {
             "doc_id": "DOC-0136",
             "title": "Apex Platinum - Statement Generation & Billing Cycles (2024)",
-            "score": 0.703205,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1746,17 +1746,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.006100011756644,
-          "retrieval_median": 43.59459999250248,
-          "embedding_median": 392.78039999771863,
-          "min": 43.37249998934567,
-          "max": 440.1354000001447
+          "median": 4.380300000775605,
+          "retrieval_median": 3.955000007408671,
+          "embedding_median": 453.6294999998063,
+          "min": 4.285100003471598,
+          "max": 458.2924999995157
         },
         "top_hits": [
           {
             "doc_id": "DOC-0099",
             "title": "Apex Platinum - Trip Delay Reimbursement Policy (2025)",
-            "score": 0.893332,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1764,7 +1764,7 @@
           {
             "doc_id": "DOC-0091",
             "title": "Apex Platinum - Trip Cancellation & Interruption Insurance (2024)",
-            "score": 0.776932,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1772,7 +1772,7 @@
           {
             "doc_id": "DOC-0097",
             "title": "Apex Platinum - Lost Baggage Reimbursement (2025)",
-            "score": 0.740551,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1780,7 +1780,7 @@
           {
             "doc_id": "DOC-0104",
             "title": "Apex Platinum - Travel Concierge Service Rules (2025)",
-            "score": 0.730257,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1788,7 +1788,7 @@
           {
             "doc_id": "DOC-0058",
             "title": "Apex Platinum - Annual Travel Credit Administration (2025)",
-            "score": 0.723261,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1828,17 +1828,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.304499999270774,
-          "retrieval_median": 43.29060000600293,
-          "embedding_median": 388.1933999946341,
-          "min": 43.63509999529924,
-          "max": 431.7849000071874
+          "median": 3.867399995215237,
+          "retrieval_median": 3.3414000063203275,
+          "embedding_median": 442.982699998538,
+          "min": 3.658700006781146,
+          "max": 448.201400009566
         },
         "top_hits": [
           {
             "doc_id": "DOC-0037",
             "title": "Apex Everyday Freedom - Foreign Transaction Fee Rules (2024)",
-            "score": 0.930254,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1846,7 +1846,7 @@
           {
             "doc_id": "DOC-0033",
             "title": "Apex Everyday Freedom - No Annual Fee Guarantee (2024)",
-            "score": 0.762479,
+            "score": 0.970588,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1854,7 +1854,7 @@
           {
             "doc_id": "DOC-0044",
             "title": "Apex Everyday Freedom - Returned Payment Fee Policy (2024)",
-            "score": 0.753612,
+            "score": 0.941176,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1862,7 +1862,7 @@
           {
             "doc_id": "DOC-0003",
             "title": "Apex Everyday Freedom - 0% Intro APR Terms (2024)",
-            "score": 0.751768,
+            "score": 0.911765,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1870,7 +1870,7 @@
           {
             "doc_id": "DOC-0077",
             "title": "Apex Everyday Freedom - Authorized User Fee Structure (2024)",
-            "score": 0.749443,
+            "score": 0.882353,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -1910,17 +1910,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.246599994949065,
-          "retrieval_median": 43.711699996492825,
-          "embedding_median": 405.25460000208113,
-          "min": 43.21860001073219,
-          "max": 452.7667999936966
+          "median": 4.231899991282262,
+          "retrieval_median": 3.6591999960364774,
+          "embedding_median": 459.2308999999659,
+          "min": 3.745200010598637,
+          "max": 464.3158999970183
         },
         "top_hits": [
           {
             "doc_id": "DOC-0043",
             "title": "Apex Platinum - Cash Advance APR & Fee Structure (2024)",
-            "score": 0.916461,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1928,7 +1928,7 @@
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.813699,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1936,7 +1936,7 @@
           {
             "doc_id": "DOC-0039",
             "title": "Apex Platinum - Late Payment Fee Schedule & Grace Period (2025)",
-            "score": 0.756714,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -1944,7 +1944,7 @@
           {
             "doc_id": "DOC-0035",
             "title": "Apex Platinum - Foreign Transaction Fee Structure (2024)",
-            "score": 0.750862,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1952,7 +1952,7 @@
           {
             "doc_id": "DOC-0001",
             "title": "Apex Platinum - 0% Intro APR Balance Transfer Rules (2024)",
-            "score": 0.7242,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -1992,17 +1992,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.078400009311736,
-          "retrieval_median": 43.65960000723135,
-          "embedding_median": 384.1000999964308,
-          "min": 43.76600000250619,
-          "max": 431.61359999794513
+          "median": 5.2607999969040975,
+          "retrieval_median": 3.833499999018386,
+          "embedding_median": 439.91030000324827,
+          "min": 4.186099991784431,
+          "max": 444.8253000009572
         },
         "top_hits": [
           {
             "doc_id": "DOC-0057",
             "title": "Apex Business Select - Commercial Cell Phone Protection (2024)",
-            "score": 0.811297,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -2010,7 +2010,7 @@
           {
             "doc_id": "DOC-0030",
             "title": "Apex Business Select - Employee Abuse & Fraud Coverage (2025)",
-            "score": 0.638567,
+            "score": 0.97561,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -2018,7 +2018,7 @@
           {
             "doc_id": "DOC-0126",
             "title": "Apex Business Select - Employee Misuse Indemnification (2024)",
-            "score": 0.632219,
+            "score": 0.95122,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -2026,7 +2026,7 @@
           {
             "doc_id": "DOC-0102",
             "title": "Apex Business Select - Commercial Travel Insurance Package (2024)",
-            "score": 0.612196,
+            "score": 0.926829,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -2034,7 +2034,7 @@
           {
             "doc_id": "DOC-0064",
             "title": "Apex Business Select - Commercial Emergency Services (2024)",
-            "score": 0.611455,
+            "score": 0.902439,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2024"
@@ -2074,17 +2074,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.17079999984708,
-          "retrieval_median": 43.749700009357184,
-          "embedding_median": 441.3589000032516,
-          "min": 43.88690000632778,
-          "max": 488.08930000814144
+          "median": 4.175199996097945,
+          "retrieval_median": 3.736999991815537,
+          "embedding_median": 456.5203999954974,
+          "min": 3.963600000133738,
+          "max": 461.3511999923503
         },
         "top_hits": [
           {
             "doc_id": "DOC-0073",
             "title": "Apex Platinum - Virtual Card Number Generation (2024)",
-            "score": 0.8113,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2092,7 +2092,7 @@
           {
             "doc_id": "DOC-0117",
             "title": "Apex Platinum - High-Risk Country Spend Restrictions (2025)",
-            "score": 0.664316,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2100,7 +2100,7 @@
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.650302,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2108,7 +2108,7 @@
           {
             "doc_id": "DOC-0106",
             "title": "Apex Platinum - Credit Line Assessment Criteria (2024)",
-            "score": 0.646553,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2116,7 +2116,7 @@
           {
             "doc_id": "DOC-0114",
             "title": "Apex Platinum - Over-Limit Transaction Authorizations (2024)",
-            "score": 0.643685,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2156,17 +2156,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.008900000946596,
-          "retrieval_median": 45.362900011241436,
-          "embedding_median": 383.52209998993203,
-          "min": 44.31579999800306,
-          "max": 429.2329999880167
+          "median": 3.5785000072792172,
+          "retrieval_median": 3.1601000082446262,
+          "embedding_median": 389.0315000026021,
+          "min": 3.5026999976253137,
+          "max": 393.5531000024639
         },
         "top_hits": [
           {
             "doc_id": "DOC-0024",
             "title": "Apex Platinum - Provisional Credit Allocation Rules (2025)",
-            "score": 0.68101,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2174,7 +2174,7 @@
           {
             "doc_id": "DOC-0027",
             "title": "Apex Business Select - Corporate Provisional Credit Rules (2025)",
-            "score": 0.617255,
+            "score": 0.98,
             "source": "dense",
             "card_tier": "Apex Business Select",
             "effective_year": "2025"
@@ -2182,7 +2182,7 @@
           {
             "doc_id": "DOC-0025",
             "title": "Apex Preferred Travel - Provisional Credit Terms (2025)",
-            "score": 0.572981,
+            "score": 0.96,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -2190,7 +2190,7 @@
           {
             "doc_id": "DOC-0022",
             "title": "Apex Everyday Freedom - Merchant Dispute Procedure (2024)",
-            "score": 0.50301,
+            "score": 0.94,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -2198,7 +2198,7 @@
           {
             "doc_id": "DOC-0020",
             "title": "Apex Platinum - Merchant Chargeback Dispute Timeline (2024)",
-            "score": 0.461468,
+            "score": 0.92,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2238,17 +2238,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.58569999830797,
-          "retrieval_median": 46.980200000689365,
-          "embedding_median": 423.87929999677,
-          "min": 44.568199999048375,
-          "max": 471.50510000938084
+          "median": 3.8078999932622537,
+          "retrieval_median": 3.3930000063264742,
+          "embedding_median": 445.0493999902392,
+          "min": 3.6632999981520697,
+          "max": 449.4496999977855
         },
         "top_hits": [
           {
             "doc_id": "DOC-0061",
             "title": "Apex Platinum - Emergency Cash Disbursement & Replacement (2024)",
-            "score": 0.715601,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2256,7 +2256,7 @@
           {
             "doc_id": "DOC-0035",
             "title": "Apex Platinum - Foreign Transaction Fee Structure (2024)",
-            "score": 0.59773,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2264,7 +2264,7 @@
           {
             "doc_id": "DOC-0117",
             "title": "Apex Platinum - High-Risk Country Spend Restrictions (2025)",
-            "score": 0.5893,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2272,7 +2272,7 @@
           {
             "doc_id": "DOC-0060",
             "title": "Apex Platinum - Global Entry / TSA PreCheck Credit (2025)",
-            "score": 0.587255,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2280,7 +2280,7 @@
           {
             "doc_id": "DOC-0013",
             "title": "Apex Platinum - Balance Transfer Limits & Caps (2025)",
-            "score": 0.586903,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2320,17 +2320,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.78430000017397,
-          "retrieval_median": 44.324599992251024,
-          "embedding_median": 396.91559999482706,
-          "min": 43.86550000344869,
-          "max": 443.13519999559503
+          "median": 5.717899999581277,
+          "retrieval_median": 4.666399996494874,
+          "embedding_median": 366.98099999921396,
+          "min": 5.629699997371063,
+          "max": 372.09610000718385
         },
         "top_hits": [
           {
             "doc_id": "DOC-0106",
             "title": "Apex Platinum - Credit Line Assessment Criteria (2024)",
-            "score": 0.860303,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2338,7 +2338,7 @@
           {
             "doc_id": "DOC-0110",
             "title": "Apex Platinum - Proactive Credit Limit Reduction Policy (2025)",
-            "score": 0.741365,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2346,7 +2346,7 @@
           {
             "doc_id": "DOC-0031",
             "title": "Apex Platinum - Annual Fee Billing and Refund Waiver Rules (2024)",
-            "score": 0.7247,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2354,7 +2354,7 @@
           {
             "doc_id": "DOC-0058",
             "title": "Apex Platinum - Annual Travel Credit Administration (2025)",
-            "score": 0.721743,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2362,7 +2362,7 @@
           {
             "doc_id": "DOC-0120",
             "title": "Apex Platinum - Debt-to-Income Thresholds (2025)",
-            "score": 0.71465,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2402,17 +2402,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.5352999928873,
-          "retrieval_median": 46.57160000351723,
-          "embedding_median": 380.72939999983646,
-          "min": 44.26479998801369,
-          "max": 427.7009000070393
+          "median": 3.313900000648573,
+          "retrieval_median": 2.961899997899309,
+          "embedding_median": 399.6474000014132,
+          "min": 3.045899997232482,
+          "max": 403.68360000138637
         },
         "top_hits": [
           {
             "doc_id": "DOC-0149",
             "title": "Apex Everyday Freedom - Payment Due Date Adjustment Rules (2024)",
-            "score": 0.887262,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -2420,7 +2420,7 @@
           {
             "doc_id": "DOC-0145",
             "title": "Apex Everyday Freedom - AutoPay Processing Timing (2024)",
-            "score": 0.777858,
+            "score": 0.970588,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -2428,7 +2428,7 @@
           {
             "doc_id": "DOC-0041",
             "title": "Apex Everyday Freedom - Late Payment Assessment (2025)",
-            "score": 0.757471,
+            "score": 0.941176,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -2436,7 +2436,7 @@
           {
             "doc_id": "DOC-0138",
             "title": "Apex Everyday Freedom - Grace Period & Purchase APR Rules (2024)",
-            "score": 0.750848,
+            "score": 0.911765,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2024"
@@ -2444,7 +2444,7 @@
           {
             "doc_id": "DOC-0026",
             "title": "Apex Everyday Freedom - Disputed Amount Credit Timelines (2025)",
-            "score": 0.726452,
+            "score": 0.882353,
             "source": "dense",
             "card_tier": "Apex Everyday Freedom",
             "effective_year": "2025"
@@ -2484,17 +2484,17 @@
           "ndcg@10": 0.0
         },
         "latency_ms": {
-          "median": 47.15710000891704,
-          "retrieval_median": 44.862900002044626,
-          "embedding_median": 426.03190000227187,
-          "min": 44.97149999951944,
-          "max": 471.24020000046585
+          "median": 3.267099993536249,
+          "retrieval_median": 2.933099996880628,
+          "embedding_median": 416.65939999802504,
+          "min": 3.2224000024143606,
+          "max": 420.68759999528993
         },
         "top_hits": [
           {
             "doc_id": "DOC-0036",
             "title": "Apex Preferred Travel - Foreign Transaction Exemptions (2024)",
-            "score": 0.715942,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -2502,7 +2502,7 @@
           {
             "doc_id": "DOC-0032",
             "title": "Apex Preferred Travel - Annual Fee & Refund Conditions (2024)",
-            "score": 0.692254,
+            "score": 0.96875,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2024"
@@ -2510,7 +2510,7 @@
           {
             "doc_id": "DOC-0072",
             "title": "Apex Preferred Travel - Travel Advisory Registration (2025)",
-            "score": 0.678558,
+            "score": 0.9375,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -2518,7 +2518,7 @@
           {
             "doc_id": "DOC-0025",
             "title": "Apex Preferred Travel - Provisional Credit Terms (2025)",
-            "score": 0.658797,
+            "score": 0.90625,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -2526,7 +2526,7 @@
           {
             "doc_id": "DOC-0059",
             "title": "Apex Preferred Travel - Annual Hotel Credit (2025)",
-            "score": 0.650884,
+            "score": 0.875,
             "source": "dense",
             "card_tier": "Apex Preferred Travel",
             "effective_year": "2025"
@@ -2566,17 +2566,17 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 44.150299989269115,
-          "retrieval_median": 43.5913000110304,
-          "embedding_median": 395.3570000012405,
-          "min": 43.820599996251985,
-          "max": 440.0662999978522
+          "median": 4.880099993897602,
+          "retrieval_median": 4.411199988680892,
+          "embedding_median": 490.34770000434946,
+          "min": 4.2837000073632225,
+          "max": 496.0270000010496
         },
         "top_hits": [
           {
             "doc_id": "DOC-0039",
             "title": "Apex Platinum - Late Payment Fee Schedule & Grace Period (2025)",
-            "score": 0.754452,
+            "score": 1.0,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2584,7 +2584,7 @@
           {
             "doc_id": "DOC-0136",
             "title": "Apex Platinum - Statement Generation & Billing Cycles (2024)",
-            "score": 0.713725,
+            "score": 0.976744,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2592,7 +2592,7 @@
           {
             "doc_id": "DOC-0001",
             "title": "Apex Platinum - 0% Intro APR Balance Transfer Rules (2024)",
-            "score": 0.684619,
+            "score": 0.953488,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2600,7 +2600,7 @@
           {
             "doc_id": "DOC-0009",
             "title": "Apex Platinum - Interest Allocation & Payment Prioritization (2024)",
-            "score": 0.665557,
+            "score": 0.930233,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2024"
@@ -2608,7 +2608,7 @@
           {
             "doc_id": "DOC-0150",
             "title": "Apex Platinum - Credit Balance Refund Requests (2025)",
-            "score": 0.661081,
+            "score": 0.906977,
             "source": "dense",
             "card_tier": "Apex Platinum",
             "effective_year": "2025"
@@ -2651,11 +2651,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.9282999894348904,
-          "retrieval_median": 2.511200000299141,
+          "median": 3.46469999931287,
+          "retrieval_median": 2.8805999900214374,
           "embedding_median": 0.0,
-          "min": 2.9002999945078045,
-          "max": 4.424999991897494
+          "min": 3.4407000057399273,
+          "max": 5.004999999073334
         },
         "top_hits": [
           {
@@ -2733,11 +2733,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.759800001513213,
-          "retrieval_median": 2.4093000101856887,
+          "median": 3.4453999978723004,
+          "retrieval_median": 3.0555999983334914,
           "embedding_median": 0.0,
-          "min": 2.345100001548417,
-          "max": 2.889999988838099
+          "min": 2.976100004161708,
+          "max": 3.945799995562993
         },
         "top_hits": [
           {
@@ -2815,11 +2815,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.9519999952754006,
-          "retrieval_median": 2.5622000102885067,
+          "median": 3.802699997322634,
+          "retrieval_median": 3.2845999958226457,
           "embedding_median": 0.0,
-          "min": 2.4784999986877665,
-          "max": 3.06470000941772
+          "min": 3.2057000062195584,
+          "max": 3.913100008503534
         },
         "top_hits": [
           {
@@ -2899,11 +2899,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.587400002288632,
-          "retrieval_median": 3.2696999987820163,
+          "median": 4.678700002841651,
+          "retrieval_median": 3.9634999993722886,
           "embedding_median": 0.0,
-          "min": 3.4374999959254637,
-          "max": 3.844200007733889
+          "min": 4.3194000027142465,
+          "max": 4.924000008031726
         },
         "top_hits": [
           {
@@ -2983,11 +2983,11 @@
           "ndcg@10": 0.9060254355346823
         },
         "latency_ms": {
-          "median": 1.972300000488758,
-          "retrieval_median": 1.7984000005526468,
+          "median": 2.6299000019207597,
+          "retrieval_median": 2.354000011109747,
           "embedding_median": 0.0,
-          "min": 1.8202999926870689,
-          "max": 2.3119999968912452
+          "min": 2.5573000020813197,
+          "max": 3.253000002587214
         },
         "top_hits": [
           {
@@ -3067,11 +3067,11 @@
           "ndcg@10": 0.9469024295259745
         },
         "latency_ms": {
-          "median": 2.3182000004453585,
-          "retrieval_median": 2.0185000030323863,
+          "median": 3.38249999913387,
+          "retrieval_median": 2.9380000050878152,
           "embedding_median": 0.0,
-          "min": 2.2692000056849793,
-          "max": 2.3634000099264085
+          "min": 3.083799994783476,
+          "max": 3.490499992039986
         },
         "top_hits": [
           {
@@ -3149,11 +3149,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.325699988636188,
-          "retrieval_median": 2.9406000103335828,
+          "median": 3.9185000059660524,
+          "retrieval_median": 3.4395999973639846,
           "embedding_median": 0.0,
-          "min": 3.1570999999530613,
-          "max": 4.003900001407601
+          "min": 3.7869000079808757,
+          "max": 4.634600001736544
         },
         "top_hits": [
           {
@@ -3231,11 +3231,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.9670999938389286,
-          "retrieval_median": 2.6538999954937026,
+          "median": 3.720200009411201,
+          "retrieval_median": 3.3605999924475327,
           "embedding_median": 0.0,
-          "min": 2.716199989663437,
-          "max": 3.080400012549944
+          "min": 3.0592000111937523,
+          "max": 3.9690999983577058
         },
         "top_hits": [
           {
@@ -3315,11 +3315,11 @@
           "ndcg@10": 0.9674679834891693
         },
         "latency_ms": {
-          "median": 2.1847000025445595,
-          "retrieval_median": 1.934799991431646,
+          "median": 2.8442000038921833,
+          "retrieval_median": 2.4908000050345436,
           "embedding_median": 0.0,
-          "min": 2.0884999976260588,
-          "max": 2.319300008821301
+          "min": 2.6431000005686656,
+          "max": 3.5330999962752685
         },
         "top_hits": [
           {
@@ -3397,11 +3397,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.921999999671243,
-          "retrieval_median": 2.554299993789755,
+          "median": 3.5860999923897907,
+          "retrieval_median": 3.15509999927599,
           "embedding_median": 0.0,
-          "min": 2.788799989502877,
-          "max": 2.9716999997617677
+          "min": 3.5019999922951683,
+          "max": 3.7328000034904107
         },
         "top_hits": [
           {
@@ -3481,11 +3481,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 4.491400002734736,
-          "retrieval_median": 4.179499999736436,
+          "median": 5.498799990164116,
+          "retrieval_median": 5.045999991125427,
           "embedding_median": 0.0,
-          "min": 4.485000012209639,
-          "max": 4.59670000418555
+          "min": 5.31750000664033,
+          "max": 5.917800008319318
         },
         "top_hits": [
           {
@@ -3563,11 +3563,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.998299998580478,
-          "retrieval_median": 2.6365999947302043,
+          "median": 3.405800001928583,
+          "retrieval_median": 2.994499998749234,
           "embedding_median": 0.0,
-          "min": 2.8688000020338222,
-          "max": 3.2457999914186075
+          "min": 3.2432000007247552,
+          "max": 3.620099989348091
         },
         "top_hits": [
           {
@@ -3645,11 +3645,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.8836999990744516,
-          "retrieval_median": 2.5206999998772517,
+          "median": 3.7715999933425337,
+          "retrieval_median": 3.021600001375191,
           "embedding_median": 0.0,
-          "min": 2.863200003048405,
-          "max": 3.0156000138958916
+          "min": 3.3063000009860843,
+          "max": 4.078600002685562
         },
         "top_hits": [
           {
@@ -3729,11 +3729,11 @@
           "ndcg@10": 0.9674679834891693
         },
         "latency_ms": {
-          "median": 3.257899996242486,
-          "retrieval_median": 2.951200003735721,
+          "median": 3.9686999953119084,
+          "retrieval_median": 3.525199994328432,
           "embedding_median": 0.0,
-          "min": 3.1799999997019768,
-          "max": 3.2770999969216064
+          "min": 3.812299997662194,
+          "max": 4.106599997612648
         },
         "top_hits": [
           {
@@ -3811,11 +3811,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.8381000010995194,
-          "retrieval_median": 2.531899997848086,
+          "median": 3.0765999981667846,
+          "retrieval_median": 2.761700001428835,
           "embedding_median": 0.0,
-          "min": 2.8331999928923324,
-          "max": 2.89429999247659
+          "min": 2.848100004484877,
+          "max": 3.361600000062026
         },
         "top_hits": [
           {
@@ -3893,11 +3893,11 @@
           "ndcg@10": 0.6309297535714575
         },
         "latency_ms": {
-          "median": 2.7507999911904335,
-          "retrieval_median": 2.3929999879328534,
+          "median": 2.9508000006899238,
+          "retrieval_median": 2.5489999970886856,
           "embedding_median": 0.0,
-          "min": 2.7052999939769506,
-          "max": 2.8658999945037067
+          "min": 2.836700004991144,
+          "max": 3.069699989282526
         },
         "top_hits": [
           {
@@ -3975,11 +3975,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.677000011317432,
-          "retrieval_median": 2.3750999971525744,
+          "median": 2.6108999882126227,
+          "retrieval_median": 2.306700000190176,
           "embedding_median": 0.0,
-          "min": 2.5064999936148524,
-          "max": 2.7387000009184703
+          "min": 2.5668000016594306,
+          "max": 2.7042999863624573
         },
         "top_hits": [
           {
@@ -4057,11 +4057,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.735500005655922,
-          "retrieval_median": 2.370999995036982,
+          "median": 2.743799996096641,
+          "retrieval_median": 2.376899996306747,
           "embedding_median": 0.0,
-          "min": 2.688799999305047,
-          "max": 2.8393999964464456
+          "min": 2.7139000012539327,
+          "max": 2.802300004987046
         },
         "top_hits": [
           {
@@ -4139,11 +4139,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.7285000105621293,
-          "retrieval_median": 2.364899992244318,
+          "median": 2.845000009983778,
+          "retrieval_median": 2.4693000013940036,
           "embedding_median": 0.0,
-          "min": 2.7128000074299052,
-          "max": 2.7679999911924824
+          "min": 2.8332000074442476,
+          "max": 3.0165999924065545
         },
         "top_hits": [
           {
@@ -4221,11 +4221,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.9129000031389296,
-          "retrieval_median": 2.552800011471845,
+          "median": 2.959100005682558,
+          "retrieval_median": 2.5797999987844378,
           "embedding_median": 0.0,
-          "min": 2.8543999942485243,
-          "max": 3.2393000001320615
+          "min": 2.8466999938245863,
+          "max": 3.0923000012990087
         },
         "top_hits": [
           {
@@ -4303,11 +4303,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.6547000015852973,
-          "retrieval_median": 2.3355000012088567,
+          "median": 2.561400004196912,
+          "retrieval_median": 2.2517999896081164,
           "embedding_median": 0.0,
-          "min": 2.520499998354353,
-          "max": 2.6866999978665262
+          "min": 2.5433000118937343,
+          "max": 2.6799000042956322
         },
         "top_hits": [
           {
@@ -4385,11 +4385,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 2.8024999919580296,
-          "retrieval_median": 2.4373000051127747,
+          "median": 2.7486999897519127,
+          "retrieval_median": 2.3917000071378425,
           "embedding_median": 0.0,
-          "min": 2.6034000038634986,
-          "max": 3.139799999189563
+          "min": 2.7479999989736825,
+          "max": 2.862299996195361
         },
         "top_hits": [
           {
@@ -4467,11 +4467,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.9029999898048118,
-          "retrieval_median": 3.4638000070117414,
+          "median": 3.1294999935198575,
+          "retrieval_median": 2.7498000126797706,
           "embedding_median": 0.0,
-          "min": 3.500299993902445,
-          "max": 4.115500007173978
+          "min": 3.055199995287694,
+          "max": 3.3531000080984086
         },
         "top_hits": [
           {
@@ -4549,11 +4549,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.5970000026281923,
-          "retrieval_median": 3.145900001982227,
+          "median": 3.050300001632422,
+          "retrieval_median": 2.668499990249984,
           "embedding_median": 0.0,
-          "min": 3.5601999989012256,
-          "max": 3.7176000041654333
+          "min": 2.98839999595657,
+          "max": 3.2051000016508624
         },
         "top_hits": [
           {
@@ -4631,11 +4631,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.0358999938471243,
-          "retrieval_median": 2.730899999733083,
+          "median": 2.7102000021841377,
+          "retrieval_median": 2.37199998809956,
           "embedding_median": 0.0,
-          "min": 3.0274000018835068,
-          "max": 3.9015999936964363
+          "min": 2.612500000395812,
+          "max": 2.735899994149804
         },
         "top_hits": [
           {
@@ -4713,11 +4713,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.209699993021786,
-          "retrieval_median": 2.7963000029558316,
+          "median": 2.9239999857963994,
+          "retrieval_median": 2.5393999967491254,
           "embedding_median": 0.0,
-          "min": 3.025999991223216,
-          "max": 3.3192000119015574
+          "min": 2.8311000060057268,
+          "max": 2.991500005009584
         },
         "top_hits": [
           {
@@ -4795,11 +4795,11 @@
           "ndcg@10": 0.6309297535714575
         },
         "latency_ms": {
-          "median": 3.148000003420748,
-          "retrieval_median": 2.7423999999882653,
+          "median": 2.951199989183806,
+          "retrieval_median": 2.5720000121509656,
           "embedding_median": 0.0,
-          "min": 3.0912999936845154,
-          "max": 3.231399998185225
+          "min": 2.7860999980475754,
+          "max": 2.965299994684756
         },
         "top_hits": [
           {
@@ -4877,11 +4877,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.424599999561906,
-          "retrieval_median": 2.9066999995848164,
+          "median": 2.8872999973827973,
+          "retrieval_median": 2.5594000035198405,
           "embedding_median": 0.0,
-          "min": 2.8626999992411584,
-          "max": 3.430500000831671
+          "min": 2.6996000087819993,
+          "max": 2.9482000099960715
         },
         "top_hits": [
           {
@@ -4959,11 +4959,11 @@
           "ndcg@10": 0.0
         },
         "latency_ms": {
-          "median": 3.613299995777197,
-          "retrieval_median": 3.2664000027580187,
+          "median": 2.7895999955944717,
+          "retrieval_median": 2.48239999928046,
           "embedding_median": 0.0,
-          "min": 2.9313999984879047,
-          "max": 5.201199994189665
+          "min": 2.681099998881109,
+          "max": 2.928799993242137
         },
         "top_hits": [
           {
@@ -5041,11 +5041,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 3.548099994077347,
-          "retrieval_median": 3.1373999954666942,
+          "median": 3.0218000028980896,
+          "retrieval_median": 2.648800000315532,
           "embedding_median": 0.0,
-          "min": 3.2961999968392774,
-          "max": 4.434699992998503
+          "min": 2.9606000025523826,
+          "max": 3.1084999936865643
         },
         "top_hits": [
           {
@@ -5126,11 +5126,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.99170000862796,
-          "retrieval_median": 48.44719999528024,
-          "embedding_median": 416.12919999170117,
-          "min": 47.8510999964783,
-          "max": 466.44090001063887
+          "median": 7.3222999926656485,
+          "retrieval_median": 6.69089998700656,
+          "embedding_median": 441.1338999925647,
+          "min": 7.236800011014566,
+          "max": 449.833500009845
         },
         "top_hits": [
           {
@@ -5208,11 +5208,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.731600003317,
-          "retrieval_median": 47.23549999471288,
-          "embedding_median": 378.8177000096766,
-          "min": 47.468200005823746,
-          "max": 426.7317999911029
+          "median": 6.31979999889154,
+          "retrieval_median": 5.842600003234111,
+          "embedding_median": 405.35169999930076,
+          "min": 6.072699994547293,
+          "max": 412.6029000035487
         },
         "top_hits": [
           {
@@ -5290,11 +5290,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.86409999744501,
-          "retrieval_median": 48.10090000682976,
-          "embedding_median": 388.36060000176076,
-          "min": 47.630600005504675,
-          "max": 437.36250000074506
+          "median": 7.406999997328967,
+          "retrieval_median": 6.843899973318912,
+          "embedding_median": 480.8514999895124,
+          "min": 6.98499999998603,
+          "max": 488.67089999839664
         },
         "top_hits": [
           {
@@ -5374,11 +5374,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 56.44139999640174,
-          "retrieval_median": 54.98639999132138,
-          "embedding_median": 464.0309999958845,
-          "min": 50.260600008186884,
-          "max": 519.406200008234
+          "median": 12.228200008394197,
+          "retrieval_median": 11.774400001741014,
+          "embedding_median": 491.1138000024948,
+          "min": 11.323300001095049,
+          "max": 503.5096000065096
         },
         "top_hits": [
           {
@@ -5458,11 +5458,11 @@
           "ndcg@10": 0.9060254355346823
         },
         "latency_ms": {
-          "median": 48.00799999793526,
-          "retrieval_median": 47.72750001575332,
-          "embedding_median": 407.6935999910347,
-          "min": 47.1895999944536,
-          "max": 456.35419999598525
+          "median": 7.533600000897422,
+          "retrieval_median": 7.1669000026304275,
+          "embedding_median": 419.249900005525,
+          "min": 6.23980000091251,
+          "max": 426.7928000044776
         },
         "top_hits": [
           {
@@ -5542,11 +5542,11 @@
           "ndcg@10": 0.8854598815714874
         },
         "latency_ms": {
-          "median": 49.17429998749867,
-          "retrieval_median": 48.81609999574721,
-          "embedding_median": 390.11439999740105,
-          "min": 47.74739999265876,
-          "max": 441.0385000082897
+          "median": 8.579399989685044,
+          "retrieval_median": 7.789900002535433,
+          "embedding_median": 467.91989999474026,
+          "min": 7.63619999634102,
+          "max": 476.0858000081498
         },
         "top_hits": [
           {
@@ -5624,11 +5624,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.5393999988446,
-          "retrieval_median": 47.85719999927096,
-          "embedding_median": 430.45169999822974,
-          "min": 47.34689999895636,
-          "max": 478.873800006113
+          "median": 8.395900003961287,
+          "retrieval_median": 7.488999981433153,
+          "embedding_median": 432.91109999699984,
+          "min": 7.060099989757873,
+          "max": 441.6850000125123
         },
         "top_hits": [
           {
@@ -5706,11 +5706,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.67860001104418,
-          "retrieval_median": 47.017399992910214,
-          "embedding_median": 388.21739998820703,
-          "min": 47.46660000819247,
-          "max": 434.9309999961406
+          "median": 8.240199997089803,
+          "retrieval_median": 7.600299999467097,
+          "embedding_median": 418.5723999980837,
+          "min": 7.74950000050012,
+          "max": 427.0468000031542
         },
         "top_hits": [
           {
@@ -5790,11 +5790,11 @@
           "ndcg@10": 0.9060254355346823
         },
         "latency_ms": {
-          "median": 48.39999999967404,
-          "retrieval_median": 48.06950000056531,
-          "embedding_median": 382.79139999940526,
-          "min": 47.99549999006558,
-          "max": 432.47290000726935
+          "median": 7.2368999972241,
+          "retrieval_median": 6.9497000076808035,
+          "embedding_median": 428.23889999999665,
+          "min": 7.145299998228438,
+          "max": 435.8732999971835
         },
         "top_hits": [
           {
@@ -5872,11 +5872,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 49.83409999113064,
-          "retrieval_median": 49.04690000694245,
-          "embedding_median": 393.29030000953935,
-          "min": 47.81889999867417,
-          "max": 443.1393999984721
+          "median": 8.434999996097758,
+          "retrieval_median": 7.606200000736862,
+          "embedding_median": 402.621100001852,
+          "min": 7.81549999373965,
+          "max": 411.14689999085385
         },
         "top_hits": [
           {
@@ -5956,11 +5956,11 @@
           "ndcg@10": 0.9674679834891693
         },
         "latency_ms": {
-          "median": 54.65120000008028,
-          "retrieval_median": 52.50770000566263,
-          "embedding_median": 396.63869999640156,
-          "min": 52.81300000206102,
-          "max": 448.96789999620523
+          "median": 8.731299996725284,
+          "retrieval_median": 8.446099993307143,
+          "embedding_median": 362.43110000214074,
+          "min": 8.1103999982588,
+          "max": 372.29309999383986
         },
         "top_hits": [
           {
@@ -6038,11 +6038,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.94200000469573,
-          "retrieval_median": 47.14659998717252,
-          "embedding_median": 486.0329999937676,
-          "min": 47.70589999679942,
-          "max": 533.4318999957759
+          "median": 7.966000004671514,
+          "retrieval_median": 7.319599986658432,
+          "embedding_median": 408.1780999986222,
+          "min": 7.4376000120537356,
+          "max": 416.4306000020588
         },
         "top_hits": [
           {
@@ -6120,11 +6120,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.400500003481284,
-          "retrieval_median": 47.678600007202476,
-          "embedding_median": 398.83070001087617,
-          "min": 47.80600000231061,
-          "max": 448.4078999958001
+          "median": 7.417000000714324,
+          "retrieval_median": 6.798900009016506,
+          "embedding_median": 405.42769999592565,
+          "min": 7.377400004770607,
+          "max": 413.351800001692
         },
         "top_hits": [
           {
@@ -6204,11 +6204,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.867200003471226,
-          "retrieval_median": 51.50510001112707,
-          "embedding_median": 424.21149999427143,
-          "min": 51.37890001060441,
-          "max": 477.1085999964271
+          "median": 6.9807999971089885,
+          "retrieval_median": 6.624400004511699,
+          "embedding_median": 370.4686999990372,
+          "min": 6.861200003186241,
+          "max": 378.7354000087362
         },
         "top_hits": [
           {
@@ -6286,11 +6286,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.54869999689981,
-          "retrieval_median": 48.248999984934926,
-          "embedding_median": 447.49989999399986,
-          "min": 47.960399999283254,
-          "max": 498.96569999691565
+          "median": 9.078000002773479,
+          "retrieval_median": 7.608900006744079,
+          "embedding_median": 452.71949999732897,
+          "min": 7.812700001522899,
+          "max": 460.7184999913443
         },
         "top_hits": [
           {
@@ -6368,11 +6368,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.06730001291726,
-          "retrieval_median": 47.478200009209104,
-          "embedding_median": 390.3137000015704,
-          "min": 48.049899996840395,
-          "max": 438.8938999909442
+          "median": 7.699299996602349,
+          "retrieval_median": 6.543800001963973,
+          "embedding_median": 388.82120000198483,
+          "min": 7.038600000669248,
+          "max": 397.2341999906348
         },
         "top_hits": [
           {
@@ -6450,11 +6450,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.89460000756662,
-          "retrieval_median": 47.41870000725612,
-          "embedding_median": 369.5590999996057,
-          "min": 47.86209999292623,
-          "max": 419.14399999950547
+          "median": 6.389499991200864,
+          "retrieval_median": 5.931399995461106,
+          "embedding_median": 355.6887999875471,
+          "min": 6.29020000633318,
+          "max": 362.92230000253767
         },
         "top_hits": [
           {
@@ -6532,11 +6532,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.4887000026647,
-          "retrieval_median": 50.91580000589602,
-          "embedding_median": 414.0165999997407,
-          "min": 51.1289999994915,
-          "max": 465.8481000078609
+          "median": 7.506699999794364,
+          "retrieval_median": 6.787200007238425,
+          "embedding_median": 394.0941000037128,
+          "min": 7.108599995262921,
+          "max": 402.4168999894755
         },
         "top_hits": [
           {
@@ -6614,11 +6614,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 50.749600006383844,
-          "retrieval_median": 48.70789998676628,
-          "embedding_median": 379.1639999981271,
-          "min": 48.69710000639316,
-          "max": 428.57099999673665
+          "median": 6.695000003674068,
+          "retrieval_median": 6.176599999889731,
+          "embedding_median": 428.0549999966752,
+          "min": 6.583900001714937,
+          "max": 436.1487999995006
         },
         "top_hits": [
           {
@@ -6696,11 +6696,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.67789999116212,
-          "retrieval_median": 47.935000009601936,
-          "embedding_median": 464.5784000022104,
-          "min": 47.616600000765175,
-          "max": 516.186299995752
+          "median": 7.34869998996146,
+          "retrieval_median": 6.746600003680214,
+          "embedding_median": 403.2034999981988,
+          "min": 6.931800002348609,
+          "max": 411.6739000019152
         },
         "top_hits": [
           {
@@ -6778,11 +6778,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.99979999370407,
-          "retrieval_median": 47.51029999169987,
-          "embedding_median": 374.4950999971479,
-          "min": 47.981700001400895,
-          "max": 422.2703999985242
+          "median": 6.6903999977512285,
+          "retrieval_median": 6.085099987103604,
+          "embedding_median": 368.35260000952985,
+          "min": 6.229899998288602,
+          "max": 375.63090000185184
         },
         "top_hits": [
           {
@@ -6860,11 +6860,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.311399994418025,
-          "retrieval_median": 47.75549999612849,
-          "embedding_median": 382.439399996656,
-          "min": 47.70419999840669,
-          "max": 432.0665000122972
+          "median": 6.587099996977486,
+          "retrieval_median": 6.061799984308891,
+          "embedding_median": 420.18390000157524,
+          "min": 6.315599996014498,
+          "max": 428.5876000067219
         },
         "top_hits": [
           {
@@ -6942,11 +6942,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.28290001023561,
-          "retrieval_median": 47.70429999916814,
-          "embedding_median": 400.25710000190884,
-          "min": 47.910600012983195,
-          "max": 448.5355999931926
+          "median": 7.410099991830066,
+          "retrieval_median": 6.888300005812198,
+          "embedding_median": 351.2256000103662,
+          "min": 6.956700002774596,
+          "max": 360.2814999903785
         },
         "top_hits": [
           {
@@ -7024,11 +7024,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 47.964000012143515,
-          "retrieval_median": 47.32250000233762,
-          "embedding_median": 379.02709998888895,
-          "min": 47.78170000645332,
-          "max": 427.7602000074694
+          "median": 7.149600001866929,
+          "retrieval_median": 6.614899990381673,
+          "embedding_median": 376.8766000139294,
+          "min": 6.73389999428764,
+          "max": 385.4910999943968
         },
         "top_hits": [
           {
@@ -7106,11 +7106,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.6218000005465,
-          "retrieval_median": 48.294199994415976,
-          "embedding_median": 447.20339999184944,
-          "min": 48.260299998219125,
-          "max": 495.8066000108374
+          "median": 6.5694999939296395,
+          "retrieval_median": 6.225399993127212,
+          "embedding_median": 387.7052000025287,
+          "min": 6.37829999323003,
+          "max": 394.84660000016447
         },
         "top_hits": [
           {
@@ -7188,11 +7188,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.73540000698995,
-          "retrieval_median": 48.20450000988785,
-          "embedding_median": 432.04109999351203,
-          "min": 47.51470001065172,
-          "max": 482.50120000739116
+          "median": 7.486200003768317,
+          "retrieval_median": 6.857900007162243,
+          "embedding_median": 504.3186999973841,
+          "min": 6.950800001504831,
+          "max": 513.2857999997213
         },
         "top_hits": [
           {
@@ -7270,11 +7270,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 49.09100000804756,
-          "retrieval_median": 48.45309999655001,
-          "embedding_median": 374.402999994345,
-          "min": 47.427800003788434,
-          "max": 423.7340999970911
+          "median": 7.415800006128848,
+          "retrieval_median": 6.857800006400794,
+          "embedding_median": 366.04809999698773,
+          "min": 7.093499996699393,
+          "max": 374.2826000088826
         },
         "top_hits": [
           {
@@ -7352,11 +7352,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.136500001419336,
-          "retrieval_median": 47.041600017109886,
-          "embedding_median": 375.7952000014484,
-          "min": 47.234899990144186,
-          "max": 423.3347999979742
+          "median": 6.686599997919984,
+          "retrieval_median": 6.1658999911742285,
+          "embedding_median": 462.907199995243,
+          "min": 6.5455000003566965,
+          "max": 470.68790000048466
         },
         "top_hits": [
           {
@@ -7434,11 +7434,11 @@
           "ndcg@10": 0.0
         },
         "latency_ms": {
-          "median": 49.78070000652224,
-          "retrieval_median": 47.65999999654014,
-          "embedding_median": 417.05459999502636,
-          "min": 48.129300004802644,
-          "max": 463.97280000383034
+          "median": 6.641600004513748,
+          "retrieval_median": 6.184000012581237,
+          "embedding_median": 419.5429000101285,
+          "min": 6.288299991865642,
+          "max": 427.3804999975255
         },
         "top_hits": [
           {
@@ -7516,11 +7516,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.41099999612197,
-          "retrieval_median": 47.69440001109615,
-          "embedding_median": 457.4921000021277,
-          "min": 47.03380000137258,
-          "max": 507.3922000010498
+          "median": 7.60949999676086,
+          "retrieval_median": 6.5630000026430935,
+          "embedding_median": 389.0614999982063,
+          "min": 7.053900000755675,
+          "max": 397.0794999913778
         },
         "top_hits": [
           {
@@ -7601,11 +7601,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.92250000638887,
-          "retrieval_median": 51.18160000711214,
-          "embedding_median": 407.60610000870656,
-          "min": 51.73940000531729,
-          "max": 456.95510000223294
+          "median": 8.846700002322905,
+          "retrieval_median": 8.188300009351224,
+          "embedding_median": 408.7908000074094,
+          "min": 8.532699997886084,
+          "max": 418.84320000826847
         },
         "top_hits": [
           {
@@ -7683,11 +7683,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.0573000095319,
-          "retrieval_median": 47.54910001065582,
-          "embedding_median": 394.14119999855757,
-          "min": 47.40779999701772,
-          "max": 446.13259998732246
+          "median": 8.570000005420297,
+          "retrieval_median": 7.355899972026236,
+          "embedding_median": 383.75199999427423,
+          "min": 7.2216999978991225,
+          "max": 391.5801000111969
         },
         "top_hits": [
           {
@@ -7765,11 +7765,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.03960000653751,
-          "retrieval_median": 51.47320001560729,
-          "embedding_median": 392.92669999122154,
-          "min": 51.722899996093474,
-          "max": 444.9648000008892
+          "median": 8.404899999732152,
+          "retrieval_median": 7.875799987232313,
+          "embedding_median": 373.4635000000708,
+          "min": 8.358100007171743,
+          "max": 382.9602000041632
         },
         "top_hits": [
           {
@@ -7849,11 +7849,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.26070000207983,
-          "retrieval_median": 51.74969998188317,
-          "embedding_median": 467.30920000118203,
-          "min": 52.061199996387586,
-          "max": 518.4043000044767
+          "median": 13.722999996389262,
+          "retrieval_median": 11.56009999976959,
+          "embedding_median": 439.2485999997007,
+          "min": 10.886999996728264,
+          "max": 451.1861999926623
         },
         "top_hits": [
           {
@@ -7933,11 +7933,11 @@
           "ndcg@10": 0.9674679834891693
         },
         "latency_ms": {
-          "median": 52.39169999549631,
-          "retrieval_median": 50.589300008141436,
-          "embedding_median": 371.62840001110453,
-          "min": 50.88990001240745,
-          "max": 421.9252999901073
+          "median": 6.850500009022653,
+          "retrieval_median": 6.591800003661774,
+          "embedding_median": 370.34130000392906,
+          "min": 6.657099991571158,
+          "max": 377.94570000551175
         },
         "top_hits": [
           {
@@ -8017,11 +8017,11 @@
           "ndcg@10": 0.9674679834891693
         },
         "latency_ms": {
-          "median": 54.100599998491816,
-          "retrieval_median": 51.63639999227598,
-          "embedding_median": 376.5082000027178,
-          "min": 52.05569999816362,
-          "max": 428.16270000184886
+          "median": 7.946700003230944,
+          "retrieval_median": 7.632799999555573,
+          "embedding_median": 359.1830000077607,
+          "min": 7.798799997544847,
+          "max": 367.9231999994954
         },
         "top_hits": [
           {
@@ -8099,11 +8099,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 53.60579999978654,
-          "retrieval_median": 50.84339999302756,
-          "embedding_median": 405.63819999806583,
-          "min": 50.46020000008866,
-          "max": 457.02760000131093
+          "median": 9.047600004123524,
+          "retrieval_median": 8.45480001589749,
+          "embedding_median": 421.312599995872,
+          "min": 8.464300000923686,
+          "max": 431.36269999376964
         },
         "top_hits": [
           {
@@ -8181,11 +8181,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.32830000366084,
-          "retrieval_median": 50.27739999059122,
-          "embedding_median": 401.12400001089554,
-          "min": 47.882700004265644,
-          "max": 451.9216000044253
+          "median": 8.829500002320856,
+          "retrieval_median": 8.20210002711974,
+          "embedding_median": 379.8792000015965,
+          "min": 7.484400004614145,
+          "max": 388.5843999887584
         },
         "top_hits": [
           {
@@ -8265,11 +8265,11 @@
           "ndcg@10": 0.9060254355346823
         },
         "latency_ms": {
-          "median": 52.081299989367835,
-          "retrieval_median": 50.94220000319183,
-          "embedding_median": 374.4643000100041,
-          "min": 51.22390000906307,
-          "max": 425.28049999964423
+          "median": 8.92740000563208,
+          "retrieval_median": 8.057900020503439,
+          "embedding_median": 379.8233999987133,
+          "min": 8.227900005294941,
+          "max": 388.2568999979412
         },
         "top_hits": [
           {
@@ -8347,11 +8347,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.11530000087805,
-          "retrieval_median": 51.120100019034,
-          "embedding_median": 402.2434000071371,
-          "min": 51.65609999676235,
-          "max": 452.2821999998996
+          "median": 8.920599997509271,
+          "retrieval_median": 8.364399982383475,
+          "embedding_median": 372.32189999485854,
+          "min": 8.56450000719633,
+          "max": 381.71370000054594
         },
         "top_hits": [
           {
@@ -8431,11 +8431,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 54.07529999502003,
-          "retrieval_median": 53.741499985335395,
-          "embedding_median": 400.3650000086054,
-          "min": 52.49669999466278,
-          "max": 454.55170000786893
+          "median": 10.100899991812184,
+          "retrieval_median": 9.792299984837882,
+          "embedding_median": 388.3176000090316,
+          "min": 9.437999993679114,
+          "max": 399.0577999938978
         },
         "top_hits": [
           {
@@ -8513,11 +8513,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.506300005712546,
-          "retrieval_median": 50.96300001605414,
-          "embedding_median": 417.61679999763146,
-          "min": 48.492699992493726,
-          "max": 469.86119999201037
+          "median": 10.312200000043958,
+          "retrieval_median": 9.518400009255856,
+          "embedding_median": 416.0952999955043,
+          "min": 8.530499995686114,
+          "max": 426.6605000011623
         },
         "top_hits": [
           {
@@ -8595,11 +8595,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.700399999390356,
-          "retrieval_median": 49.7307999903569,
-          "embedding_median": 445.45970000035595,
-          "min": 48.199500000919215,
-          "max": 495.78129999281373
+          "median": 8.462700003292412,
+          "retrieval_median": 7.92140002886299,
+          "embedding_median": 388.9789999957429,
+          "min": 8.34960000065621,
+          "max": 398.6035999987507
         },
         "top_hits": [
           {
@@ -8679,11 +8679,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.290999999968335,
-          "retrieval_median": 51.928000029874966,
-          "embedding_median": 371.23439999413677,
-          "min": 52.209299989044666,
-          "max": 420.7581999944523
+          "median": 9.05550000607036,
+          "retrieval_median": 8.740200006286614,
+          "embedding_median": 371.9764999987092,
+          "min": 8.525099998223595,
+          "max": 382.9246000095736
         },
         "top_hits": [
           {
@@ -8761,11 +8761,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 53.52479999419302,
-          "retrieval_median": 51.96179998165462,
-          "embedding_median": 434.8539000056917,
-          "min": 52.28109999734443,
-          "max": 486.76179999893066
+          "median": 8.810100000118837,
+          "retrieval_median": 8.501199990860187,
+          "embedding_median": 468.700199999148,
+          "min": 8.356799997272901,
+          "max": 478.6276000086218
         },
         "top_hits": [
           {
@@ -8843,11 +8843,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.571899999747984,
-          "retrieval_median": 51.66010001266841,
-          "embedding_median": 377.58390000090003,
-          "min": 52.03980000806041,
-          "max": 429.7948000021279
+          "median": 8.824300006381236,
+          "retrieval_median": 8.26380001672078,
+          "embedding_median": 397.7022000035504,
+          "min": 8.15609999699518,
+          "max": 407.1427000017138
         },
         "top_hits": [
           {
@@ -8925,11 +8925,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 53.78420000488404,
-          "retrieval_median": 48.467200016602874,
-          "embedding_median": 385.9552000067197,
-          "min": 48.46370000450406,
-          "max": 434.9208999919938
+          "median": 7.561999998870306,
+          "retrieval_median": 6.74130002153106,
+          "embedding_median": 360.5132999946363,
+          "min": 7.2832000005291775,
+          "max": 369.0628000040306
         },
         "top_hits": [
           {
@@ -9007,11 +9007,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.687099999981,
-          "retrieval_median": 50.35119999956805,
-          "embedding_median": 426.5958000032697,
-          "min": 48.85669999930542,
-          "max": 477.4856000003638
+          "median": 8.950200004619546,
+          "retrieval_median": 8.247099976870231,
+          "embedding_median": 414.5061000017449,
+          "min": 7.990799989784136,
+          "max": 424.099900003057
         },
         "top_hits": [
           {
@@ -9089,11 +9089,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.54330001096241,
-          "retrieval_median": 50.52370000339579,
-          "embedding_median": 372.4757000018144,
-          "min": 48.8006000086898,
-          "max": 423.5707000043476
+          "median": 8.426200001849793,
+          "retrieval_median": 7.828900008462369,
+          "embedding_median": 407.4735000031069,
+          "min": 8.22129999869503,
+          "max": 416.8479999934789
         },
         "top_hits": [
           {
@@ -9171,11 +9171,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.43799999880139,
-          "retrieval_median": 50.637599983019754,
-          "embedding_median": 388.16239999141544,
-          "min": 48.34649999975227,
-          "max": 439.3348000012338
+          "median": 9.763800000655465,
+          "retrieval_median": 9.109300008276477,
+          "embedding_median": 373.4194999997271,
+          "min": 8.274500010884367,
+          "max": 383.78769998962525
         },
         "top_hits": [
           {
@@ -9253,11 +9253,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.8997000035597,
-          "retrieval_median": 51.05919999186881,
-          "embedding_median": 396.0220000008121,
-          "min": 51.560699997935444,
-          "max": 446.84889999916777
+          "median": 8.92440001189243,
+          "retrieval_median": 8.22590000461787,
+          "embedding_median": 379.8196999996435,
+          "min": 8.696099990629591,
+          "max": 388.6042000085581
         },
         "top_hits": [
           {
@@ -9335,11 +9335,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.829499992891215,
-          "retrieval_median": 51.02540001098532,
-          "embedding_median": 388.6876000033226,
-          "min": 48.673700002836995,
-          "max": 440.2574999985518
+          "median": 8.486099992296658,
+          "retrieval_median": 7.953699983772822,
+          "embedding_median": 401.4571000006981,
+          "min": 8.294200000818819,
+          "max": 410.9523000079207
         },
         "top_hits": [
           {
@@ -9417,11 +9417,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 53.253999998560175,
-          "retrieval_median": 51.10019999847282,
-          "embedding_median": 376.4626999909524,
-          "min": 51.52110000199173,
-          "max": 428.22099999466445
+          "median": 8.273900006315671,
+          "retrieval_median": 7.75699999940116,
+          "embedding_median": 367.6627000095323,
+          "min": 8.087700000032783,
+          "max": 377.45060000452213
         },
         "top_hits": [
           {
@@ -9499,11 +9499,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.285700003267266,
-          "retrieval_median": 51.07360001420602,
-          "embedding_median": 390.9038999991026,
-          "min": 51.74849998729769,
-          "max": 442.58149999950547
+          "median": 9.314299997640774,
+          "retrieval_median": 8.657200014567934,
+          "embedding_median": 387.4243000027491,
+          "min": 8.270599995739758,
+          "max": 397.68090000143275
         },
         "top_hits": [
           {
@@ -9581,11 +9581,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.944999999250285,
-          "retrieval_median": 51.59589998947922,
-          "embedding_median": 425.6480000040028,
-          "min": 51.9001000066055,
-          "max": 475.9421999915503
+          "median": 8.450099994661286,
+          "retrieval_median": 8.135600000969134,
+          "embedding_median": 400.4848999902606,
+          "min": 7.992899991222657,
+          "max": 409.21880000678357
         },
         "top_hits": [
           {
@@ -9663,11 +9663,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.09280000417493,
-          "retrieval_median": 49.83959998935461,
-          "embedding_median": 424.9408999894513,
-          "min": 48.34649999975227,
-          "max": 475.3188000031514
+          "median": 8.918200008338317,
+          "retrieval_median": 8.206300000892952,
+          "embedding_median": 433.7279000028502,
+          "min": 8.065500005614012,
+          "max": 443.479199995636
         },
         "top_hits": [
           {
@@ -9745,11 +9745,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 51.81589999119751,
-          "retrieval_median": 50.65040002227761,
-          "embedding_median": 370.3626000060467,
-          "min": 51.22919999121223,
-          "max": 420.60110000602435
+          "median": 9.113499996601604,
+          "retrieval_median": 8.38359999761451,
+          "embedding_median": 355.45339999953285,
+          "min": 8.435700001427904,
+          "max": 364.9942000047304
         },
         "top_hits": [
           {
@@ -9827,11 +9827,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 52.990199998021126,
-          "retrieval_median": 48.923199996352196,
-          "embedding_median": 393.4169000131078,
-          "min": 48.62689999572467,
-          "max": 442.83179999911226
+          "median": 7.474500001990236,
+          "retrieval_median": 6.954400014365092,
+          "embedding_median": 383.60269999247976,
+          "min": 7.25619999866467,
+          "max": 392.20830000704154
         },
         "top_hits": [
           {
@@ -9909,11 +9909,11 @@
           "ndcg@10": 0.0
         },
         "latency_ms": {
-          "median": 48.25930000515655,
-          "retrieval_median": 47.74409999663476,
-          "embedding_median": 440.8685999951558,
-          "min": 48.15539999981411,
-          "max": 490.56520000158343
+          "median": 7.572499991510995,
+          "retrieval_median": 7.1375999978045,
+          "embedding_median": 419.1891999944346,
+          "min": 7.320499993511476,
+          "max": 427.93150000215974
         },
         "top_hits": [
           {
@@ -9991,11 +9991,11 @@
           "ndcg@10": 1.0
         },
         "latency_ms": {
-          "median": 48.07849999633618,
-          "retrieval_median": 47.53139999229461,
-          "embedding_median": 389.4739999959711,
-          "min": 47.8026999917347,
-          "max": 439.8247000062838
+          "median": 8.564000003389083,
+          "retrieval_median": 8.014399980311282,
+          "embedding_median": 386.0448999912478,
+          "min": 7.997000007890165,
+          "max": 395.4377000045497
         },
         "top_hits": [
           {

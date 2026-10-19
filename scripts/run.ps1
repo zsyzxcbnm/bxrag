@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "install", "init", "ingest", "eval", "chunking", "all", "test", "stats", "reset")]
+    [ValidateSet("up", "down", "install", "init", "ingest", "eval", "chunking", "index-bench", "all", "test", "stats", "reset")]
     [string]$Command = "all"
 )
 
@@ -16,6 +16,7 @@ switch ($Command) {
     "ingest" { python -m src.cli ingest }
     "eval" { python -m src.cli eval }
     "chunking" { python -m src.cli compare-chunking }
+    "index-bench" { python -m src.cli benchmark-index }
     "all" { python -m src.cli all }
     "test" { pytest }
     "stats" { python -m src.cli stats }

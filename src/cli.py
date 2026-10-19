@@ -11,6 +11,7 @@ from src.db import Database
 from src.db_memory import MemoryDatabase
 from src.db_protocol import DatabaseLike
 from src.eval.chunking import compare_chunking, write_chunking_report
+from src.eval.index_tuning import run_index_tuning, write_index_report
 from src.eval.report import generate_report
 from src.eval.runner import EvalRunner, write_evaluation
 from src.ingestion.chunker import chunk_documents
@@ -171,6 +172,18 @@ def _compare_chunking(settings: Settings) -> None:
     LOGGER.info("Wrote %s", path)
 
 
+def _benchmark_index(settings: Settings) -> None:
+    embedder = _load_embedder(settings)
+    documents = load_documents(settings.data_dir / "kb_documents.json")
+    queries = load_queries(
+        settings.data_dir / "eval_queries.json",
+        known_doc_ids={document.doc_id for document in documents},
+    )
+    payload = run_index_tuning(settings, embedder, queries)
+    path = write_index_report(payload, settings.reports_dir)
+    LOGGER.info("Wrote %s", path)
+
+
 def _init_db(settings: Settings, reset: bool) -> None:
     try:
         embedder = _load_embedder(settings)
@@ -240,6 +253,10 @@ def build_parser() -> argparse.ArgumentParser:
         "compare-chunking",
         help="Compare document, fixed-window and semantic chunking",
     )
+    subparsers.add_parser(
+        "benchmark-index",
+        help="Sweep HNSW build and search parameters",
+    )
 
     reset = subparsers.add_parser("reset-db", help="Drop and recreate all tables")
     reset.add_argument("--yes", action="store_true", help="Confirm destructive reset")
@@ -296,6 +313,8 @@ def main() -> None:
         print(json.dumps(database.stats(), indent=2))
     elif args.command == "compare-chunking":
         _compare_chunking(settings)
+    elif args.command == "benchmark-index":
+        _benchmark_index(settings)
     elif args.command == "reset-db":
         if not args.yes:
             raise SystemExit("Refusing to reset without --yes")

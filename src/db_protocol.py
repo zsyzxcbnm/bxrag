@@ -28,6 +28,7 @@ class DatabaseLike(Protocol):
         limit: int,
         chunk_strategy: str = "document",
         filters: dict[str, str] | None = None,
+        force_index: bool = False,
     ) -> tuple[list[SearchHit], float]:
         """Return dense candidates and elapsed milliseconds."""
 

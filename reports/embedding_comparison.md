@@ -29,8 +29,8 @@ with the hybrid stack; the best result uses dense weight 0.7 and sparse weight
 
 On the current CPU-only PyTorch environment:
 
-- PostgreSQL retrieval path: about 51 ms P50 / 54 ms P99.
-- Qwen3 query embedding: about 394 ms P50 / 461 ms P99.
+- PostgreSQL retrieval path: about 8 ms P50 / 12 ms P99.
+- Qwen3 query embedding: about 387 ms P50 / 460 ms P99.
 - The first model load takes roughly 14 seconds.
 
 For production, the embedding service should run on CUDA, ONNX Runtime or a

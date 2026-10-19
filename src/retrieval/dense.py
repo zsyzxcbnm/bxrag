@@ -20,6 +20,13 @@ class DenseRetriever:
         limit: int,
         chunk_strategy: str = "document",
         filters: dict[str, str] | None = None,
+        force_index: bool = False,
     ) -> tuple[list[SearchHit], float]:
-        return self.database.search_dense(query_vector, limit, chunk_strategy, filters)
+        return self.database.search_dense(
+            query_vector,
+            limit,
+            chunk_strategy,
+            filters,
+            force_index=force_index,
+        )
 

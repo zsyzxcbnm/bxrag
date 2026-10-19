@@ -140,7 +140,9 @@ class MemoryDatabase:
         limit: int,
         chunk_strategy: str = "document",
         filters: dict[str, str] | None = None,
+        force_index: bool = False,
     ) -> tuple[list[SearchHit], float]:
+        del force_index
         started = time.perf_counter()
         query = np.asarray(query_vector, dtype=np.float32)
         candidates = self._candidate_chunks(chunk_strategy, filters)

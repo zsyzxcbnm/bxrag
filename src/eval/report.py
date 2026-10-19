@@ -244,13 +244,13 @@ reported separately because it depends on the model and device:
 ## Index verification
 
 The PostgreSQL schema contains `idx_chunks_embedding_hnsw` (HNSW, cosine) and
-`idx_chunks_fts` (GIN). At only 150 chunks the planner correctly prefers a
-sequential scan; forcing `enable_seqscan=off` produces an HNSW index scan with
-about 0.3 ms of scan time, while JIT compilation dominates that one-off plan.
-JIT is disabled on the reusable evaluation connection so it does not inflate
-the reported small-query latency. At larger corpus sizes the same indexes are
-the relevant path; this is why the roadmap treats index tuning as a
-scale-dependent exercise rather than a 150-row benchmark.
+`idx_chunks_fts` (GIN). Dense retrieval is split into an HNSW candidate query
+and a separate document-metadata fetch; this prevents the planner from doing a
+full scan plus sort just to join product metadata. The HNSW sweep in
+`index_tuning.md` reports Recall@10 **1.000** for every tested configuration,
+with candidate-search P50 around **2.5 ms** and P99 around **7-8 ms**. All
+tested `m`, `ef_construction` and `ef_search` values remain far below 100 ms;
+`m=16`, `ef_construction=64`, `ef_search=80` is the default.
 
 {_failure_section(payload)}
 

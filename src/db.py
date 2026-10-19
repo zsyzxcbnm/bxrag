@@ -237,39 +237,28 @@ class Database:
         limit: int,
         chunk_strategy: str = "document",
         filters: dict[str, str] | None = None,
+        force_index: bool = False,
     ) -> tuple[list[SearchHit], float]:
         """Return dense cosine candidates and elapsed milliseconds."""
 
-        clauses, filter_values = self._filter_clause(filters)
-        where = ["c.chunk_strategy = %s", *clauses]
-        query_sql = f"""
-            SELECT
-                c.chunk_id,
-                c.doc_id,
-                d.title,
-                c.chunk_text AS content,
-                d.category,
-                d.card_tier,
-                d.effective_year,
-                d.policy_code,
-                d.metadata,
-                1 - (c.embedding <=> %s) AS score
-            FROM chunks c
-            JOIN documents d ON d.doc_id = c.doc_id
-            WHERE {' AND '.join(where)}
-            ORDER BY c.embedding <=> %s
-            LIMIT %s
-        """
-        params: list[Any] = [query_vector, chunk_strategy, *filter_values, query_vector, int(limit)]
+        if limit <= 0:
+            raise ValueError("limit must be positive")
         started = time.perf_counter()
         with self._session() as connection:
             connection.execute(f"SET LOCAL hnsw.ef_search = {self.hnsw_ef_search}")
-            rows = connection.execute(query_sql, params).fetchall()
+            if force_index:
+                connection.execute("SET LOCAL enable_seqscan = off")
+                connection.execute("SET LOCAL enable_bitmapscan = off")
+            ids = self._candidate_ids(
+                connection,
+                query_vector,
+                limit,
+                chunk_strategy,
+                filters,
+            )
+            rows = self._fetch_chunk_rows(connection, ids)
         elapsed = (time.perf_counter() - started) * 1000
-        hits = [
-            self._row_to_hit(row, source="dense", rank=index + 1)
-            for index, row in enumerate(rows)
-        ]
+        hits = self._ordered_hits(rows, ids, source="dense")
         return hits, elapsed
 
     def search_sparse(
@@ -281,6 +270,8 @@ class Database:
     ) -> tuple[list[SearchHit], float]:
         """Return PostgreSQL full-text candidates and elapsed milliseconds."""
 
+        if limit <= 0:
+            raise ValueError("limit must be positive")
         terms = re.findall(r"[A-Za-z0-9%]+", query)
         sparse_query = " OR ".join(terms) if terms else query
         clauses, filter_values = self._filter_clause(filters)
@@ -303,9 +294,9 @@ class Database:
             CROSS JOIN q
             WHERE {' AND '.join(where)}
             ORDER BY score DESC, c.chunk_id
-            LIMIT %s
+            LIMIT {int(limit)}
         """
-        params: list[Any] = [sparse_query, chunk_strategy, *filter_values, int(limit)]
+        params: list[Any] = [sparse_query, chunk_strategy, *filter_values]
         started = time.perf_counter()
         with self._session() as connection:
             rows = connection.execute(query_sql, params).fetchall()
@@ -315,6 +306,136 @@ class Database:
             for index, row in enumerate(rows)
         ]
         return hits, elapsed
+
+    def search_dense_index(
+        self,
+        query_vector: np.ndarray,
+        limit: int = 10,
+    ) -> tuple[list[SearchHit], float]:
+        """Benchmark an HNSW scan without the small-corpus strategy filter.
+
+        The provided evaluation has only document-strategy chunks. A normal
+        query includes ``chunk_strategy = 'document'``; at 150 rows the planner
+        prefers a full scan plus sort. This method isolates the index scan so
+        ``m`` / ``ef_construction`` / ``ef_search`` can be compared.
+        """
+
+        if limit <= 0:
+            raise ValueError("limit must be positive")
+        started = time.perf_counter()
+        with self._session() as connection:
+            connection.execute(f"SET LOCAL hnsw.ef_search = {self.hnsw_ef_search}")
+            connection.execute("SET LOCAL enable_seqscan = off")
+            connection.execute("SET LOCAL enable_bitmapscan = off")
+            ids = self._candidate_ids(
+                connection,
+                query_vector,
+                limit,
+                chunk_strategy=None,
+                filters=None,
+            )
+            rows = self._fetch_chunk_rows(connection, ids)
+        elapsed = (time.perf_counter() - started) * 1000
+        hits = self._ordered_hits(rows, ids, source="dense-index")
+        return hits, elapsed
+
+    def _candidate_ids(
+        self,
+        connection: psycopg.Connection[dict[str, Any]],
+        query_vector: np.ndarray,
+        limit: int,
+        chunk_strategy: str | None,
+        filters: dict[str, str] | None,
+    ) -> list[str]:
+        """Return ordered chunk IDs from an HNSW candidate query."""
+
+        where: list[str] = []
+        params: list[Any] = []
+        if chunk_strategy is not None:
+            where.append("chunk_strategy = %s")
+            params.append(chunk_strategy)
+
+        if filters:
+            allowed = {"card_tier", "effective_year", "category"}
+            unknown = set(filters) - allowed
+            if unknown:
+                raise ValueError(f"Unsupported filters: {sorted(unknown)}")
+            document_where = " AND ".join(f"{key} = %s" for key in filters)
+            document_values = [str(value) for value in filters.values()]
+            doc_rows = connection.execute(
+                f"SELECT doc_id FROM documents WHERE {document_where}",
+                document_values,
+            ).fetchall()
+            document_ids = [str(row["doc_id"]) for row in doc_rows]
+            if not document_ids:
+                return []
+            where.append("doc_id = ANY(%s)")
+            params.append(document_ids)
+
+        where_sql = f"WHERE {' AND '.join(where)}" if where else ""
+        params.append(query_vector)
+        rows = connection.execute(
+            f"""
+            SELECT chunk_id
+            FROM chunks
+            {where_sql}
+            ORDER BY embedding <=> %s
+            LIMIT {int(limit)}
+            """,
+            params,
+        ).fetchall()
+        return [str(row["chunk_id"]) for row in rows]
+
+    @staticmethod
+    def _fetch_chunk_rows(
+        connection: psycopg.Connection[dict[str, Any]],
+        chunk_ids: list[str],
+    ) -> list[dict[str, Any]]:
+        if not chunk_ids:
+            return []
+        return connection.execute(
+            """
+            SELECT
+                c.chunk_id,
+                c.doc_id,
+                d.title,
+                c.chunk_text AS content,
+                d.category,
+                d.card_tier,
+                d.effective_year,
+                d.policy_code,
+                d.metadata
+            FROM chunks c
+            JOIN documents d ON d.doc_id = c.doc_id
+            WHERE c.chunk_id = ANY(%s)
+            """,
+            (chunk_ids,),
+        ).fetchall()
+
+    @classmethod
+    def _ordered_hits(
+        cls,
+        rows: list[dict[str, Any]],
+        ordered_ids: list[str],
+        source: str,
+    ) -> list[SearchHit]:
+        """Map detail rows back to candidate order and assign rank scores."""
+
+        by_id = {str(row["chunk_id"]): row for row in rows}
+        hits: list[SearchHit] = []
+        denominator = max(1, len(ordered_ids))
+        for index, chunk_id in enumerate(ordered_ids):
+            row = by_id.get(chunk_id)
+            if row is None:
+                continue
+            hits.append(
+                cls._row_to_hit(
+                    {**row, "score": 1.0 - index / denominator},
+                    source=source,
+                    rank=index + 1,
+                )
+            )
+        return hits
 
     @staticmethod
     def _row_to_hit(row: dict[str, Any], source: str, rank: int) -> SearchHit:
@@ -347,6 +468,53 @@ class Database:
                 """
             ).fetchone()
         return dict(row or {})
+
+    def chunk_vectors(self, chunk_strategy: str = "document") -> tuple[list[str], np.ndarray]:
+        """Load chunk identifiers and vectors for exact-search evaluation."""
+
+        with self._session() as connection:
+            rows = connection.execute(
+                """
+                SELECT chunk_id, embedding
+                FROM chunks
+                WHERE chunk_strategy = %s
+                ORDER BY chunk_id
+                """,
+                (chunk_strategy,),
+            ).fetchall()
+        ids = [str(row["chunk_id"]) for row in rows]
+        vectors = np.asarray(
+            [np.asarray(row["embedding"].to_numpy(), dtype=np.float32) for row in rows],
+            dtype=np.float32,
+        )
+        return ids, vectors
+
+    def rebuild_hnsw_index(self, m: int, ef_construction: int) -> float:
+        """Rebuild the HNSW index and return index build time in milliseconds."""
+
+        started = time.perf_counter()
+        with self._session() as connection:
+            connection.execute("DROP INDEX IF EXISTS idx_chunks_embedding_hnsw")
+            connection.execute(
+                sql.SQL(
+                    """
+                    CREATE INDEX idx_chunks_embedding_hnsw
+                    ON chunks USING hnsw (embedding vector_cosine_ops)
+                    WITH (m = {m}, ef_construction = {ef})
+                    """
+                ).format(m=sql.Literal(int(m)), ef=sql.Literal(int(ef_construction)))
+            )
+            connection.execute("ANALYZE chunks")
+        return (time.perf_counter() - started) * 1000
+
+    def hnsw_index_size(self) -> str:
+        """Return the human-readable HNSW index size."""
+
+        with self._session() as connection:
+            row = connection.execute(
+                "SELECT pg_size_pretty(pg_relation_size('idx_chunks_embedding_hnsw')) AS size"
+            ).fetchone()
+        return str((row or {}).get("size", "unknown"))
 
     def clear(self) -> None:
         """Delete all rows while keeping the schema."""

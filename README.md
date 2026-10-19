@@ -18,8 +18,9 @@ chat model sounds convincing.
 
 Current PostgreSQL + pgvector run with local Qwen3-Embedding-0.6B: dense-only
 Recall@1 **0.817** / MRR **0.967**; hybrid + rerank Recall@1 **0.817** / MRR
-**0.967** / nDCG@5 **0.961**, retrieval P50 **51 ms** and P99 **54 ms** (CPU
-query embedding adds about **394 ms** P50). See
+**0.967** / nDCG@5 **0.961**, retrieval P50 **8 ms** and P99 **12 ms**; CPU
+query embedding adds about **387 ms** P50. The HNSW sweep reports 2.5 ms P50 /
+7-8 ms P99. See
 [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).
 
@@ -160,6 +161,7 @@ python -m src.cli ingest [--strategy document|fixed|semantic|all] [--refit]
 python -m src.cli index
 python -m src.cli eval [--repeats 3] [--backend postgres|memory]
 python -m src.cli compare-chunking
+python -m src.cli benchmark-index
 python -m src.cli search "How long do I have to report an unauthorized charge?"
 python -m src.cli stats
 python -m src.cli reset-db --yes

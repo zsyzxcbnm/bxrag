@@ -1,0 +1,98 @@
+{
+  "top_k": 10,
+  "query_count": 30,
+  "repeats": 3,
+  "embedding_model": "G:\\博贤\\data\\models\\Qwen3-Embedding-0.6B",
+  "embedding_dim": 1024,
+  "exact_reference": "NumPy cosine top-10 over all 150 chunk vectors",
+  "results": [
+    {
+      "m": 8,
+      "ef_construction": 64,
+      "ef_search": 80,
+      "build_ms": 27.256,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.634,
+      "p99_ms": 6.557,
+      "samples": 90
+    },
+    {
+      "m": 16,
+      "ef_construction": 64,
+      "ef_search": 80,
+      "build_ms": 29.165,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.475,
+      "p99_ms": 8.218,
+      "samples": 90
+    },
+    {
+      "m": 32,
+      "ef_construction": 64,
+      "ef_search": 80,
+      "build_ms": 42.047,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.439,
+      "p99_ms": 7.493,
+      "samples": 90
+    },
+    {
+      "m": 16,
+      "ef_construction": 128,
+      "ef_search": 80,
+      "build_ms": 30.723,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.542,
+      "p99_ms": 7.092,
+      "samples": 90
+    },
+    {
+      "m": 16,
+      "ef_construction": 256,
+      "ef_search": 80,
+      "build_ms": 30.591,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.431,
+      "p99_ms": 6.995,
+      "samples": 90
+    },
+    {
+      "m": 16,
+      "ef_construction": 64,
+      "ef_search": 40,
+      "build_ms": 28.68,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.539,
+      "p99_ms": 7.977,
+      "samples": 90
+    },
+    {
+      "m": 16,
+      "ef_construction": 64,
+      "ef_search": 120,
+      "build_ms": 29.041,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.369,
+      "p99_ms": 6.493,
+      "samples": 90
+    },
+    {
+      "m": 16,
+      "ef_construction": 64,
+      "ef_search": 200,
+      "build_ms": 26.855,
+      "index_size": "1208 kB",
+      "recall@10": 1.0,
+      "p50_ms": 2.526,
+      "p99_ms": 6.664,
+      "samples": 90
+    }
+  ]
+}
