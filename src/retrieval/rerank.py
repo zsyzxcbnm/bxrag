@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import re
 from collections.abc import Sequence
 from dataclasses import replace
@@ -11,6 +12,8 @@ import numpy as np
 
 from src.config import Settings
 from src.models import ParsedQuery, SearchHit
+
+LOGGER = logging.getLogger(__name__)
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _NUMBER_RE = re.compile(r"\d+(?:\.\d+)?%?")
@@ -108,9 +111,7 @@ class HeuristicReranker:
             for term in ("business", "commercial", "corporate", "employee", "b2b")
         )
         requested_types = {
-            term
-            for term in _ANSWER_TERMS
-            if re.search(rf"\b{re.escape(term)}\b", query.lower())
+            term for term in _ANSWER_TERMS if re.search(rf"\b{re.escape(term)}\b", query.lower())
         }
 
         scored: list[SearchHit] = []
@@ -215,8 +216,9 @@ class CrossEncoderReranker:
                 model_kwargs=model_kwargs,
                 max_length=self.max_length,
             )
-        except Exception:
+        except Exception as exc:
             self._failed = True
+            LOGGER.warning("Cross-Encoder load failed; using heuristic fallback: %s", exc)
             return None
         return self._model
 
@@ -235,13 +237,13 @@ class CrossEncoderReranker:
         pairs = [(query, f"{hit.title}. {hit.content}") for hit in hits]
         try:
             predictions = model.predict(pairs)  # type: ignore[attr-defined]
-        except Exception:
+        except Exception as exc:
             self._failed = True
+            LOGGER.warning("Cross-Encoder prediction failed; using heuristic fallback: %s", exc)
             return self._fallback.rerank(query, parsed, hits, top_n)
 
         heuristic_scores = {
-            hit.doc_id: hit.score
-            for hit in self._fallback.rerank(query, parsed, hits, len(hits))
+            hit.doc_id: hit.score for hit in self._fallback.rerank(query, parsed, hits, len(hits))
         }
         scored: list[SearchHit] = []
         for hit, raw_score in zip(hits, predictions, strict=True):
@@ -271,4 +273,3 @@ def build_reranker(settings: Settings) -> Reranker:
             fp16=settings.reranker_fp16,
         )
     return HeuristicReranker()
-

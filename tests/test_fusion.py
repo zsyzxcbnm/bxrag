@@ -32,4 +32,3 @@ def test_rrf_prefers_documents_present_in_both_lists() -> None:
     assert [hit.doc_id for hit in fused] == ["b", "a", "c"]
     assert fused[0].source == "rrf"
     assert fused[0].score > fused[1].score
-

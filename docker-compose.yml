@@ -2,6 +2,7 @@ name: apex-rag
 
 services:
   db:
+    # Development-only credentials. Do not use these in production.
     image: pgvector/pgvector:pg16
     container_name: apex-rag-db
     environment:

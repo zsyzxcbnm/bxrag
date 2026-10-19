@@ -45,4 +45,3 @@ def test_evaluate_ranking_contains_required_metrics() -> None:
     assert metrics["recall@1"] == 0.0
     assert metrics["recall@3"] == 1.0
     assert metrics["ndcg@5"] > 0.0
-

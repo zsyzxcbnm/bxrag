@@ -76,4 +76,3 @@ def first_relevant_rank(ranked_ids: Sequence[str], relevant_ids: Iterable[str]) 
         if doc_id in relevant:
             return index
     return None
-

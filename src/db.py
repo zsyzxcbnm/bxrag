@@ -15,6 +15,7 @@ from psycopg import sql
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
+from src.exceptions import StorageError
 from src.models import Chunk, Document, SearchHit
 
 
@@ -137,9 +138,7 @@ class Database:
             connection.execute(
                 "CREATE INDEX IF NOT EXISTS idx_chunks_strategy ON chunks(chunk_strategy)"
             )
-            connection.execute(
-                "CREATE INDEX IF NOT EXISTS idx_chunks_fts ON chunks USING gin(fts)"
-            )
+            connection.execute("CREATE INDEX IF NOT EXISTS idx_chunks_fts ON chunks USING gin(fts)")
             connection.execute(
                 sql.SQL(
                     """
@@ -199,7 +198,7 @@ class Database:
         """Idempotently insert or update chunks and their vectors."""
 
         if len(chunks) != len(embeddings):
-            raise ValueError("chunks and embeddings must have the same length")
+            raise StorageError("chunks and embeddings must have the same length")
         rows = [
             (
                 chunk.chunk_id,
@@ -238,7 +237,7 @@ class Database:
         allowed = {"card_tier", "effective_year", "category"}
         unknown = set(filters) - allowed
         if unknown:
-            raise ValueError(f"Unsupported filters: {sorted(unknown)}")
+            raise StorageError(f"Unsupported filters: {sorted(unknown)}")
         clauses = [f"d.{key} = %s" for key in filters]
         values = [str(value) for value in filters.values()]
         return clauses, values
@@ -254,7 +253,7 @@ class Database:
         """Return dense cosine candidates and elapsed milliseconds."""
 
         if limit <= 0:
-            raise ValueError("limit must be positive")
+            raise StorageError("limit must be positive")
         started = time.perf_counter()
         with self._session() as connection:
             if force_index:
@@ -282,7 +281,7 @@ class Database:
         """Return PostgreSQL full-text candidates and elapsed milliseconds."""
 
         if limit <= 0:
-            raise ValueError("limit must be positive")
+            raise StorageError("limit must be positive")
         terms = re.findall(r"[A-Za-z0-9%]+", query)
         sparse_query = " OR ".join(terms) if terms else query
         clauses, filter_values = self._filter_clause(filters)
@@ -303,7 +302,7 @@ class Database:
             FROM chunks c
             JOIN documents d ON d.doc_id = c.doc_id
             CROSS JOIN q
-            WHERE {' AND '.join(where)}
+            WHERE {" AND ".join(where)}
             ORDER BY score DESC, c.chunk_id
             LIMIT {int(limit)}
         """
@@ -313,8 +312,7 @@ class Database:
             rows = connection.execute(query_sql, params).fetchall()
         elapsed = (time.perf_counter() - started) * 1000
         hits = [
-            self._row_to_hit(row, source="sparse", rank=index + 1)
-            for index, row in enumerate(rows)
+            self._row_to_hit(row, source="sparse", rank=index + 1) for index, row in enumerate(rows)
         ]
         return hits, elapsed
 
@@ -538,4 +536,3 @@ class Database:
         with self._session() as connection:
             rows = connection.execute("SELECT doc_id FROM documents ORDER BY doc_id").fetchall()
         return [str(row["doc_id"]) for row in rows]
-

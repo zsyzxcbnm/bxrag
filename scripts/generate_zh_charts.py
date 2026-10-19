@@ -123,9 +123,7 @@ def chart_chunking(chunking: dict[str, Any]) -> None:
 
 def chart_index_tuning(payload: dict[str, Any]) -> None:
     rows = payload["results"]
-    labels = [
-        f"m={row['m']}, efc={row['ef_construction']}, efs={row['ef_search']}" for row in rows
-    ]
+    labels = [f"m={row['m']}, efc={row['ef_construction']}, efs={row['ef_search']}" for row in rows]
     p50 = [row["p50_ms"] for row in rows]
     p99 = [row["p99_ms"] for row in rows]
     positions = list(range(len(rows)))

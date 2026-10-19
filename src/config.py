@@ -66,4 +66,3 @@ def get_settings() -> Settings:
     settings = Settings()
     settings.ensure_directories()
     return settings
-

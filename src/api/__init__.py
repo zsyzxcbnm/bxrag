@@ -1,2 +1,1 @@
 """Optional FastAPI service."""
-

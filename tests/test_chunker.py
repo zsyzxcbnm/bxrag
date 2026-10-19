@@ -39,4 +39,3 @@ def test_all_strategies_dispatch() -> None:
     for strategy in ("document", "fixed", "semantic"):
         chunks.extend(chunk_documents([_document()], strategy))
     assert {chunk.strategy for chunk in chunks} == {"document", "fixed", "semantic"}
-

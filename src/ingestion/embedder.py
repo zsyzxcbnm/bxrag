@@ -14,6 +14,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import normalize
 
 from src.config import Settings
+from src.exceptions import ConfigurationError, EmbeddingError
 
 
 @runtime_checkable
@@ -56,7 +57,7 @@ class LocalTfidfSvdEmbedder:
 
     def fit(self, texts: Sequence[str]) -> None:
         if not texts:
-            raise ValueError("Cannot fit embedder on an empty corpus")
+            raise EmbeddingError("Cannot fit embedder on an empty corpus")
         self._vectorizer = TfidfVectorizer(
             ngram_range=(1, 2),
             sublinear_tf=True,
@@ -67,14 +68,14 @@ class LocalTfidfSvdEmbedder:
         matrix = self._vectorizer.fit_transform(texts)
         max_components = min(matrix.shape[0] - 1, matrix.shape[1] - 1, self.dim)
         if max_components < 2:
-            raise ValueError("Corpus is too small for a dense LSA embedding")
+            raise EmbeddingError("Corpus is too small for a dense LSA embedding")
         self.dim = max_components
         self._svd = TruncatedSVD(n_components=self.dim, random_state=42)
         self._svd.fit(matrix)
 
     def embed(self, texts: Sequence[str]) -> np.ndarray:
         if self._vectorizer is None or self._svd is None:
-            raise RuntimeError("Embedder has not been fitted or loaded")
+            raise EmbeddingError("Embedder has not been fitted or loaded")
         matrix = self._vectorizer.transform(texts)
         vectors = self._svd.transform(matrix)
         return cast(np.ndarray, np.asarray(normalize(vectors), dtype=np.float32))
@@ -84,7 +85,7 @@ class LocalTfidfSvdEmbedder:
 
     def save(self, path: Path) -> None:
         if self._vectorizer is None or self._svd is None:
-            raise RuntimeError("Cannot save an unfitted embedder")
+            raise EmbeddingError("Cannot save an unfitted embedder")
         path.parent.mkdir(parents=True, exist_ok=True)
         joblib.dump(
             {
@@ -109,7 +110,7 @@ class OpenAIEmbedder:
 
     def __init__(self, model: str, api_key: str | None, dim: int) -> None:
         if not api_key:
-            raise ValueError("OPENAI_API_KEY is required for the openai embedding provider")
+            raise ConfigurationError("OPENAI_API_KEY is required for the openai embedding provider")
         from openai import OpenAI
 
         self.name = model
@@ -165,7 +166,7 @@ class SentenceTransformerEmbedder:
         )
         dimension = dimension_getter()
         if dimension is None:
-            raise RuntimeError(f"Could not determine embedding dimension for {model_name}")
+            raise EmbeddingError(f"Could not determine embedding dimension for {model_name}")
         self.dim = int(dimension)
 
     def fit(self, texts: Sequence[str]) -> None:
@@ -225,9 +226,8 @@ def build_embedder(
     if artifact_path.exists() and not force_fit:
         return LocalTfidfSvdEmbedder.load(artifact_path)
     if texts is None:
-        raise ValueError("Training texts are required to build a new local embedder")
+        raise ConfigurationError("Training texts are required to build a new local embedder")
     embedder = LocalTfidfSvdEmbedder(dim=settings.embedding_dim)
     embedder.fit(texts)
     embedder.save(artifact_path)
     return embedder
-

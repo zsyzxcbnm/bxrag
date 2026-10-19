@@ -6,6 +6,8 @@ import argparse
 import json
 import logging
 
+import psycopg
+
 from src.config import Settings, get_settings
 from src.db import Database
 from src.db_memory import MemoryDatabase
@@ -15,6 +17,7 @@ from src.eval.chunking import compare_chunking, write_chunking_report
 from src.eval.index_tuning import run_index_tuning, write_index_report
 from src.eval.report import generate_report
 from src.eval.runner import EvalRunner, write_evaluation
+from src.exceptions import ApexRagError, ConfigurationError
 from src.ingestion.chunker import chunk_documents
 from src.ingestion.embedder import Embedder, build_embedder
 from src.ingestion.loader import load_documents, load_queries
@@ -201,7 +204,7 @@ def _init_db(settings: Settings, reset: bool) -> None:
     try:
         embedder = _load_embedder(settings)
         dim = embedder.dim
-    except (FileNotFoundError, ValueError):
+    except (FileNotFoundError, ValueError, ConfigurationError):
         dim = settings.embedding_dim
     database = Database(
         dsn=settings.postgres_dsn,
@@ -286,7 +289,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main() -> None:
+def _main() -> None:
     """Parse arguments and dispatch the requested command."""
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -349,6 +352,16 @@ def main() -> None:
         )
         _evaluate(settings, repeats=3, backend=backend, database=database)
         _compare_chunking(settings)
+
+
+def main() -> None:
+    """Run the CLI with a user-facing error boundary."""
+
+    try:
+        _main()
+    except (ApexRagError, psycopg.Error) as exc:
+        logging.getLogger("apex-rag").error("%s", exc)
+        raise SystemExit(1) from exc
 
 
 if __name__ == "__main__":

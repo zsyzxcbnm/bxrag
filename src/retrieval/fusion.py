@@ -49,4 +49,3 @@ def rrf_fuse(
         hit = representatives[doc_id]
         fused.append(replace(hit, score=score, source="rrf", rank=index))
     return fused
-

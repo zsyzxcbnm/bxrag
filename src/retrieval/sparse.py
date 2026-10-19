@@ -20,4 +20,3 @@ class SparseRetriever:
         filters: dict[str, str] | None = None,
     ) -> tuple[list[SearchHit], float]:
         return self.database.search_sparse(query, limit, chunk_strategy, filters)
-

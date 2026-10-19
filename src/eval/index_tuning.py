@@ -211,4 +211,3 @@ The project restores the default HNSW configuration after the sweep.
     path = reports_dir / "index_tuning.md"
     path.write_text(report, encoding="utf-8")
     return path
-

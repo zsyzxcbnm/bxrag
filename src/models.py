@@ -82,4 +82,3 @@ class RetrievalResult:
     parsed_query: ParsedQuery
     mode: str
     timings_ms: dict[str, float]
-

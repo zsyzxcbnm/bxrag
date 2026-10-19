@@ -1,4 +1,7 @@
 .env
+.env.*
+!.env.example
+!.env.production.example
 .git-local/
 dist/
 /AI Engineer 技术评估.pdf

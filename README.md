@@ -107,6 +107,19 @@ python -m src.cli all --backend memory
 This path is useful for CI and for reviewing the metrics without starting a
 database. The PostgreSQL path remains the production-oriented implementation.
 
+## Configuration and secrets
+
+- `.env.example` is a development template (local Docker credentials).
+- `.env.production.example` is a production template with placeholders.
+- A real `.env`, database password, API key, or private model path must never
+  be committed. Inject them through the deployment platform or a secret
+  manager.
+- `pydantic-settings` loads configuration from environment variables and
+  `.env`; paths and model locations are configurable rather than hard-coded in
+  the Python source.
+- The CLI reports expected application errors through a single boundary and
+  exits non-zero without dumping a full traceback.
+
 ## Embedding and reranker providers
 
 The default is deliberately offline and reproducible:

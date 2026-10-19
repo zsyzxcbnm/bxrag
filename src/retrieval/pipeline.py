@@ -9,6 +9,7 @@ import numpy as np
 
 from src.config import Settings
 from src.db_protocol import DatabaseLike
+from src.exceptions import RetrievalError
 from src.ingestion.embedder import Embedder
 from src.models import ParsedQuery, RetrievalResult, SearchHit
 from src.retrieval.dense import DenseRetriever
@@ -109,7 +110,7 @@ class RetrievalPipeline:
         """Run one of four retrieval modes and return ranked document hits."""
 
         if mode not in {"dense_only", "sparse_only", "hybrid", "hybrid_rerank"}:
-            raise ValueError(f"Unknown retrieval mode: {mode}")
+            raise RetrievalError(f"Unknown retrieval mode: {mode}")
 
         started = time.perf_counter()
         parsed = parse_query(query)
@@ -134,7 +135,7 @@ class RetrievalPipeline:
         needs_sparse = mode in {"sparse_only", "hybrid", "hybrid_rerank"}
         if needs_dense:
             if query_vector is None:
-                raise RuntimeError("Dense retrieval requires a query vector")
+                raise RetrievalError("Dense retrieval requires a query vector")
             dense_hits, elapsed, _ = self._dense_with_fallback(
                 query_vector, chunk_strategy, filters
             )
@@ -172,4 +173,3 @@ class RetrievalPipeline:
 
         timings["total_ms"] = (time.perf_counter() - started) * 1000
         return RetrievalResult(hits=hits, parsed_query=parsed, mode=mode, timings_ms=timings)
-

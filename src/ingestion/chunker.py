@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 
+from src.exceptions import IngestionError
 from src.models import Chunk, Document
 
 _SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
@@ -36,9 +37,9 @@ def fixed_window_chunks(
     """Split a document with a sliding word window."""
 
     if max_words <= 0:
-        raise ValueError("max_words must be positive")
+        raise IngestionError("max_words must be positive")
     if overlap_words < 0 or overlap_words >= max_words:
-        raise ValueError("overlap_words must be in [0, max_words)")
+        raise IngestionError("overlap_words must be in [0, max_words)")
 
     words = f"{document.title}. {document.content}".split()
     chunks: list[Chunk] = []
@@ -57,12 +58,10 @@ def semantic_chunks(document: Document, max_chars: int = 360) -> list[Chunk]:
     """Group sentences into small, context-preserving semantic units."""
 
     if max_chars <= 0:
-        raise ValueError("max_chars must be positive")
+        raise IngestionError("max_chars must be positive")
 
     sentences = [
-        part.strip()
-        for part in _SENTENCE_SPLIT_RE.split(document.content)
-        if part.strip()
+        part.strip() for part in _SENTENCE_SPLIT_RE.split(document.content) if part.strip()
     ]
     groups: list[str] = []
     current: list[str] = []
@@ -99,6 +98,5 @@ def chunk_documents(
         elif strategy == "semantic":
             chunks.extend(semantic_chunks(document))
         else:
-            raise ValueError(f"Unknown chunking strategy: {strategy}")
+            raise IngestionError(f"Unknown chunking strategy: {strategy}")
     return chunks
-

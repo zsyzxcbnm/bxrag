@@ -29,4 +29,3 @@ class DenseRetriever:
             filters,
             force_index=force_index,
         )
-

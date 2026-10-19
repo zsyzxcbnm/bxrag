@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from src.exceptions import IngestionError
 from src.ingestion.normalizer import normalize_document
 from src.models import Document, QueryExample
 
@@ -13,7 +14,7 @@ def _load_json(path: Path) -> list[dict[str, object]]:
     with path.open("r", encoding="utf-8") as handle:
         data = json.load(handle)
     if not isinstance(data, list):
-        raise ValueError(f"Expected a JSON array in {path}")
+        raise IngestionError(f"Expected a JSON array in {path}")
     return data
 
 
@@ -24,7 +25,7 @@ def load_documents(path: Path) -> list[Document]:
     documents = [normalize_document(raw) for raw in raw_documents]
     ids = [document.doc_id for document in documents]
     if len(ids) != len(set(ids)):
-        raise ValueError("Duplicate doc_id values found in knowledge base")
+        raise IngestionError("Duplicate doc_id values found in knowledge base")
     return documents
 
 
@@ -41,13 +42,13 @@ def load_queries(path: Path, known_doc_ids: set[str] | None = None) -> list[Quer
             raise ValueError(f"Query {query_id} relevant_doc_ids must be a list")
         relevant = tuple(str(item) for item in raw_relevant)
         if not query_id or not query:
-            raise ValueError("Each query requires query_id and query")
+            raise IngestionError("Each query requires query_id and query")
         if not relevant:
-            raise ValueError(f"Query {query_id} has no relevant_doc_ids")
+            raise IngestionError(f"Query {query_id} has no relevant_doc_ids")
         if known_doc_ids is not None:
             missing = sorted(set(relevant) - known_doc_ids)
             if missing:
-                raise ValueError(f"Query {query_id} references unknown docs: {missing}")
+                raise IngestionError(f"Query {query_id} references unknown docs: {missing}")
         queries.append(
             QueryExample(
                 query_id=query_id,
@@ -58,6 +59,5 @@ def load_queries(path: Path, known_doc_ids: set[str] | None = None) -> list[Quer
         )
     query_ids = [query.query_id for query in queries]
     if len(query_ids) != len(set(query_ids)):
-        raise ValueError("Duplicate query_id values found in benchmark")
+        raise IngestionError("Duplicate query_id values found in benchmark")
     return queries
-

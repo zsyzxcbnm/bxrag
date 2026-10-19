@@ -47,11 +47,7 @@ _STOPWORDS = {
 
 
 def _tokenize(text: str) -> list[str]:
-    return [
-        token
-        for token in _TOKEN_RE.findall(text.lower())
-        if token not in _STOPWORDS
-    ]
+    return [token for token in _TOKEN_RE.findall(text.lower()) if token not in _STOPWORDS]
 
 
 class MemoryDatabase:
@@ -152,14 +148,10 @@ class MemoryDatabase:
         query = np.asarray(query_vector, dtype=np.float32)
         candidates = self._candidate_chunks(chunk_strategy, filters)
         scored = [
-            (float(np.dot(query, self.vectors[chunk.chunk_id])), chunk)
-            for chunk in candidates
+            (float(np.dot(query, self.vectors[chunk.chunk_id])), chunk) for chunk in candidates
         ]
         scored.sort(key=lambda item: item[0], reverse=True)
-        hits = [
-            self._to_hit(chunk, score, "dense")
-            for score, chunk in scored[:limit]
-        ]
+        hits = [self._to_hit(chunk, score, "dense") for score, chunk in scored[:limit]]
         for index, hit in enumerate(hits, start=1):
             hit.rank = index
         return hits, (time.perf_counter() - started) * 1000
@@ -194,10 +186,7 @@ class MemoryDatabase:
             if score > 0:
                 scored.append((score, chunk))
         scored.sort(key=lambda item: item[0], reverse=True)
-        hits = [
-            self._to_hit(chunk, score, "sparse")
-            for score, chunk in scored[:limit]
-        ]
+        hits = [self._to_hit(chunk, score, "sparse") for score, chunk in scored[:limit]]
         for index, hit in enumerate(hits, start=1):
             hit.rank = index
         return hits, (time.perf_counter() - started) * 1000
@@ -209,4 +198,3 @@ class MemoryDatabase:
             "strategies": len({chunk.strategy for chunk in self.chunks.values()}),
             "chunks_size": "in-memory",
         }
-

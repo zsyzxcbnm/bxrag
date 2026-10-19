@@ -93,6 +93,17 @@ python -m src.cli all --backend memory
 离线后端使用内存 BM25 + cosine，只用于验证检索和评测逻辑；正式指标请使用
 PostgreSQL/pgvector 后端。
 
+## 配置与密钥
+
+- `.env.example` 是本地开发模板，里面的 `apex/apex` 只用于 Docker 开发。
+- `.env.production.example` 是生产模板，只包含占位符，不包含真实密码。
+- 真实的 `.env`、数据库密码、API Key、私有模型路径不能提交到 Git；生产环境
+  应通过部署平台或密钥管理服务注入。
+- 配置由 `pydantic-settings` 统一读取，模型路径、数据库地址和检索参数都可以
+  通过环境变量覆盖。
+- CLI 有统一异常边界：业务配置/数据/存储错误会输出清晰错误并以非零状态退出，
+  不会直接甩出完整堆栈。
+
 ## Embedding 方案
 
 项目支持三种 Embedding：

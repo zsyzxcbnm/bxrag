@@ -178,9 +178,7 @@ def write_ablation(payload: dict[str, Any], reports_dir: Path) -> Path:
         newline="",
     ) as handle:
         writer = csv.writer(handle)
-        writer.writerow(
-            ["pipeline", "recall@1", "recall@3", "mrr", "ndcg@5", "p50_ms", "p99_ms"]
-        )
+        writer.writerow(["pipeline", "recall@1", "recall@3", "mrr", "ndcg@5", "p50_ms", "p99_ms"])
         writer.writerows(rows)
 
     lines = [
@@ -213,4 +211,3 @@ the independent Cross-Encoder control.
     path = reports_dir / "ablation_metadata.md"
     path.write_text(report, encoding="utf-8")
     return path
-

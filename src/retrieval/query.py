@@ -40,4 +40,3 @@ def parse_query(query: str) -> ParsedQuery:
         effective_year=year_match.group(1) if year_match else None,
         policy_code=policy_match.group(0).upper() if policy_match else None,
     )
-

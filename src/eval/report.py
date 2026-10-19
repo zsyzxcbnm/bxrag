@@ -287,4 +287,3 @@ tested `m`, `ef_construction` and `ef_search` values remain far below 100 ms;
     report_path = reports_dir / "results.md"
     report_path.write_text(report, encoding="utf-8")
     return report_path
-

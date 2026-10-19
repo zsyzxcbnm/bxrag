@@ -6,6 +6,7 @@ import hashlib
 import re
 from typing import Any
 
+from src.exceptions import IngestionError
 from src.models import Document
 
 _POLICY_CODE_RE = re.compile(r"Policy Code:\s*([^\.]+)")
@@ -16,7 +17,7 @@ _TRAILING_YEAR_RE = re.compile(r"\s*\((?:19|20)\d{2}\)\s*$")
 def _required_text(raw: dict[str, Any], key: str) -> str:
     value = str(raw.get(key, "")).strip()
     if not value:
-        raise ValueError(f"Document field {key!r} is required")
+        raise IngestionError(f"Document field {key!r} is required")
     return value
 
 
@@ -37,7 +38,7 @@ def normalize_document(raw: dict[str, Any]) -> Document:
     card_tier = _required_text(raw, "card_tier")
     effective_year = str(raw.get("effective_year", "")).strip()
     if not effective_year:
-        raise ValueError(f"Document {doc_id} is missing effective_year")
+        raise IngestionError(f"Document {doc_id} is missing effective_year")
 
     match = _POLICY_CODE_RE.search(content)
     policy_code = match.group(1).strip() if match else ""
@@ -64,4 +65,3 @@ def normalize_document(raw: dict[str, Any]) -> Document:
         content_hash=content_hash,
         metadata=metadata,
     )
-

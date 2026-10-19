@@ -24,4 +24,3 @@ def test_year_and_policy_code() -> None:
     parsed = parse_query("Show FRD-101-APEX-2024 rules for 2024")
     assert parsed.effective_year == "2024"
     assert parsed.policy_code == "FRD-101-APEX-2024"
-

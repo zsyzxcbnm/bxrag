@@ -117,9 +117,7 @@ class EvalRunner:
                     "query": query.query,
                     "relevant_doc_ids": list(query.relevant_doc_ids),
                     "ranked_doc_ids": ranked_ids,
-                    "first_relevant_rank": first_relevant_rank(
-                        ranked_ids, query.relevant_doc_ids
-                    ),
+                    "first_relevant_rank": first_relevant_rank(ranked_ids, query.relevant_doc_ids),
                     "metrics": metrics,
                     "latency_ms": {
                         "median": statistics.median(query_latencies),
@@ -146,8 +144,7 @@ class EvalRunner:
                 }
 
             summary_metrics = {
-                name: round(statistics.fmean(values), 6)
-                for name, values in mode_metrics.items()
+                name: round(statistics.fmean(values), 6) for name, values in mode_metrics.items()
             }
             summary_latency = {
                 "p50_ms": round(percentile(retrieval_latencies, 50), 3),
@@ -176,4 +173,3 @@ def write_evaluation(payload: dict[str, Any], path: Path) -> None:
 
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-

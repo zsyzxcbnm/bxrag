@@ -84,8 +84,7 @@ def compare_chunking(
                 2,
             ),
             "metrics": {
-                name: round(statistics.fmean(values), 6)
-                for name, values in metric_values.items()
+                name: round(statistics.fmean(values), 6) for name, values in metric_values.items()
             },
             "latency": {
                 "p50_ms": round(percentile(latencies, 50), 3),
@@ -160,10 +159,7 @@ def write_chunking_report(payload: dict[str, Any], reports_dir: Path) -> Path:
     metric_names = ["recall@1", "recall@5", "mrr", "ndcg@5"]
     width = 0.24
     for index, strategy in enumerate(STRATEGIES):
-        values = [
-            payload["strategies"][strategy]["metrics"].get(name, 0)
-            for name in metric_names
-        ]
+        values = [payload["strategies"][strategy]["metrics"].get(name, 0) for name in metric_names]
         positions = [position + index * width for position in range(len(metric_names))]
         ax.bar(positions, values, width=width, label=labels[strategy])
     ax.set_xticks([position + width for position in range(len(metric_names))])
@@ -205,4 +201,3 @@ the corpus grows into longer policy documents.
     path = reports_dir / "chunking.md"
     path.write_text(report, encoding="utf-8")
     return path
-

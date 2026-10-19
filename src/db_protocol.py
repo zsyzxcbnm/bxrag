@@ -46,4 +46,3 @@ class DatabaseLike(Protocol):
 
     def stats(self) -> dict[str, Any]:
         """Return storage statistics."""
-
