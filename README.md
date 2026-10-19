@@ -18,8 +18,8 @@ chat model sounds convincing.
 
 Current PostgreSQL + pgvector run with local BGE-large-en-v1.5: dense-only
 Recall@1 **0.772** / MRR **0.922**; hybrid + rerank Recall@1 **0.817** / MRR
-**0.967** / nDCG@5 **0.964**, retrieval P50 **8.8 ms** and P99 **12.1 ms**;
-CPU query embedding adds about **171 ms** P50. The HNSW sweep reports 2.5 ms P50
+**0.967** / nDCG@5 **0.964**, retrieval P50 **9.1 ms** and P99 **13.3 ms**;
+CPU query embedding adds about **175 ms** P50. The HNSW sweep reports 2.5 ms P50
 / 7-8 ms P99. See
 [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).

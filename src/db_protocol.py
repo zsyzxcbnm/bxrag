@@ -16,6 +16,9 @@ class DatabaseLike(Protocol):
     def init_schema(self, reset: bool = False) -> None:
         """Create or reset the storage layer."""
 
+    def clone(self) -> DatabaseLike:
+        """Return an independent or safely shareable backend handle."""
+
     def upsert_documents(self, documents: Sequence[Document]) -> None:
         """Insert or update documents."""
 

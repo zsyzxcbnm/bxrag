@@ -74,6 +74,11 @@ class MemoryDatabase:
         if reset:
             self.clear()
 
+    def clone(self) -> MemoryDatabase:
+        """Memory reads are safe to share, so return the same store."""
+
+        return self
+
     def clear(self) -> None:
         self.documents.clear()
         self.chunks.clear()

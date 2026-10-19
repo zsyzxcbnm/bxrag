@@ -36,6 +36,17 @@ class Database:
         self.hnsw_ef_search = int(hnsw_ef_search)
         self._connection: psycopg.Connection[dict[str, Any]] | None = None
 
+    def clone(self) -> Database:
+        """Create an independent connection holder with the same settings."""
+
+        return Database(
+            dsn=self.dsn,
+            embedding_dim=self.embedding_dim,
+            hnsw_m=self.hnsw_m,
+            hnsw_ef_construction=self.hnsw_ef_construction,
+            hnsw_ef_search=self.hnsw_ef_search,
+        )
+
     def _get_connection(self) -> psycopg.Connection[dict[str, Any]]:
         """Return a reusable connection with vector adapters registered."""
 
@@ -43,6 +54,7 @@ class Database:
             self._connection = psycopg.connect(self.dsn, row_factory=dict_row)
             register_vector(self._connection)
             self._connection.execute("SET jit = off")
+            self._connection.execute(f"SET hnsw.ef_search = {self.hnsw_ef_search}")
         return self._connection
 
     @contextmanager
@@ -245,7 +257,6 @@ class Database:
             raise ValueError("limit must be positive")
         started = time.perf_counter()
         with self._session() as connection:
-            connection.execute(f"SET LOCAL hnsw.ef_search = {self.hnsw_ef_search}")
             if force_index:
                 connection.execute("SET LOCAL enable_seqscan = off")
                 connection.execute("SET LOCAL enable_bitmapscan = off")
@@ -324,7 +335,6 @@ class Database:
             raise ValueError("limit must be positive")
         started = time.perf_counter()
         with self._session() as connection:
-            connection.execute(f"SET LOCAL hnsw.ef_search = {self.hnsw_ef_search}")
             connection.execute("SET LOCAL enable_seqscan = off")
             connection.execute("SET LOCAL enable_bitmapscan = off")
             ids = self._candidate_ids(

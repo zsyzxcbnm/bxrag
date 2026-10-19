@@ -1,6 +1,6 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T12:57:55.343630+00:00`.
+Generated at `2026-10-19T13:05:07.793244+00:00`.
 
 ## Setup
 
@@ -22,10 +22,10 @@ Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 3.42 | 9.92 |
-| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 2.51 | 4.33 |
-| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 7.80 | 16.79 |
-| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 8.76 | 12.06 |
+| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 3.55 | 9.99 |
+| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 3.03 | 5.82 |
+| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 7.77 | 14.00 |
+| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 9.10 | 13.26 |
 
 The table's P50/P99 columns measure the retrieval path (query embedding excluded):
 vector search, sparse search, fusion and reranking. Query-embedding latency is
@@ -33,10 +33,10 @@ reported separately because it depends on the model and device:
 
 | Pipeline | Embedding P50 (ms) | Embedding P99 (ms) |
 |---|---:|---:|
-| Dense only | 162.84 | 179.79 |
+| Dense only | 168.12 | 196.96 |
 | Sparse only | 0.00 | 0.00 |
-| Hybrid (RRF) | 176.93 | 236.56 |
-| Hybrid + rerank | 170.62 | 189.74 |
+| Hybrid (RRF) | 178.89 | 207.52 |
+| Hybrid + rerank | 174.65 | 253.86 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 

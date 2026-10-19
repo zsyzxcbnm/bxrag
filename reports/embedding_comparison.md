@@ -19,7 +19,7 @@ edge on nDCG@5 (0.964 vs 0.961).
 
 The important tradeoff is latency:
 
-- BGE query embedding: about **171 ms** P50 / **190 ms** P99 on CPU.
+- BGE query embedding: about **175 ms** P50 on CPU.
 - Qwen3 query embedding: about **387 ms** P50 / **460 ms** P99 on CPU.
 - Both retrieval paths are about 8-12 ms P50/P99.
 
@@ -27,8 +27,8 @@ The important tradeoff is latency:
 
 On the current CPU-only PyTorch environment:
 
-- PostgreSQL retrieval path: about 8 ms P50 / 12 ms P99.
-- BGE query embedding: about 171 ms P50 / 190 ms P99.
+- PostgreSQL retrieval path: about 9 ms P50 / 13 ms P99.
+- BGE query embedding: about 175 ms P50.
 - Qwen3 query embedding: about 387 ms P50 / 460 ms P99.
 - The first model load takes roughly 14 seconds.
 

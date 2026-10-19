@@ -129,14 +129,16 @@ class RetrievalPipeline:
 
         dense_hits: list[SearchHit] = []
         sparse_hits: list[SearchHit] = []
-        if mode in {"dense_only", "hybrid", "hybrid_rerank"}:
+        needs_dense = mode in {"dense_only", "hybrid", "hybrid_rerank"}
+        needs_sparse = mode in {"sparse_only", "hybrid", "hybrid_rerank"}
+        if needs_dense:
             if query_vector is None:
                 raise RuntimeError("Dense retrieval requires a query vector")
             dense_hits, elapsed, _ = self._dense_with_fallback(
                 query_vector, chunk_strategy, filters
             )
             timings["dense_ms"] = elapsed
-        if mode in {"sparse_only", "hybrid", "hybrid_rerank"}:
+        if needs_sparse:
             sparse_hits, elapsed, _ = self._sparse_with_fallback(query, chunk_strategy, filters)
             timings["sparse_ms"] = elapsed
 
