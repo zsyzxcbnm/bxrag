@@ -1,5 +1,7 @@
 # Production Roadmap: From 150 Chunks to 10 Million
 
+中文版：[roadmap.zh-CN.md](roadmap.zh-CN.md)
+
 ## 1. Scale the retrieval path
 
 At 10M chunks with 1,536-dimensional float32 vectors, raw vectors alone are

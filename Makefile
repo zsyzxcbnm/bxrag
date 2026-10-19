@@ -1,4 +1,4 @@
-.PHONY: up down install init ingest index eval chunking index-bench all test lint typecheck reset
+.PHONY: up down install init ingest index eval chunking index-bench zh-charts all test lint typecheck reset
 
 up:
 	docker compose up -d db
@@ -26,6 +26,9 @@ chunking:
 
 index-bench:
 	python -m src.cli benchmark-index
+
+zh-charts:
+	python scripts/generate_zh_charts.py
 
 all:
 	python -m src.cli all

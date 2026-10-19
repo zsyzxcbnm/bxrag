@@ -5,6 +5,11 @@ credit-card support knowledge base. The project is intentionally retrieval-first
 the benchmark measures whether the right policy document is found, not whether a
 chat model sounds convincing.
 
+Chinese documentation: [README.zh-CN.md](README.zh-CN.md) ·
+[战略架构路线图](docs/roadmap.zh-CN.md) ·
+[中文评测报告](reports/results.zh-CN.md) ·
+[中文图表](reports/figures/metrics_comparison_zh.png).
+
 ## What is included
 
 - PostgreSQL + `pgvector` storage with HNSW and full-text indexes.
