@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import re
 import time
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable, Iterator, Sequence
+from contextlib import contextmanager
 from typing import Any
 
 import numpy as np
@@ -32,19 +34,41 @@ class Database:
         self.hnsw_m = int(hnsw_m)
         self.hnsw_ef_construction = int(hnsw_ef_construction)
         self.hnsw_ef_search = int(hnsw_ef_search)
+        self._connection: psycopg.Connection[dict[str, Any]] | None = None
 
-    def connect(self, register_adapter: bool = True) -> psycopg.Connection[dict[str, Any]]:
-        """Open a connection with vector adapters and dictionary rows."""
+    def _get_connection(self) -> psycopg.Connection[dict[str, Any]]:
+        """Return a reusable connection with vector adapters registered."""
 
-        connection = psycopg.connect(self.dsn, row_factory=dict_row)
-        if register_adapter:
-            register_vector(connection)
-        return connection
+        if self._connection is None or self._connection.closed:
+            self._connection = psycopg.connect(self.dsn, row_factory=dict_row)
+            register_vector(self._connection)
+            self._connection.execute("SET jit = off")
+        return self._connection
+
+    @contextmanager
+    def _session(self) -> Iterator[psycopg.Connection[dict[str, Any]]]:
+        """Commit a transaction without closing the reusable connection."""
+
+        connection = self._get_connection()
+        try:
+            yield connection
+            connection.commit()
+        except Exception:
+            connection.rollback()
+            raise
+
+    def close(self) -> None:
+        """Close the cached connection."""
+
+        if self._connection is not None and not self._connection.closed:
+            self._connection.close()
+        self._connection = None
 
     def init_schema(self, reset: bool = False) -> None:
         """Create extension, tables and indexes."""
 
-        with self.connect(register_adapter=False) as connection:
+        self.close()
+        with psycopg.connect(self.dsn, row_factory=dict_row) as connection:
             connection.execute("CREATE EXTENSION IF NOT EXISTS vector")
             register_vector(connection)
             if reset:
@@ -135,7 +159,7 @@ class Database:
             )
             for document in documents
         ]
-        with self.connect() as connection, connection.cursor() as cursor:
+        with self._session() as connection, connection.cursor() as cursor:
             cursor.executemany(
                 """
                 INSERT INTO documents (
@@ -176,7 +200,7 @@ class Database:
             )
             for chunk, embedding in zip(chunks, embeddings, strict=True)
         ]
-        with self.connect() as connection, connection.cursor() as cursor:
+        with self._session() as connection, connection.cursor() as cursor:
             cursor.executemany(
                 """
                 INSERT INTO chunks (
@@ -238,7 +262,7 @@ class Database:
         """
         params: list[Any] = [query_vector, chunk_strategy, *filter_values, query_vector, int(limit)]
         started = time.perf_counter()
-        with self.connect() as connection:
+        with self._session() as connection:
             connection.execute(f"SET LOCAL hnsw.ef_search = {self.hnsw_ef_search}")
             rows = connection.execute(query_sql, params).fetchall()
         elapsed = (time.perf_counter() - started) * 1000
@@ -257,6 +281,8 @@ class Database:
     ) -> tuple[list[SearchHit], float]:
         """Return PostgreSQL full-text candidates and elapsed milliseconds."""
 
+        terms = re.findall(r"[A-Za-z0-9%]+", query)
+        sparse_query = " OR ".join(terms) if terms else query
         clauses, filter_values = self._filter_clause(filters)
         where = ["c.chunk_strategy = %s", "c.fts @@ q.tsq", *clauses]
         query_sql = f"""
@@ -279,9 +305,9 @@ class Database:
             ORDER BY score DESC, c.chunk_id
             LIMIT %s
         """
-        params: list[Any] = [query, chunk_strategy, *filter_values, int(limit)]
+        params: list[Any] = [sparse_query, chunk_strategy, *filter_values, int(limit)]
         started = time.perf_counter()
-        with self.connect() as connection:
+        with self._session() as connection:
             rows = connection.execute(query_sql, params).fetchall()
         elapsed = (time.perf_counter() - started) * 1000
         hits = [
@@ -310,7 +336,7 @@ class Database:
     def stats(self) -> dict[str, Any]:
         """Return basic table counts and sizes."""
 
-        with self.connect() as connection:
+        with self._session() as connection:
             row = connection.execute(
                 """
                 SELECT
@@ -325,13 +351,13 @@ class Database:
     def clear(self) -> None:
         """Delete all rows while keeping the schema."""
 
-        with self.connect() as connection:
+        with self._session() as connection:
             connection.execute("TRUNCATE TABLE chunks, documents CASCADE")
 
     def doc_ids(self) -> Iterable[str]:
         """Return all document identifiers."""
 
-        with self.connect() as connection:
+        with self._session() as connection:
             rows = connection.execute("SELECT doc_id FROM documents ORDER BY doc_id").fetchall()
         return [str(row["doc_id"]) for row in rows]
 

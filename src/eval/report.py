@@ -186,6 +186,7 @@ Generated at `{metadata["generated_at"]}`.
 ## Setup
 
 - Queries: **{metadata["query_count"]}**
+- Storage backend: `{metadata["backend"]}`
 - Embedding: `{metadata["embedding_model"]}` ({metadata["embedding_dim"]} dimensions)
 - Embedding provider: `{metadata["embedding_provider"]}`
 - Reranker: `{metadata["reranker"]}`
@@ -193,10 +194,10 @@ Generated at `{metadata["generated_at"]}`.
 - RRF weights: dense **{metadata["dense_weight"]}**, sparse **{metadata["sparse_weight"]}**
 - Rerank candidates: **{metadata["rerank_candidates"]}**
 
-The default offline configuration uses a local TF-IDF + SVD embedding and a
-metadata-aware heuristic reranker so the evaluation is reproducible without
-network access or API keys. The OpenAI embedding and Sentence-Transformers
-Cross-Encoder providers can be enabled through `.env`.
+The local TF-IDF + SVD embedding and metadata-aware heuristic reranker make the
+evaluation reproducible without network access or API keys. The OpenAI
+embedding and Sentence-Transformers Cross-Encoder providers can be enabled
+through `.env`.
 
 ## Results
 
@@ -212,11 +213,24 @@ Cross-Encoder providers can be enabled through `.env`.
   lexical matching on policy numbers, product names and time limits.
 - Hybrid retrieval uses Reciprocal Rank Fusion over dense and PostgreSQL
   full-text candidates.
+- Sparse query terms are OR-ed before `ts_rank_cd`; strict AND semantics
+  produced near-zero recall on long natural-language questions.
 - Hybrid + rerank applies a second-stage scorer to the top candidates and
   returns the final top 5.
 - Recall@10 is deliberately not the headline metric: with 150 short documents
   and multi-label relevance it saturates quickly. Recall@1, MRR and nDCG@5 are
   the discriminating metrics.
+
+## Index verification
+
+The PostgreSQL schema contains `idx_chunks_embedding_hnsw` (HNSW, cosine) and
+`idx_chunks_fts` (GIN). At only 150 chunks the planner correctly prefers a
+sequential scan; forcing `enable_seqscan=off` produces an HNSW index scan with
+about 0.3 ms of scan time, while JIT compilation dominates that one-off plan.
+JIT is disabled on the reusable evaluation connection so it does not inflate
+the reported small-query latency. At larger corpus sizes the same indexes are
+the relevant path; this is why the roadmap treats index tuning as a
+scale-dependent exercise rather than a 150-row benchmark.
 
 {_failure_section(payload)}
 

@@ -42,10 +42,12 @@ class EvalRunner:
         pipeline: RetrievalPipeline,
         settings: Settings,
         repeats: int = 3,
+        backend: str | None = None,
     ) -> None:
         self.pipeline = pipeline
         self.settings = settings
         self.repeats = max(1, repeats)
+        self.backend = backend or settings.backend
 
     def run(self, queries: list[QueryExample]) -> dict[str, Any]:
         """Run all modes and return a JSON-serializable result payload."""
@@ -54,6 +56,7 @@ class EvalRunner:
             "metadata": {
                 "generated_at": datetime.now(UTC).isoformat(),
                 "query_count": len(queries),
+                "backend": self.backend,
                 "embedding_provider": self.settings.embedding_provider,
                 "embedding_model": self.pipeline.embedder.name,
                 "embedding_dim": self.pipeline.embedder.dim,

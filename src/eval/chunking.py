@@ -180,7 +180,8 @@ def write_chunking_report(payload: dict[str, Any], reports_dir: Path) -> Path:
     report = f"""# Chunking Strategy Comparison
 
 This comparison holds the retrieval stack fixed (dense + sparse + weighted RRF
-+ heuristic rerank) and changes only the chunking strategy.
++ heuristic rerank) and changes only the chunking strategy. It uses the
+in-memory backend so every strategy runs under identical conditions.
 
 {table}
 

@@ -109,7 +109,12 @@ def _evaluate(
             else _database(settings, embedder)
         )
     pipeline = RetrievalPipeline(database=database, embedder=embedder, settings=settings)
-    runner = EvalRunner(pipeline=pipeline, settings=settings, repeats=repeats)
+    runner = EvalRunner(
+        pipeline=pipeline,
+        settings=settings,
+        repeats=repeats,
+        backend=backend,
+    )
     payload = runner.run(queries)
     write_evaluation(payload, settings.reports_dir / "results.json")
     report_path = generate_report(payload, settings.reports_dir)

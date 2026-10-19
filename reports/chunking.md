@@ -1,13 +1,14 @@
 # Chunking Strategy Comparison
 
 This comparison holds the retrieval stack fixed (dense + sparse + weighted RRF
-+ heuristic rerank) and changes only the chunking strategy.
++ heuristic rerank) and changes only the chunking strategy. It uses the
+in-memory backend so every strategy runs under identical conditions.
 
 | Strategy | Chunks | Avg tokens | Recall@1 | Recall@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Document-level | 150 | 47.3 | 0.817 | 0.933 | 0.967 | 0.934 | 5.16 | 6.41 |
-| Fixed window | 282 | 29.9 | 0.772 | 0.900 | 0.917 | 0.894 | 5.10 | 6.36 |
-| Semantic | 163 | 49.9 | 0.817 | 0.933 | 0.967 | 0.934 | 5.28 | 6.90 |
+| Document-level | 150 | 47.3 | 0.817 | 0.933 | 0.967 | 0.934 | 5.05 | 5.87 |
+| Fixed window | 282 | 29.9 | 0.772 | 0.900 | 0.917 | 0.894 | 5.04 | 5.78 |
+| Semantic | 163 | 49.9 | 0.817 | 0.933 | 0.967 | 0.934 | 5.12 | 5.56 |
 
 ![Chunking comparison](figures/chunking_comparison.png)
 
