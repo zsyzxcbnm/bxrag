@@ -138,11 +138,14 @@ class OpenAIEmbedder:
 class SentenceTransformerEmbedder:
     """Local Sentence-Transformers embedding with Qwen3 query instructions."""
 
+    _BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
+
     def __init__(
         self,
         model_name: str,
         device: str | None = None,
         max_seq_length: int = 512,
+        query_prompt: str | None = None,
     ) -> None:
         os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
         os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
@@ -152,6 +155,9 @@ class SentenceTransformerEmbedder:
         self._model = SentenceTransformer(model_name, device=device)
         self._model.max_seq_length = max_seq_length
         self.device = str(self._model.device)
+        self.query_prompt = query_prompt
+        if self.query_prompt is None and "bge" in model_name.lower():
+            self.query_prompt = self._BGE_QUERY_PREFIX
         dimension_getter = getattr(
             self._model,
             "get_embedding_dimension",
@@ -180,7 +186,15 @@ class SentenceTransformerEmbedder:
         return self._encode(texts)
 
     def embed_query(self, query: str) -> np.ndarray:
-        return cast(np.ndarray, self._encode([query], prompt_name="query")[0])
+        if self.query_prompt:
+            return cast(
+                np.ndarray,
+                self._encode([f"{self.query_prompt}{query}"])[0],
+            )
+        prompts = getattr(self._model, "prompts", {})
+        if "query" in prompts:
+            return cast(np.ndarray, self._encode([query], prompt_name="query")[0])
+        return cast(np.ndarray, self._encode([query])[0])
 
     def save(self, path: Path) -> None:
         del path
@@ -204,6 +218,7 @@ def build_embedder(
         return SentenceTransformerEmbedder(
             model_name=settings.embedding_model,
             device=settings.embedding_device or None,
+            query_prompt=settings.embedding_query_prompt or None,
         )
 
     artifact_path = settings.artifacts_dir / "local_embedder.joblib"

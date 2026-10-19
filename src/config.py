@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     embedding_dim: int = 128
     openai_api_key: str | None = None
     embedding_device: str | None = None
+    embedding_query_prompt: str | None = None
 
     reranker_provider: Literal["heuristic", "cross-encoder"] = "heuristic"
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"

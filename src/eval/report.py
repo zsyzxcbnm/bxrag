@@ -262,7 +262,7 @@ tested `m`, `ef_construction` and `ef_search` values remain far below 100 ms;
   per query.
 - Dense quality depends on the selected embedding model. The local LSA
   embedding is an offline fallback; Qwen3/OpenAI embeddings can be selected
-  through the provider configuration.
+  through the provider configuration. BGE-large uses its retrieval query prefix.
 - End-to-end latency includes query embedding and reranking; database-only
   latency is reported separately in the raw JSON.
 """

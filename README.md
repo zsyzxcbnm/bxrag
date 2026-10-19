@@ -16,18 +16,19 @@ chat model sounds convincing.
 - Markdown report, CSV raw results and PNG charts.
 - A memory backend that mirrors the database interface for offline validation.
 
-Current PostgreSQL + pgvector run with local Qwen3-Embedding-0.6B: dense-only
-Recall@1 **0.817** / MRR **0.967**; hybrid + rerank Recall@1 **0.817** / MRR
-**0.967** / nDCG@5 **0.961**, retrieval P50 **8 ms** and P99 **12 ms**; CPU
-query embedding adds about **387 ms** P50. The HNSW sweep reports 2.5 ms P50 /
-7-8 ms P99. See
+Current PostgreSQL + pgvector run with local BGE-large-en-v1.5: dense-only
+Recall@1 **0.772** / MRR **0.922**; hybrid + rerank Recall@1 **0.817** / MRR
+**0.967** / nDCG@5 **0.964**, retrieval P50 **8.8 ms** and P99 **12.1 ms**;
+CPU query embedding adds about **171 ms** P50. The HNSW sweep reports 2.5 ms P50
+/ 7-8 ms P99. See
 [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).
 
 | Embedding | Dense Recall@1 | Dense MRR | Hybrid + rerank Recall@1 | Hybrid + rerank MRR | nDCG@5 |
 |---|---:|---:|---:|---:|---:|
 | TF-IDF + SVD baseline | 0.761 | 0.917 | 0.783 | 0.950 | 0.950 |
-| Qwen3-Embedding-0.6B | **0.817** | **0.967** | **0.817** | **0.967** | **0.961** |
+| BGE-large-en-v1.5 | 0.772 | 0.922 | **0.817** | **0.967** | **0.964** |
+| Qwen3-Embedding-0.6B | **0.817** | **0.967** | **0.817** | **0.967** | 0.961 |
 
 ## Architecture
 
@@ -41,7 +42,7 @@ data/kb_documents.json
   document / fixed / semantic chunks
         |
         v
-  embedder (local LSA or OpenAI)
+  embedder (local LSA, BGE, Qwen3 or OpenAI)
         |
         v
   PostgreSQL + pgvector  <-->  PostgreSQL FTS (tsvector)
@@ -126,9 +127,32 @@ Install `pip install -e ".[cross-encoder]"` first. If the model cannot be loaded
 the reranker falls back to the heuristic implementation instead of failing the
 whole evaluation.
 
+## BGE-large-en-v1.5
+
+BGE-large is the recommended English CPU default for this dataset:
+
+```text
+EMBEDDING_PROVIDER=sentence-transformers
+EMBEDDING_MODEL=G:/博贤/data/models/bge-large-en-v1.5
+EMBEDDING_DIM=1024
+EMBEDDING_DEVICE=cpu
+```
+
+The adapter automatically applies BGE's retrieval query prefix:
+`Represent this sentence for searching relevant passages: `. Documents are
+encoded without the prefix. Rebuild and evaluate with:
+
+```powershell
+python -m src.cli reset-db --yes
+python -m src.cli ingest
+python -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
+```
+
+See [reports/results_bge_large_pgvector.md](reports/results_bge_large_pgvector.md).
+
 ## Qwen3-Embedding-0.6B
 
-The Qwen3 embedding is served through the same provider interface:
+Qwen3 remains available through the same provider interface:
 
 ```text
 EMBEDDING_PROVIDER=sentence-transformers

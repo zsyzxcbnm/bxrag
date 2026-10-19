@@ -1,17 +1,17 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T12:37:00.272894+00:00`.
+Generated at `2026-10-19T12:57:55.343630+00:00`.
 
 ## Setup
 
 - Queries: **30**
 - Storage backend: `postgres`
-- Embedding: `G:\博贤\data\models\Qwen3-Embedding-0.6B` (1024 dimensions)
+- Embedding: `G:\博贤\data\models\bge-large-en-v1.5` (1024 dimensions)
 - Embedding provider: `sentence-transformers`
 - Embedding device: `cpu`
 - Reranker: `heuristic`
 - RRF `k`: **60**
-- RRF weights: dense **0.7**, sparse **0.3**
+- RRF weights: dense **0.5**, sparse **0.5**
 - Rerank candidates: **20**
 
 The configured embedding provider and metadata-aware heuristic reranker are
@@ -22,10 +22,10 @@ Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.817 | 0.900 | 0.956 | 0.273 | 0.967 | 0.944 | 3.84 | 9.25 |
-| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 2.67 | 5.10 |
-| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.955 | 6.86 | 11.79 |
-| Hybrid + rerank | 0.817 | 0.933 | 0.967 | 0.280 | 0.967 | 0.961 | 8.18 | 11.76 |
+| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 3.42 | 9.92 |
+| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 2.51 | 4.33 |
+| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 7.80 | 16.79 |
+| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 8.76 | 12.06 |
 
 The table's P50/P99 columns measure the retrieval path (query embedding excluded):
 vector search, sparse search, fusion and reranking. Query-embedding latency is
@@ -33,10 +33,10 @@ reported separately because it depends on the model and device:
 
 | Pipeline | Embedding P50 (ms) | Embedding P99 (ms) |
 |---|---:|---:|
-| Dense only | 440.87 | 482.58 |
+| Dense only | 162.84 | 179.79 |
 | Sparse only | 0.00 | 0.00 |
-| Hybrid (RRF) | 406.80 | 500.49 |
-| Hybrid + rerank | 386.74 | 460.16 |
+| Hybrid (RRF) | 176.93 | 236.56 |
+| Hybrid + rerank | 170.62 | 189.74 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 
@@ -59,19 +59,20 @@ reported separately because it depends on the model and device:
 ## Index verification
 
 The PostgreSQL schema contains `idx_chunks_embedding_hnsw` (HNSW, cosine) and
-`idx_chunks_fts` (GIN). At only 150 chunks the planner correctly prefers a
-sequential scan; forcing `enable_seqscan=off` produces an HNSW index scan with
-about 0.3 ms of scan time, while JIT compilation dominates that one-off plan.
-JIT is disabled on the reusable evaluation connection so it does not inflate
-the reported small-query latency. At larger corpus sizes the same indexes are
-the relevant path; this is why the roadmap treats index tuning as a
-scale-dependent exercise rather than a 150-row benchmark.
+`idx_chunks_fts` (GIN). Dense retrieval is split into an HNSW candidate query
+and a separate document-metadata fetch; this prevents the planner from doing a
+full scan plus sort just to join product metadata. The HNSW sweep in
+`index_tuning.md` reports Recall@10 **1.000** for every tested configuration,
+with candidate-search P50 around **2.5 ms** and P99 around **7-8 ms**. All
+tested `m`, `ef_construction` and `ef_search` values remain far below 100 ms;
+`m=16`, `ef_construction=64`, `ef_search=80` is the default.
 
 ## Failure analysis
 
 Queries where hybrid + rerank moved the first relevant document upward:
 
-- None in this run.
+- Q-009: rank 3 -> 1 — What is the daily cutoff time for submitting payments on time?
+- Q-025: rank 3 -> 1 — What happens if a provisional credit investigation resolves in favor of the merchant?
 
 Queries where hybrid + rerank moved the first relevant document downward:
 
@@ -89,6 +90,6 @@ A second issue is label exhaustiveness. For generic questions the judgment often
   per query.
 - Dense quality depends on the selected embedding model. The local LSA
   embedding is an offline fallback; Qwen3/OpenAI embeddings can be selected
-  through the provider configuration.
+  through the provider configuration. BGE-large uses its retrieval query prefix.
 - End-to-end latency includes query embedding and reranking; database-only
   latency is reported separately in the raw JSON.
