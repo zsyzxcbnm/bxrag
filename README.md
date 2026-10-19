@@ -75,10 +75,10 @@ Requirements: Python 3.11+, Docker Desktop (or another Docker daemon).
 
 ```powershell
 docker compose up -d db
-python -m pip install -e ".[dev]"
-python -m src.cli init-db
-python -m src.cli ingest
-python -m src.cli eval
+.\scripts\setup.ps1
+.\.venv\Scripts\python.exe -m src.cli init-db
+.\.venv\Scripts\python.exe -m src.cli ingest
+.\.venv\Scripts\python.exe -m src.cli eval
 ```
 
 Or, after the database is running:
@@ -146,7 +146,7 @@ RERANKER_PROVIDER=cross-encoder
 RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
 ```
 
-Install `pip install -e ".[cross-encoder]"` first. If the model cannot be loaded,
+Install with `.\scripts\setup.ps1` first. If the model cannot be loaded,
 the reranker falls back to the heuristic implementation instead of failing the
 whole evaluation.
 
@@ -191,8 +191,9 @@ See [reports/results_bge_large_pgvector.md](reports/results_bge_large_pgvector.m
 
 ### GPU inference
 
-The main Anaconda environment currently has CPU-only PyTorch. A separate CUDA
-environment is available at `G:\博贤\.venv-gpu`:
+All project dependencies are installed in the project-local environment
+`G:\博贤\.venv`; do not install packages into the D-drive Anaconda base
+environment. The environment includes CUDA PyTorch:
 
 ```powershell
 $env:EMBEDDING_PROVIDER='sentence-transformers'
@@ -201,7 +202,7 @@ $env:EMBEDDING_DIM='1024'
 $env:EMBEDDING_DEVICE='cuda'
 $env:KMP_DUPLICATE_LIB_OK='TRUE'
 
-& 'G:\博贤\.venv-gpu\Scripts\python.exe' -m src.cli eval `
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval `
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 
@@ -219,9 +220,9 @@ EMBEDDING_DIM=1024
 EMBEDDING_DEVICE=cpu
 ```
 
-The model directory is intentionally ignored by Git. Install the optional
-dependency with `pip install -e ".[cross-encoder]"`, then rebuild the schema
-because the dimension changes from 128 to 1024:
+The model directory is intentionally ignored by Git. Install the project-local
+environment with `.\scripts\setup.ps1`, then rebuild the schema because the
+dimension changes from 128 to 1024:
 
 ```powershell
 python -m src.cli reset-db --yes
@@ -248,6 +249,35 @@ python -m src.cli search "How long do I have to report an unauthorized charge?"
 python -m src.cli stats
 python -m src.cli reset-db --yes
 ```
+
+## FastAPI / OpenAPI
+
+The API is available through the `api` compose profile:
+
+```powershell
+docker compose --profile api up -d --build
+```
+
+Open:
+
+- Swagger UI: `http://localhost:8000/docs`
+- OpenAPI JSON: `http://localhost:8000/openapi.json`
+- Health: `http://localhost:8000/healthz`
+
+Example search:
+
+```powershell
+$body = @{ query = "balance transfer fee"; top_k = 5; mode = "hybrid"; use_metadata = $false } |
+  ConvertTo-Json
+Invoke-WebRequest -Uri http://localhost:8000/api/v1/search -Method Post `
+  -ContentType application/json -Body $body
+```
+
+The API loads the embedder once at startup, keeps the database connection
+reusable, and supports `dense_only`, `sparse_only`, `hybrid`, and
+`hybrid_rerank` modes. The compose profile mounts `./data/models` read-only and
+uses CPU BGE by default; set `EMBEDDING_DEVICE=cuda` and configure Docker GPU
+support for GPU inference.
 
 `python -m src.cli all` runs ingestion and evaluation in one process. Use
 `--backend memory` for the offline path.

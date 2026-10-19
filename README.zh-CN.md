@@ -69,7 +69,8 @@ python -m src.cli init-db
 
 ### 2. 使用 BGE + GPU 重建索引
 
-主 Anaconda 环境是 CPU 版 PyTorch。CUDA 环境在 `G:\博贤\.venv-gpu`：
+所有项目依赖统一安装在项目内 `G:\博贤\.venv`，不再往 D 盘 Anaconda 安装。
+该环境包含 CUDA PyTorch：
 
 ```powershell
 $env:EMBEDDING_PROVIDER='sentence-transformers'
@@ -78,9 +79,9 @@ $env:EMBEDDING_DIM='1024'
 $env:EMBEDDING_DEVICE='cuda'
 $env:KMP_DUPLICATE_LIB_OK='TRUE'
 
-python -m src.cli reset-db --yes
-& 'G:\博贤\.venv-gpu\Scripts\python.exe' -m src.cli ingest
-& 'G:\博贤\.venv-gpu\Scripts\python.exe' -m src.cli eval `
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli reset-db --yes
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli ingest
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval `
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 
@@ -142,6 +143,34 @@ Windows 也可以使用 `scripts/run.ps1`，例如：
 .\scripts\run.ps1 chunking
 .\scripts\run.ps1 index-bench
 ```
+
+## FastAPI / OpenAPI
+
+API 通过 `api` compose profile 启动：
+
+```powershell
+docker compose --profile api up -d --build
+```
+
+访问：
+
+- Swagger UI：`http://localhost:8000/docs`
+- OpenAPI JSON：`http://localhost:8000/openapi.json`
+- 健康检查：`http://localhost:8000/healthz`
+
+示例：
+
+```powershell
+$body = @{ query = "balance transfer fee"; top_k = 5; mode = "hybrid"; use_metadata = $false } |
+  ConvertTo-Json
+Invoke-WebRequest -Uri http://localhost:8000/api/v1/search -Method Post `
+  -ContentType application/json -Body $body
+```
+
+API 启动时只加载一次 Embedding 模型，数据库连接复用；支持 `dense_only`、
+`sparse_only`、`hybrid` 和 `hybrid_rerank`。compose 默认以只读方式挂载
+`./data/models`，使用 CPU BGE；如需 GPU，设置 `EMBEDDING_DEVICE=cuda` 并配置
+Docker GPU 支持。
 
 ## 重排序器
 

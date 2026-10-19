@@ -19,6 +19,27 @@ services:
       timeout: 5s
       retries: 12
 
+  api:
+    build: .
+    container_name: apex-rag-api
+    profiles: ["api"]
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_DSN: postgresql://apex:apex@db:5432/apex
+      BACKEND: postgres
+      EMBEDDING_PROVIDER: sentence-transformers
+      EMBEDDING_MODEL: /models/bge-large-en-v1.5
+      EMBEDDING_DIM: "1024"
+      EMBEDDING_DEVICE: cpu
+      RERANKER_PROVIDER: heuristic
+      KMP_DUPLICATE_LIB_OK: "TRUE"
+    volumes:
+      - ./data/models:/models:ro
+
 volumes:
   apex_pgdata:
 
