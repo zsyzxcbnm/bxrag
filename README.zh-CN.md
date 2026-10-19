@@ -64,7 +64,8 @@ tests/                      指标、融合、查询解析、分块测试
 
 ```powershell
 docker compose up -d db
-python -m src.cli init-db
+.\scripts\setup.ps1
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli init-db
 ```
 
 ### 2. 使用 BGE + GPU 重建索引
@@ -88,7 +89,7 @@ $env:KMP_DUPLICATE_LIB_OK='TRUE'
 ### 3. 无 Docker 的离线验证
 
 ```powershell
-python -m src.cli all --backend memory
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli all --backend memory
 ```
 
 离线后端使用内存 BM25 + cosine，只用于验证检索和评测逻辑；正式指标请使用
@@ -126,14 +127,15 @@ Represent this sentence for searching relevant passages:
 ## 常用命令
 
 ```text
-python -m src.cli init-db
-python -m src.cli ingest
-python -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
-python -m src.cli search "What is the balance transfer fee?"
-python -m src.cli compare-chunking
-python -m src.cli benchmark-index
-python -m src.cli stats
-python -m src.cli all --backend memory
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli init-db
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli ingest
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli search "What is the balance transfer fee?"
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli compare-chunking
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli benchmark-index
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli ablation-metadata
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli judge
+& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli stats
 ```
 
 Windows 也可以使用 `scripts/run.ps1`，例如：
@@ -142,6 +144,8 @@ Windows 也可以使用 `scripts/run.ps1`，例如：
 .\scripts\run.ps1 all
 .\scripts\run.ps1 chunking
 .\scripts\run.ps1 index-bench
+.\scripts\run.ps1 ablation
+.\scripts\run.ps1 judge
 ```
 
 ## FastAPI / OpenAPI
@@ -171,6 +175,14 @@ API 启动时只加载一次 Embedding 模型，数据库连接复用；支持 `
 `sparse_only`、`hybrid` 和 `hybrid_rerank`。compose 默认以只读方式挂载
 `./data/models`，使用 CPU BGE；如需 GPU，设置 `EMBEDDING_DEVICE=cuda` 并配置
 Docker GPU 支持。
+
+## LLM-as-a-Judge
+
+`python -m src.cli judge` 会用规则无关的 Hybrid RRF 取 Top-5 证据，让本地
+`Qwen2.5-0.5B-Instruct` 生成带引用的简短答案，再评估 Context Relevance 和
+Faithfulness。0.5B 小模型只适合做流程冒烟测试：Context Relevance 容易饱和，
+30 条查询中有 2 次 JSON 解析失败。结果见
+[llm_judge.zh-CN.md](reports/llm_judge.zh-CN.md)。
 
 ## 重排序器
 

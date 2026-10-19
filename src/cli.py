@@ -15,6 +15,7 @@ from src.db_protocol import DatabaseLike
 from src.eval.ablation import run_ablation, write_ablation
 from src.eval.chunking import compare_chunking, write_chunking_report
 from src.eval.index_tuning import run_index_tuning, write_index_report
+from src.eval.judge import build_judge, run_judge, write_judge_report
 from src.eval.report import generate_report
 from src.eval.runner import EvalRunner, write_evaluation
 from src.exceptions import ApexRagError, ConfigurationError
@@ -200,6 +201,21 @@ def _run_ablation(settings: Settings) -> None:
     LOGGER.info("Wrote %s", path)
 
 
+def _run_judge(settings: Settings, top_k: int, limit: int | None) -> None:
+    embedder = _load_embedder(settings)
+    documents = load_documents(settings.data_dir / "kb_documents.json")
+    queries = load_queries(
+        settings.data_dir / "eval_queries.json",
+        known_doc_ids={document.doc_id for document in documents},
+    )
+    database = _database(settings, embedder)
+    pipeline = RetrievalPipeline(database=database, embedder=embedder, settings=settings)
+    judge = build_judge(settings)
+    summary, rows = run_judge(settings, pipeline, queries, judge, top_k=top_k, limit=limit)
+    path = write_judge_report(summary, rows, settings.reports_dir, judge.name)
+    LOGGER.info("Wrote %s", path)
+
+
 def _init_db(settings: Settings, reset: bool) -> None:
     try:
         embedder = _load_embedder(settings)
@@ -277,6 +293,12 @@ def build_parser() -> argparse.ArgumentParser:
         "ablation-metadata",
         help="Compare no-metadata RRF, pure Cross-Encoder and metadata heuristic",
     )
+    judge_parser = subparsers.add_parser(
+        "judge",
+        help="Run LLM-as-a-Judge context relevance and faithfulness evaluation",
+    )
+    judge_parser.add_argument("--top-k", type=int, default=5)
+    judge_parser.add_argument("--limit", type=int, default=None)
 
     reset = subparsers.add_parser("reset-db", help="Drop and recreate all tables")
     reset.add_argument("--yes", action="store_true", help="Confirm destructive reset")
@@ -337,6 +359,8 @@ def _main() -> None:
         _benchmark_index(settings)
     elif args.command == "ablation-metadata":
         _run_ablation(settings)
+    elif args.command == "judge":
+        _run_judge(settings, args.top_k, args.limit)
     elif args.command == "reset-db":
         if not args.yes:
             raise SystemExit("Refusing to reset without --yes")

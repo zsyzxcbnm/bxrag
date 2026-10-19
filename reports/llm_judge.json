@@ -1,0 +1,808 @@
+{
+  "judge_model": "G:\\博贤\\data\\models\\Qwen2.5-0.5B-Instruct",
+  "summary": {
+    "queries": 30,
+    "context_relevance_mean_1_to_5": 4.0,
+    "faithfulness_mean_1_to_5": 3.069,
+    "parse_errors": 2
+  },
+  "rows": [
+    {
+      "query_id": "Q-001",
+      "query": "How many days do I have to request a 0% intro balance transfer on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0001",
+        "DOC-0005",
+        "DOC-0002",
+        "DOC-0003",
+        "DOC-0004"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the 0% intro balance transfer rules for different products and categories in Apex Platinum. It includes details such as the duration of the promotional introductory rate, the processing time, and the applicable APR rates. This information is sufficient",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the 0% intro balance transfer rules for different products and categories in Apex Platinum. It includes details such as the duration of the promotional introductory rate, the processing time, and the applicable APR rates. This information is sufficient to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "For Apex Platinum, you can request a 0% intro balance transfer up to 15 billing cycles from account opening on balance transfers requested within 60 days of account creation.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The claims provided do not directly address how long you have to request a 0% intro balance transfer on Apex Platinum.",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"unsupported Claims\": [],\n  \"reason\": \"The claims provided do not directly address how long you have to request a 0% intro balance transfer on Apex Platinum.\"\n}\n```\n\nExplanation: The passage does provide information about promotional introductory rates for balance transfers on Apex Platinum, but it does not mention any specific timeframe for requesting such a transfer. Therefore, this claim is largely supported by the given information, but there is no direct support for the duration mentioned in the question.",
+        "parse_error": false
+      },
+      "elapsed_ms": 8266.316
+    },
+    {
+      "query_id": "Q-002",
+      "query": "What is the balance transfer fee for the Everyday Freedom card?",
+      "retrieved_doc_ids": [
+        "DOC-0003",
+        "DOC-0014",
+        "DOC-0037",
+        "DOC-0033",
+        "DOC-0006"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the balance transfer fee for the Everyday Freedom card, including its policy details, eligibility criteria, and delivery speed. It contains sufficient information to answer the question.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the balance transfer fee for the Everyday Freedom card, including its policy details, eligibility criteria, and delivery speed. It contains sufficient information to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "The balance transfer fee for the Everyday Freedom card is 3% or $5 minimum.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "Some unsupported details and phrases are present but do not contradict any passages.",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"Some unsupported details and phrases are present but do not contradict any passages.\"\n}\n```\n\nExplanation: The passage provides detailed information about the balance transfer fee for the Everyday Freedom card, including its percentage and minimum amount. However, there are no unsupported claims that contradict any passages. Therefore, the score is 4 out of 5, indicating that most of the claims are supported by the provided information.",
+        "parse_error": false
+      },
+      "elapsed_ms": 6241.427
+    },
+    {
+      "query_id": "Q-003",
+      "query": "How long does it take for an external balance transfer to process on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0005",
+        "DOC-0001",
+        "DOC-0013",
+        "DOC-0009",
+        "DOC-0004"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the processing times for different types of balance transfers in Apex Platinum, including standard, expedited, and promotional transfers. It also mentions that payments to external accounts continue to be the cardholder's responsibility until the trans",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the processing times for different types of balance transfers in Apex Platinum, including standard, expedited, and promotional transfers. It also mentions that payments to external accounts continue to be the cardholder's responsibility until the transferred amount appears on the Apex credit statement.\"}",
+        "parse_error": false
+      },
+      "answer": "Standard balance transfer requests take 5 to 7 business days to process and pay out to external card issuers.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage provides detailed information about the processing times for standard balance transfers on Apex Platinum, including the timeframes and potential fees. However, it does not mention any specific timeframe for expedited transfers or provide details on how long it takes for payments to exter",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage provides detailed information about the processing times for standard balance transfers on Apex Platinum, including the timeframes and potential fees. However, it does not mention any specific timeframe for expedited transfers or provide details on how long it takes for payments to external card issuers.\"\n}\n```\n\nThis score indicates that while the passage contains accurate information about standard balance transfer processing times, it fails to address the question about expedited transfers or payments to external card issuers. Therefore, the answer should include this information as well.",
+        "parse_error": false
+      },
+      "elapsed_ms": 7840.364
+    },
+    {
+      "query_id": "Q-004",
+      "query": "How long do I have to report an unauthorized charge under the zero liability fraud policy?",
+      "retrieved_doc_ids": [
+        "DOC-0016",
+        "DOC-0018",
+        "DOC-0019",
+        "DOC-0017",
+        "DOC-0030"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The retrieved passages provide detailed information about the zero liability fraud policy for different products offered by Apex Bank. They cover the policy details, reporting requirements, and any applicable policies that apply to each product category. This information is sufficient to answer the ",
+        "raw": "{\"score\": 4, \"reason\": \"The retrieved passages provide detailed information about the zero liability fraud policy for different products offered by Apex Bank. They cover the policy details, reporting requirements, and any applicable policies that apply to each product category. This information is sufficient to answer the question about how long you have to report an unauthorized charge under the zero liability fraud policy.\"}",
+        "parse_error": false
+      },
+      "answer": "The policy states that Apex Platinum cardholders incur $0 liability for unauthorized transactions reported within 60 days of the statement date.",
+      "faithfulness": {
+        "score": 5,
+        "unsupported_claims": [],
+        "reason": "All claims are supported by the passages.",
+        "raw": "```json\n{\n  \"score\": 5,\n  \"unsupported Claims\": [],\n  \"reason\": \"All claims are supported by the passages.\"\n}\n```\n\nExplanation: The passage provides clear information about the zero liability fraud policy for different products offered by Apex. No unsupported details were found in the given text, so the score is 5. All claims are supported by the passages.",
+        "parse_error": false
+      },
+      "elapsed_ms": 6499.856
+    },
+    {
+      "query_id": "Q-005",
+      "query": "What is the maximum deadline for filing a merchant chargeback dispute?",
+      "retrieved_doc_ids": [
+        "DOC-0020",
+        "DOC-0023",
+        "DOC-0022",
+        "DOC-0021",
+        "DOC-0024"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about different policies related to merchant chargebacks, but it does not mention any specific maximum deadline for filing a merchant chargeback dispute. Therefore, it does not provide enough information to answer the question.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about different policies related to merchant chargebacks, but it does not mention any specific maximum deadline for filing a merchant chargeback dispute. Therefore, it does not provide enough information to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "The maximum deadline for filing a merchant chargeback dispute is 120 calendar days.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "Some unsupported details in the passage.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"Some unsupported details in the passage.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 3862.611
+    },
+    {
+      "query_id": "Q-006",
+      "query": "When will I receive my provisional credit during a transaction dispute?",
+      "retrieved_doc_ids": [
+        "DOC-0026",
+        "DOC-0024",
+        "DOC-0027",
+        "DOC-0020",
+        "DOC-0025"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about provisional credit rules for different products and categories, but it does not mention when provisional credit will be received during a transaction dispute. Therefore, it is not sufficient to answer the question.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about provisional credit rules for different products and categories, but it does not mention when provisional credit will be received during a transaction dispute. Therefore, it is not sufficient to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "Provisional credits will be credited within 10 business days for disputed billing amounts greater than $25.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any specific claim about provisional credits being credited within 10 business days for disputed billing amounts greater than $25.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported Claims\": [],\n  \"reason\": \"The passage does not mention any specific claim about provisional credits being credited within 10 business days for disputed billing amounts greater than $25.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4681.827
+    },
+    {
+      "query_id": "Q-007",
+      "query": "Can a Tier 1 customer service agent waive the annual fee on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0031",
+        "DOC-0032",
+        "DOC-0035",
+        "DOC-0039",
+        "DOC-0033"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The retrieved passages provide relevant information about the annual fee policies for different products under the Apex Platinum category. However, they do not explicitly address the question about waiving the annual fee on Apex Platinum. Therefore, the response should include some additional contex",
+        "raw": "{\"score\": 4, \"reason\": \"The retrieved passages provide relevant information about the annual fee policies for different products under the Apex Platinum category. However, they do not explicitly address the question about waiving the annual fee on Apex Platinum. Therefore, the response should include some additional context that would help answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [
+          "Apex Platinum does not have an annual fee waiver policy.",
+          "The policies mentioned do not cover the specific scenario of a Tier 1 customer service agent waiving the annual fee on Apex Platinum."
+        ],
+        "reason": "The passage only mentions that Apex Platinum has no annual fee waiver policy, but it does not provide information about a Tier 1 customer service agent's ability to waive the annual fee.",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [\"Apex Platinum does not have an annual fee waiver policy.\", \"The policies mentioned do not cover the specific scenario of a Tier 1 customer service agent waiving the annual fee on Apex Platinum.\"], \"reason\": \"The passage only mentions that Apex Platinum has no annual fee waiver policy, but it does not provide information about a Tier 1 customer service agent's ability to waive the annual fee.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 6039.127
+    },
+    {
+      "query_id": "Q-008",
+      "query": "Does the Apex Preferred Travel card charge foreign transaction fees when traveling abroad?",
+      "retrieved_doc_ids": [
+        "DOC-0036",
+        "DOC-0035",
+        "DOC-0032",
+        "DOC-0037",
+        "DOC-0038"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the foreign transaction fees for different Apex travel products, including Apex Preferred Travel and Apex Business Select. It mentions that both cards have a $0 foreign transaction fee on all purchases made in foreign currencies or overseas merchants.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the foreign transaction fees for different Apex travel products, including Apex Preferred Travel and Apex Business Select. It mentions that both cards have a $0 foreign transaction fee on all purchases made in foreign currencies or overseas merchants.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence for specific details regarding foreign transaction fees.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [
+          "Apex Business Select - Foreign Transaction Policy (2024)",
+          "Apex Business Select - Foreign Transaction Rule (2024)"
+        ],
+        "reason": "The passage provides information about the foreign transaction fees for Apex Business Select but does not mention any specific details regarding foreign transaction fees for other products like Apex Preferred Travel.",
+        "raw": "{\n  \"score\": 2,\n  \"unsupported_claims\": [\"Apex Business Select - Foreign Transaction Policy (2024)\", \"Apex Business Select - Foreign Transaction Rule (2024)\"],\n  \"reason\": \"The passage provides information about the foreign transaction fees for Apex Business Select but does not mention any specific details regarding foreign transaction fees for other products like Apex Preferred Travel.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 5729.919
+    },
+    {
+      "query_id": "Q-009",
+      "query": "What is the daily cutoff time for submitting payments on time?",
+      "retrieved_doc_ids": [
+        "DOC-0040",
+        "DOC-0041",
+        "DOC-0147",
+        "DOC-0039",
+        "DOC-0044"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about different policies related to late payment fees and cutoff times for Apex travel and everyday freedom products. It includes policy codes, effective years, category details, and specific details such as late fee rates and grace periods. The information ",
+        "raw": "{\n  \"score\": 4,\n  \"reason\": \"The passage provides detailed information about different policies related to late payment fees and cutoff times for Apex travel and everyday freedom products. It includes policy codes, effective years, category details, and specific details such as late fee rates and grace periods. The information is comprehensive and relevant to answering the question.\"\n}",
+        "parse_error": false
+      },
+      "answer": "The daily cutoff time for submitting payments on time is 5:00 PM EST on the due date.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "Some claims mention late payment fees but do not specify the cutoff time. The provided information does not include this specific detail.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"Some claims mention late payment fees but do not specify the cutoff time. The provided information does not include this specific detail.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 5119.619
+    },
+    {
+      "query_id": "Q-010",
+      "query": "How many guest passes are included with Priority Pass Select on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0046",
+        "DOC-0049",
+        "DOC-0050",
+        "DOC-0035",
+        "DOC-0060"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the policies and benefits offered by Apex Platinum, including the number of guest passes included with Priority Pass Select on Apex Platinum. The information is sufficient to answer the question.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the policies and benefits offered by Apex Platinum, including the number of guest passes included with Priority Pass Select on Apex Platinum. The information is sufficient to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [
+          "..."
+        ],
+        "reason": "...",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [\"...\"], \"reason\": \"...\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 2830.26
+    },
+    {
+      "query_id": "Q-011",
+      "query": "Do Apex Reward points expire if I keep my account active?",
+      "retrieved_doc_ids": [
+        "DOC-0050",
+        "DOC-0052",
+        "DOC-0051",
+        "DOC-0053",
+        "DOC-0086"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about how Apex Reward points work, including their expiration rules and limitations. It does not mention anything about whether these points expire when an account is kept active.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about how Apex Reward points work, including their expiration rules and limitations. It does not mention anything about whether these points expire when an account is kept active.\"}",
+        "parse_error": false
+      },
+      "answer": "Points do not expire with active standing, but they may be redeemed for statement credit or cash rebates.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any specific claims about Apex Reward points expiration.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage does not mention any specific claims about Apex Reward points expiration.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 3976.665
+    },
+    {
+      "query_id": "Q-012",
+      "query": "What is the deductible and coverage limit for cell phone protection on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0054",
+        "DOC-0057",
+        "DOC-0056",
+        "DOC-0101",
+        "DOC-0065"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about the cell phone protection benefit for Apex Platinum, including the deductible and coverage limits. However, it does not mention any specific policy code or year, which could affect its relevance to answering the question.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about the cell phone protection benefit for Apex Platinum, including the deductible and coverage limits. However, it does not mention any specific policy code or year, which could affect its relevance to answering the question.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 1,
+        "unsupported_claims": [],
+        "reason": "The passage provides details about different cell phone protection benefits offered by Apex Platinum, but it does not mention any specific deductible or coverage limits for cell phone protection.",
+        "raw": "{\"score\": 1, \"unsupported Claims\": [], \"reason\": \"The passage provides details about different cell phone protection benefits offered by Apex Platinum, but it does not mention any specific deductible or coverage limits for cell phone protection.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 3944.301
+    },
+    {
+      "query_id": "Q-013",
+      "query": "How quickly can I receive an emergency replacement card if lost overseas on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0061",
+        "DOC-0062",
+        "DOC-0063",
+        "DOC-0054",
+        "DOC-0035"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The retrieved passages provide general information about emergency card delivery options for Apex Platinum, but they do not specifically address how quickly you can receive an emergency replacement card if it is lost overseas. Therefore, the response is insufficient to answer the given question.",
+        "raw": "{\"score\": 4, \"reason\": \"The retrieved passages provide general information about emergency card delivery options for Apex Platinum, but they do not specifically address how quickly you can receive an emergency replacement card if it is lost overseas. Therefore, the response is insufficient to answer the given question.\"}",
+        "parse_error": false
+      },
+      "answer": "Emergency replacement card delivery is available within 24-48 hours for Apex Platinum customers worldwide.",
+      "faithfulness": {
+        "score": 5,
+        "unsupported_claims": [],
+        "reason": "The passage provides information about emergency card delivery options but does not mention any specific timeframe for receiving these replacements.",
+        "raw": "```json\n{\n  \"score\": 5,\n  \"unsupported Claims\": [],\n  \"reason\": \"The passage provides information about emergency card delivery options but does not mention any specific timeframe for receiving these replacements.\"\n}\n```\n\nExplanation: The passage only mentions that emergency card delivery is available within 24-48 hours for Apex Platinum customers worldwide. It does not provide any details about the exact time frame for receiving these replacements. Therefore, this claim cannot be fully supported based solely on the given information.",
+        "parse_error": false
+      },
+      "elapsed_ms": 6579.482
+    },
+    {
+      "query_id": "Q-014",
+      "query": "How many months must I wait before requesting a credit limit increase?",
+      "retrieved_doc_ids": [
+        "DOC-0065",
+        "DOC-0066",
+        "DOC-0067",
+        "DOC-0106",
+        "DOC-0114"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about credit limit increase eligibility rules for different products in Apex. It mentions that cardholders can request a credit limit increase after 6 months of active account history without late payments. The policy also specifies that soft credit inquirie",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about credit limit increase eligibility rules for different products in Apex. It mentions that cardholders can request a credit limit increase after 6 months of active account history without late payments. The policy also specifies that soft credit inquiries are performed for standard line increases and hard inquiries are required for requested line increases exceeding 50% of the current credit limit.\"}",
+        "parse_error": false
+      },
+      "answer": "To request a credit limit increase, you must wait 6 months from the date of your last payment.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not provide information about waiting time requirements for requesting a credit limit increase. It only mentions that 6 months must pass from the date of the last payment.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage does not provide information about waiting time requirements for requesting a credit limit increase. It only mentions that 6 months must pass from the date of the last payment.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 5809.048
+    },
+    {
+      "query_id": "Q-015",
+      "query": "Does requesting a credit limit increase over 50% trigger a hard credit inquiry?",
+      "retrieved_doc_ids": [
+        "DOC-0065",
+        "DOC-0114",
+        "DOC-0115",
+        "DOC-0066",
+        "DOC-0106"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about credit limits and their eligibility rules for different products in Apex Platinum, including over-limit transactions, strict credit cap rule, and credit line assessment criteria. However, it does not explicitly state if requesting a credit limit increa",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about credit limits and their eligibility rules for different products in Apex Platinum, including over-limit transactions, strict credit cap rule, and credit line assessment criteria. However, it does not explicitly state if requesting a credit limit increase triggers a hard credit inquiry. Therefore, while it contains relevant information, it is too limited to fully answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [],
+        "reason": "The passage does not provide information about whether requesting a credit limit increase triggers a hard credit inquiry.",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [], \"reason\": \"The passage does not provide information about whether requesting a credit limit increase triggers a hard credit inquiry.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4592.085
+    },
+    {
+      "query_id": "Q-016",
+      "query": "What is the fee for adding authorized users to an Apex Platinum card?",
+      "retrieved_doc_ids": [
+        "DOC-0031",
+        "DOC-0076",
+        "DOC-0035",
+        "DOC-0077",
+        "DOC-0084"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the fees associated with adding authorized users to an Apex Platinum card, including the annual fee, the maximum number of authorized users, and the foreign transaction fee structure. However, it does not mention any specific details about the fee for ",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the fees associated with adding authorized users to an Apex Platinum card, including the annual fee, the maximum number of authorized users, and the foreign transaction fee structure. However, it does not mention any specific details about the fee for adding authorized users.\"}",
+        "parse_error": false
+      },
+      "answer": "The fee for adding authorized users to an Apex Platinum card is $175 per year.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any fees related to adding authorized users to an Apex Platinum card.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage does not mention any fees related to adding authorized users to an Apex Platinum card.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4627.169
+    },
+    {
+      "query_id": "Q-017",
+      "query": "Is there a fee for adding an authorized user on Apex Everyday Freedom?",
+      "retrieved_doc_ids": [
+        "DOC-0077",
+        "DOC-0033",
+        "DOC-0037",
+        "DOC-0044",
+        "DOC-0041"
+      ],
+      "context_relevance": {
+        "score": 0,
+        "reason": "Judge response did not contain a JSON object",
+        "raw": "To determine if there's a fee for adding an authorized user on Apex Everyday Freedom, let's analyze each passage:\n\n1. **Apex Everyday Freedom - Authorized User Fee Structure (2024)**\n   - This passage states that authorized users can be added for $0 additional fee. This directly answers the question about the fee structure.\n\n2. **Apex Everyday Freedom - No Annual Fee Guarantee (2024)**\n   - This passage does not mention any fees related to adding authorized users. It provides details about the policy but does not address the fee structure.\n\n3. **Apex Everyday Freedom - Foreign Transaction Fee",
+        "parse_error": true
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any fees associated with adding an authorized user to Apex Everyday Freedom.",
+        "raw": "{\n  \"score\": 2,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage does not mention any fees associated with adding an authorized user to Apex Everyday Freedom.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 6313.872
+    },
+    {
+      "query_id": "Q-018",
+      "query": "What rental car collision insurance is provided by Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0094",
+        "DOC-0095",
+        "DOC-0096",
+        "DOC-0091",
+        "DOC-0102"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about different types of rental car collision insurance offered by Apex Platinum, including primary and secondary coverage. However, it does not explicitly state which type of insurance is provided by Apex Platinum.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about different types of rental car collision insurance offered by Apex Platinum, including primary and secondary coverage. However, it does not explicitly state which type of insurance is provided by Apex Platinum.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 1,
+        "unsupported_claims": [],
+        "reason": "The passage does not provide information about what rental car collision insurance is provided by Apex Platinum.",
+        "raw": "{\"score\": 1, \"unsupported Claims\": [], \"reason\": \"The passage does not provide information about what rental car collision insurance is provided by Apex Platinum.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 3390.711
+    },
+    {
+      "query_id": "Q-019",
+      "query": "What is the annual flight and hotel statement credit on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0058",
+        "DOC-0059",
+        "DOC-0060",
+        "DOC-0031",
+        "DOC-0050"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about the annual travel credit policies for Apex Platinum, including the amount of credit received each year and the conditions under which it can be used.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about the annual travel credit policies for Apex Platinum, including the amount of credit received each year and the conditions under which it can be used.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [
+          "The claims about annual flight and hotel statements credit are not supported by the provided passages.",
+          "The claims about global entry/tSA precheck credit are not supported by the provided passages.",
+          "The claims about points redemption value and expiration are not supported by the provided passages."
+        ],
+        "reason": "The answers contradict or ignore the passages.",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [\"The claims about annual flight and hotel statements credit are not supported by the provided passages.\", \"The claims about global entry/tSA precheck credit are not supported by the provided passages.\", \"The claims about points redemption value and expiration are not supported by the provided passages.\"], \"reason\": \"The answers contradict or ignore the passages.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4687.918
+    },
+    {
+      "query_id": "Q-020",
+      "query": "What is the trip delay reimbursement policy threshold and amount for Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0099",
+        "DOC-0091",
+        "DOC-0100",
+        "DOC-0097",
+        "DOC-0046"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about the trip delay reimbursement policies for different product categories, but it does not mention the specific threshold and amount for Apex Platinum. Therefore, the response is insufficient to answer the question.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about the trip delay reimbursement policies for different product categories, but it does not mention the specific threshold and amount for Apex Platinum. Therefore, the response is insufficient to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 1,
+        "unsupported_claims": [],
+        "reason": "The passage does not provide information about the trip delay reimbursement policy threshold and amount for Apex Platinum.",
+        "raw": "{\"score\": 1, \"unsupported Claims\": [], \"reason\": \"The passage does not provide information about the trip delay reimbursement policy threshold and amount for Apex Platinum.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 3429.042
+    },
+    {
+      "query_id": "Q-021",
+      "query": "What foreign transaction fee applies to the Apex Everyday Freedom card?",
+      "retrieved_doc_ids": [
+        "DOC-0037",
+        "DOC-0035",
+        "DOC-0033",
+        "DOC-0036",
+        "DOC-0038"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about three different policies related to foreign transaction fees for Apex Everyday Freedom cards. It mentions that Apex Everyday Freedom cards incur a 3% foreign transaction fee on all purchases made in foreign currencies or processed through non-US acquiring banks, wh",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about three different policies related to foreign transaction fees for Apex Everyday Freedom cards. It mentions that Apex Everyday Freedom cards incur a 3% foreign transaction fee on all purchases made in foreign currencies or processed through non-US acquiring banks, which is relevant but not specific to the question asked.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [
+          "Apex Business Select does not mention any foreign transaction fee.",
+          "Apex Business Select has no specific details about foreign transaction fees.",
+          "The policy mentions that Apex Business Select offers a 1% foreign transaction fee on converted commercial foreign transactions.",
+          "None of the provided policies explicitly state foreign transaction fees for Apex Everyday Freedom cards."
+        ],
+        "reason": "The answers provide information about different products but do not support or contradict any specific claims from the given passages.",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [\"Apex Business Select does not mention any foreign transaction fee.\", \"Apex Business Select has no specific details about foreign transaction fees.\", \"The policy mentions that Apex Business Select offers a 1% foreign transaction fee on converted commercial foreign transactions.\", \"None of the provided policies explicitly state foreign transaction fees for Apex Everyday Freedom cards.\"], \"reason\": \"The answers provide information about different products but do not support or contradict any specific claims from the given passages.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 6570.867
+    },
+    {
+      "query_id": "Q-022",
+      "query": "What is the cash advance APR and fee on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0043",
+        "DOC-0035",
+        "DOC-0031",
+        "DOC-0001",
+        "DOC-0039"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the cash advance APR and fee structure for Apex Platinum, including the 5% cash advance fee and the $10 minimum required for the cash advance APR. However, it does not mention any late payment fees or grace periods. Therefore, while the information is ",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"reason\": \"The passage provides detailed information about the cash advance APR and fee structure for Apex Platinum, including the 5% cash advance fee and the $10 minimum required for the cash advance APR. However, it does not mention any late payment fees or grace periods. Therefore, while the information is relevant, it is insufficient to answer the specific question about the cash advance APR and fee.\"\n}\n```",
+        "parse_error": false
+      },
+      "answer": "The cash advance APR on Apex Platinum is 29.99%, and the fee is 5% or $10 minimum.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "Some unsupported details in the passage.",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"unsupported Claims\": [],\n  \"reason\": \"Some unsupported details in the passage.\"\n}\n```\n\nExplanation: The passage provides detailed information about the cash advance APR and fee structure for Apex Platinum, including the 29.99% cash advance APR and the 5% fee. However, it does not mention any late payment fees or grace periods, which are typically included in such financial products' terms and conditions. Therefore, these unsupported claims are present but do not affect the factual accuracy of the provided information.",
+        "parse_error": false
+      },
+      "elapsed_ms": 8580.871
+    },
+    {
+      "query_id": "Q-023",
+      "query": "Are corporate employee phones covered under Apex Business Select cell phone protection?",
+      "retrieved_doc_ids": [
+        "DOC-0057",
+        "DOC-0030",
+        "DOC-0126",
+        "DOC-0056",
+        "DOC-0102"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about different types of cell phone protection offered by Apex Business Select, including commercial cell phone protection, employee abuse and fraud coverage, and employee misuse indemnification. However, it does not explicitly state if corporate employee phones are cove",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about different types of cell phone protection offered by Apex Business Select, including commercial cell phone protection, employee abuse and fraud coverage, and employee misuse indemnification. However, it does not explicitly state if corporate employee phones are covered under any of these plans.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any specific claims related to corporate employee phones that would support or contradict the given information.",
+        "raw": "{\"score\": 2, \"unsupported Claims\": [], \"reason\": \"The passage does not mention any specific claims related to corporate employee phones that would support or contradict the given information.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4005.652
+    },
+    {
+      "query_id": "Q-024",
+      "query": "Can virtual card numbers be generated with custom spending limits on Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0073",
+        "DOC-0114",
+        "DOC-0065",
+        "DOC-0031",
+        "DOC-0074"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about virtual card number generation options for Apex Platinum customers, including over-limit transactions, credit limit increase eligibility rules, and annual fee billing and refund waiver policies. However, it does not explicitly state whether these optio",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about virtual card number generation options for Apex Platinum customers, including over-limit transactions, credit limit increase eligibility rules, and annual fee billing and refund waiver policies. However, it does not explicitly state whether these options allow generating virtual card numbers with custom spending limits.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [],
+        "reason": "The passage does not provide any information about virtual card numbers being generated with custom spending limits for Apex Platinum.",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [], \"reason\": \"The passage does not provide any information about virtual card numbers being generated with custom spending limits for Apex Platinum.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4048.761
+    },
+    {
+      "query_id": "Q-025",
+      "query": "What happens if a provisional credit investigation resolves in favor of the merchant?",
+      "retrieved_doc_ids": [
+        "DOC-0024",
+        "DOC-0027",
+        "DOC-0025",
+        "DOC-0020",
+        "DOC-0026"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about provisional credit investigations and their consequences for merchants. It mentions that if a provisional credit resolution is favorable to the merchant, the provisional credit will be revoked with a 10-day advance notification. This information is suf",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about provisional credit investigations and their consequences for merchants. It mentions that if a provisional credit resolution is favorable to the merchant, the provisional credit will be revoked with a 10-day advance notification. This information is sufficient to answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "If a provisional credit investigation resolves in favor of the merchant, the provisional credit will be revoked with a 10-day advance notification.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any specific claims about provisional credit investigations resolving in favor of the merchant.",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage does not mention any specific claims about provisional credit investigations resolving in favor of the merchant.\"\n}\n```\n\nExplanation: The passage only mentions that if a provisional credit investigation resolves in favor of the merchant, the provisional credit will be revoked with a 10-day advance notification. It does not provide any information about what happens when this happens. Therefore, it does not support or contradict any particular claim mentioned in the question.",
+        "parse_error": false
+      },
+      "elapsed_ms": 7146.136
+    },
+    {
+      "query_id": "Q-026",
+      "query": "What is the maximum emergency cash disbursement amount available abroad for Platinum holders?",
+      "retrieved_doc_ids": [
+        "DOC-0061",
+        "DOC-0043",
+        "DOC-0101",
+        "DOC-0062",
+        "DOC-0009"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about different types of emergency cash disbursement options for Apex Platinum holders, including emergency cash disbursements up to $1,000 USD and emergency medical evacuations. However, it does not explicitly state the maximum emergency cash disbursement amount availab",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about different types of emergency cash disbursement options for Apex Platinum holders, including emergency cash disbursements up to $1,000 USD and emergency medical evacuations. However, it does not explicitly state the maximum emergency cash disbursement amount available abroad for Platinum holders.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 0,
+        "unsupported_claims": [],
+        "reason": "Judge response did not contain a JSON object",
+        "raw": "{\"score\": 2, \"unsupported_claims\": [\"Apex Platinum - Emergency Cash Disbursement & Replacement (2024) does not provide information about the maximum emergency cash disbursement amount available abroad for Platinum holders.\", \"Apex Preferred Travel - Overseas Card Replacement (2024) does not mention any specific emergency cash disbursement amounts for Platinum holders.\", \"Apex Platinum - Interest Allocation & Payment Prioritization (2024) does not specify the maximum emergency cash disbursement amount available abroad for Platinum holders.\"], \"reason\": \"The provided passages do not contain any information that directly supports or contrad",
+        "parse_error": true
+      },
+      "elapsed_ms": 7224.375
+    },
+    {
+      "query_id": "Q-027",
+      "query": "What is the minimum credit line issued for an Apex Platinum account?",
+      "retrieved_doc_ids": [
+        "DOC-0065",
+        "DOC-0106",
+        "DOC-0110",
+        "DOC-0024",
+        "DOC-0108"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about the credit limits for different products like Apex Platinum, Apex Everyday Freedom, and Apex Platinum Proactive Credit Limit Reduction Policy. However, it does not explicitly state the minimum credit line issued for an Apex Platinum account. Therefore, it contains ",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about the credit limits for different products like Apex Platinum, Apex Everyday Freedom, and Apex Platinum Proactive Credit Limit Reduction Policy. However, it does not explicitly state the minimum credit line issued for an Apex Platinum account. Therefore, it contains only partial information that is relevant but not sufficient to fully answer the question.\"}",
+        "parse_error": false
+      },
+      "answer": "The minimum credit line issued for an Apex Platinum account is $10,000.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "Some unsupported details in the passage about Apex Platinum policies.",
+        "raw": "{\"score\": 4, \"unsupported Claims\": [], \"reason\": \"Some unsupported details in the passage about Apex Platinum policies.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4576.67
+    },
+    {
+      "query_id": "Q-028",
+      "query": "How often can I change my payment due date on Apex Everyday Freedom?",
+      "retrieved_doc_ids": [
+        "DOC-0149",
+        "DOC-0033",
+        "DOC-0044",
+        "DOC-0041",
+        "DOC-0037"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides details about different payment due date adjustment rules for Apex Everyday Freedom, including how many times you can change your payment due date each year. However, it does not explicitly state how often you can change your payment due date on Apex Everyday Freedom.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides details about different payment due date adjustment rules for Apex Everyday Freedom, including how many times you can change your payment due date each year. However, it does not explicitly state how often you can change your payment due date on Apex Everyday Freedom.\"}",
+        "parse_error": false
+      },
+      "answer": "Apex Everyday Freedom allows changing payment due dates up to 12 times annually.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any specific details about how frequently Apex Everyday Freedom allows changing payment due dates beyond 12 times annually.",
+        "raw": "{\n  \"score\": 4,\n  \"unsupported_claims\": [],\n  \"reason\": \"The passage does not mention any specific details about how frequently Apex Everyday Freedom allows changing payment due dates beyond 12 times annually.\"\n}",
+        "parse_error": false
+      },
+      "elapsed_ms": 4660.604
+    },
+    {
+      "query_id": "Q-029",
+      "query": "Does Apex Preferred Travel offer Global Entry or TSA PreCheck application fee credits?",
+      "retrieved_doc_ids": [
+        "DOC-0060",
+        "DOC-0032",
+        "DOC-0036",
+        "DOC-0040",
+        "DOC-0107"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about Apex Preferred Travel's Global Entry/TSA PreCheck application fee credits, including details such as the amount of credit per year, the conditions under which it can be used, and the policy's validity period.",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about Apex Preferred Travel's Global Entry/TSA PreCheck application fee credits, including details such as the amount of credit per year, the conditions under which it can be used, and the policy's validity period.\"}",
+        "parse_error": false
+      },
+      "answer": "Insufficient evidence.",
+      "faithfulness": {
+        "score": 2,
+        "unsupported_claims": [],
+        "reason": "The passage does not provide information about the Global Entry or TSA PreCheck application fee credits offered by Apex Preferred Travel.",
+        "raw": "{\"score\": 2, \"unsupported Claims\": [], \"reason\": \"The passage does not provide information about the Global Entry or TSA PreCheck application fee credits offered by Apex Preferred Travel.\"}",
+        "parse_error": false
+      },
+      "elapsed_ms": 3819.346
+    },
+    {
+      "query_id": "Q-030",
+      "query": "What is the interest grace period duration on purchase balances for Apex Platinum?",
+      "retrieved_doc_ids": [
+        "DOC-0039",
+        "DOC-0138",
+        "DOC-0001",
+        "DOC-0009",
+        "DOC-0150"
+      ],
+      "context_relevance": {
+        "score": 4,
+        "reason": "The passage provides detailed information about the interest grace period duration for Apex Platinum, including the grace period for purchase balances and the rules for balance transfers. However, it does not mention any specific details about the grace period for other products such as Early Paymen",
+        "raw": "{\"score\": 4, \"reason\": \"The passage provides detailed information about the interest grace period duration for Apex Platinum, including the grace period for purchase balances and the rules for balance transfers. However, it does not mention any specific details about the grace period for other products such as Early Payment Plans or Cash Back Programs.\"}",
+        "parse_error": false
+      },
+      "answer": "The interest grace period duration for purchase balances on Apex Platinum is 21 days if the previous cycle balance was paid in full.",
+      "faithfulness": {
+        "score": 4,
+        "unsupported_claims": [],
+        "reason": "The passage does not mention any specific details about the interest grace period duration for purchase balances on Apex Platinum.",
+        "raw": "```json\n{\n  \"score\": 4,\n  \"unsupported Claims\": [],\n  \"reason\": \"The passage does not mention any specific details about the interest grace period duration for purchase balances on Apex Platinum.\"\n}\n```\n\nExplanation: The passage provides information about various policies related to Apex Platinum, including late payment fees, grace periods, and interest rates. It mentions that there is an interest grace period of 21 days for purchase balances if the previous cycle balance was paid in full. However, it does not provide any information about this grace period duration specifically for Apex Platinum. Therefore, the claim is partially supported but not fully supported",
+        "parse_error": false
+      },
+      "elapsed_ms": 7860.875
+    }
+  ]
+}

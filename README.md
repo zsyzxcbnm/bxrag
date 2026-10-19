@@ -245,6 +245,8 @@ python -m src.cli index
 python -m src.cli eval [--repeats 3] [--backend postgres|memory]
 python -m src.cli compare-chunking
 python -m src.cli benchmark-index
+python -m src.cli ablation-metadata
+python -m src.cli judge
 python -m src.cli search "How long do I have to report an unauthorized charge?"
 python -m src.cli stats
 python -m src.cli reset-db --yes
@@ -278,6 +280,15 @@ reusable, and supports `dense_only`, `sparse_only`, `hybrid`, and
 `hybrid_rerank` modes. The compose profile mounts `./data/models` read-only and
 uses CPU BGE by default; set `EMBEDDING_DEVICE=cuda` and configure Docker GPU
 support for GPU inference.
+
+## LLM-as-a-Judge
+
+`python -m src.cli judge` retrieves the rules-free Top-5 context, generates a
+cited answer with a local `Qwen2.5-0.5B-Instruct`, and asks the model to score
+Context Relevance and Faithfulness. The local 0.5B judge is intentionally a
+smoke-test judge; it saturates on context relevance and has two JSON parse
+failures in the 30-query run. See [reports/llm_judge.md](reports/llm_judge.md)
+and [reports/llm_judge.zh-CN.md](reports/llm_judge.zh-CN.md).
 
 `python -m src.cli all` runs ingestion and evaluation in one process. Use
 `--backend memory` for the offline path.

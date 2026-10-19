@@ -1,4 +1,6 @@
-.PHONY: up down install init ingest index eval chunking index-bench ablation zh-charts all test lint typecheck reset
+PYTHON ?= .venv/Scripts/python.exe
+
+.PHONY: up down install init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck reset
 
 up:
 	docker compose up -d db
@@ -7,44 +9,47 @@ down:
 	docker compose down
 
 install:
-	python -m pip install -e ".[dev]"
+	$(PYTHON) -m pip install -e ".[api,cross-encoder,dev,openai]"
 
 init:
-	python -m src.cli init-db
+	$(PYTHON) -m src.cli init-db
 
 ingest:
-	python -m src.cli ingest
+	$(PYTHON) -m src.cli ingest
 
 index:
-	python -m src.cli index
+	$(PYTHON) -m src.cli index
 
 eval:
-	python -m src.cli eval
+	$(PYTHON) -m src.cli eval
 
 chunking:
-	python -m src.cli compare-chunking
+	$(PYTHON) -m src.cli compare-chunking
 
 index-bench:
-	python -m src.cli benchmark-index
+	$(PYTHON) -m src.cli benchmark-index
 
 ablation:
-	python -m src.cli ablation-metadata
+	$(PYTHON) -m src.cli ablation-metadata
+
+judge:
+	$(PYTHON) -m src.cli judge
 
 zh-charts:
-	python scripts/generate_zh_charts.py
+	$(PYTHON) scripts/generate_zh_charts.py
 
 all:
-	python -m src.cli all
+	$(PYTHON) -m src.cli all
 
 test:
-	pytest
+	$(PYTHON) -m pytest
 
 lint:
-	ruff check src tests
+	$(PYTHON) -m ruff check src tests scripts
 
 typecheck:
-	mypy src
+	$(PYTHON) -m mypy src
 
 reset:
-	python -m src.cli reset-db --yes
+	$(PYTHON) -m src.cli reset-db --yes
 

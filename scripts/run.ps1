@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "down", "install", "init", "ingest", "eval", "chunking", "index-bench", "ablation", "zh-charts", "all", "test", "stats", "reset")]
+    [ValidateSet("up", "down", "install", "init", "ingest", "eval", "chunking", "index-bench", "ablation", "judge", "zh-charts", "all", "test", "stats", "reset")]
     [string]$Command = "all"
 )
 
@@ -22,6 +22,7 @@ switch ($Command) {
     "chunking" { & $Python -m src.cli compare-chunking }
     "index-bench" { & $Python -m src.cli benchmark-index }
     "ablation" { & $Python -m src.cli ablation-metadata }
+    "judge" { & $Python -m src.cli judge }
     "zh-charts" { & $Python scripts/generate_zh_charts.py }
     "all" { & $Python -m src.cli all }
     "test" { & $Python -m pytest }

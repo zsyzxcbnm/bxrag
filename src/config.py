@@ -34,6 +34,11 @@ class Settings(BaseSettings):
     reranker_device: str | None = None
     reranker_fp16: bool = False
 
+    judge_provider: Literal["local", "openai"] = "local"
+    judge_model: str = "G:/博贤/data/models/Qwen2.5-0.5B-Instruct"
+    judge_device: str | None = None
+    judge_max_new_tokens: int = 256
+
     dense_limit: int = 50
     sparse_limit: int = 50
     rerank_candidates: int = 20
