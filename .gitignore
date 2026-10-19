@@ -1,5 +1,8 @@
 .env
 .git-local/
+/AI Engineer 技术评估.pdf
+/kb_documents.json
+/eval_queries.json
 .venv/
 venv/
 __pycache__/
