@@ -16,6 +16,11 @@ chat model sounds convincing.
 - Markdown report, CSV raw results and PNG charts.
 - A memory backend that mirrors the database interface for offline validation.
 
+Current offline run: dense-only Recall@1 **0.761** / MRR **0.917**; hybrid +
+rerank Recall@1 **0.817** / MRR **0.967**. See
+[reports/results.md](reports/results.md) and
+[reports/chunking.md](reports/chunking.md).
+
 ## Architecture
 
 ```text
