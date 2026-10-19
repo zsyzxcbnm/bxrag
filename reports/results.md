@@ -1,6 +1,6 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T11:00:39.718924+00:00`.
+Generated at `2026-10-19T11:02:08.132294+00:00`.
 
 ## Setup
 
@@ -21,10 +21,10 @@ Cross-Encoder providers can be enabled through `.env`.
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.761 | 0.900 | 0.933 | 0.260 | 0.917 | 0.902 | 2.08 | 3.06 |
-| Sparse only | 0.794 | 0.900 | 0.933 | 0.260 | 0.933 | 0.917 | 2.47 | 3.90 |
-| Hybrid (RRF) | 0.794 | 0.889 | 0.933 | 0.260 | 0.933 | 0.916 | 3.15 | 4.81 |
-| Hybrid + rerank | 0.794 | 0.889 | 0.933 | 0.260 | 0.933 | 0.916 | 4.40 | 5.33 |
+| Dense only | 0.761 | 0.900 | 0.933 | 0.260 | 0.917 | 0.902 | 2.25 | 5.52 |
+| Sparse only | 0.794 | 0.900 | 0.933 | 0.260 | 0.933 | 0.917 | 2.92 | 6.05 |
+| Hybrid (RRF) | 0.794 | 0.889 | 0.933 | 0.260 | 0.933 | 0.916 | 4.18 | 7.09 |
+| Hybrid + rerank | 0.817 | 0.911 | 0.933 | 0.260 | 0.967 | 0.934 | 5.29 | 7.83 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 
@@ -47,15 +47,16 @@ Cross-Encoder providers can be enabled through `.env`.
 Queries where hybrid + rerank moved the first relevant document upward:
 
 - Q-006: rank 2 -> 1 — When will I receive my provisional credit during a transaction dispute?
+- Q-011: rank 2 -> 1 — Do Apex Reward points expire if I keep my account active?
 - Q-016: rank 2 -> 1 — What is the fee for adding authorized users to an Apex Platinum card?
 
 Queries where hybrid + rerank moved the first relevant document downward:
 
-- Q-005: rank 1 -> 2 — What is the maximum deadline for filing a merchant chargeback dispute?
+- None in this run.
 
 The dominant error mode in this dataset is card-tier confusion: the same policy exists for several products with slightly different numbers. Metadata-aware reranking is therefore more valuable than generic semantic similarity.
 
-A second issue is label exhaustiveness. For generic questions the judgment often lists only one or two card tiers even when another tier's policy contains the same fact. For example, the top result for Q-005 (DOC-0023) and Q-011 (DOC-0053) is semantically valid but not labeled relevant. Strict Recall/MRR therefore understates retrieval quality; it should not be tuned away by overfitting to the 30 labeled queries.
+A second issue is label exhaustiveness. For generic questions the judgment often lists only one or two card tiers even when another tier's policy contains the same fact. For example, DOC-0023 for Q-005 and DOC-0053 for Q-011 are semantically valid but not labeled relevant. Strict Recall/MRR therefore understates retrieval quality; it should not be tuned away by overfitting to the 30 labeled queries.
 
 ## Reproducibility and limitations
 

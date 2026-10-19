@@ -98,6 +98,10 @@ class HeuristicReranker:
         query_tokens = set(query_token_list)
         query_numbers = set(_NUMBER_RE.findall(query.lower()))
         query_bigrams = _bigrams(query_token_list)
+        business_context = any(
+            term in query.lower()
+            for term in ("business", "commercial", "corporate", "employee", "b2b")
+        )
         requested_types = {
             term
             for term in _ANSWER_TERMS
@@ -127,6 +131,13 @@ class HeuristicReranker:
             tier_penalty = (
                 -0.18 if parsed.card_tier and hit.card_tier != parsed.card_tier else 0.0
             )
+            business_penalty = (
+                -0.12
+                if hit.card_tier == "Apex Business Select"
+                and not parsed.card_tier
+                and not business_context
+                else 0.0
+            )
             year_match = (
                 1.0
                 if parsed.effective_year and hit.effective_year == parsed.effective_year
@@ -144,6 +155,7 @@ class HeuristicReranker:
                 + 0.02 * year_match
                 + 0.15 * answer_type_score
                 + tier_penalty
+                + business_penalty
             )
             scored.append(replace(hit, score=score, source="heuristic-rerank"))
 

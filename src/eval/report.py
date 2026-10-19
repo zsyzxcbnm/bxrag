@@ -125,8 +125,8 @@ def _failure_section(payload: dict[str, Any]) -> str:
     lines.append(
         "A second issue is label exhaustiveness. For generic questions the judgment often "
         "lists only one or two card tiers even when another tier's policy contains the same "
-        "fact. For example, the top result for Q-005 (DOC-0023) and Q-011 (DOC-0053) is "
-        "semantically valid but not labeled relevant. Strict Recall/MRR therefore "
+        "fact. For example, DOC-0023 for Q-005 and DOC-0053 for Q-011 are semantically "
+        "valid but not labeled relevant. Strict Recall/MRR therefore "
         "understates retrieval quality; it should not be tuned away by overfitting to the "
         "30 labeled queries."
     )
