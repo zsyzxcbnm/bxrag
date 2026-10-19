@@ -30,8 +30,8 @@ def document_chunks(document: Document) -> list[Chunk]:
 
 def fixed_window_chunks(
     document: Document,
-    max_words: int = 110,
-    overlap_words: int = 20,
+    max_words: int = 40,
+    overlap_words: int = 10,
 ) -> list[Chunk]:
     """Split a document with a sliding word window."""
 

@@ -120,6 +120,7 @@ python -m src.cli init-db [--reset]
 python -m src.cli ingest [--strategy document|fixed|semantic|all] [--refit]
 python -m src.cli index
 python -m src.cli eval [--repeats 3] [--backend postgres|memory]
+python -m src.cli compare-chunking
 python -m src.cli search "How long do I have to report an unauthorized charge?"
 python -m src.cli stats
 python -m src.cli reset-db --yes

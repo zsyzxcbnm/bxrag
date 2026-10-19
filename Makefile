@@ -1,4 +1,4 @@
-.PHONY: up down install init ingest index eval all test lint typecheck reset
+.PHONY: up down install init ingest index eval chunking all test lint typecheck reset
 
 up:
 	docker compose up -d db
@@ -20,6 +20,9 @@ index:
 
 eval:
 	python -m src.cli eval
+
+chunking:
+	python -m src.cli compare-chunking
 
 all:
 	python -m src.cli all

@@ -1,6 +1,6 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T11:02:08.132294+00:00`.
+Generated at `2026-10-19T11:04:48.759233+00:00`.
 
 ## Setup
 
@@ -21,10 +21,10 @@ Cross-Encoder providers can be enabled through `.env`.
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.761 | 0.900 | 0.933 | 0.260 | 0.917 | 0.902 | 2.25 | 5.52 |
-| Sparse only | 0.794 | 0.900 | 0.933 | 0.260 | 0.933 | 0.917 | 2.92 | 6.05 |
-| Hybrid (RRF) | 0.794 | 0.889 | 0.933 | 0.260 | 0.933 | 0.916 | 4.18 | 7.09 |
-| Hybrid + rerank | 0.817 | 0.911 | 0.933 | 0.260 | 0.967 | 0.934 | 5.29 | 7.83 |
+| Dense only | 0.761 | 0.900 | 0.933 | 0.260 | 0.917 | 0.902 | 2.08 | 2.85 |
+| Sparse only | 0.794 | 0.900 | 0.933 | 0.260 | 0.933 | 0.917 | 2.44 | 4.07 |
+| Hybrid (RRF) | 0.794 | 0.889 | 0.933 | 0.260 | 0.933 | 0.916 | 3.10 | 3.94 |
+| Hybrid + rerank | 0.817 | 0.911 | 0.933 | 0.260 | 0.967 | 0.934 | 4.59 | 6.92 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 

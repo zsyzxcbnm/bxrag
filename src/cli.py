@@ -10,6 +10,7 @@ from src.config import Settings, get_settings
 from src.db import Database
 from src.db_memory import MemoryDatabase
 from src.db_protocol import DatabaseLike
+from src.eval.chunking import compare_chunking, write_chunking_report
 from src.eval.report import generate_report
 from src.eval.runner import EvalRunner, write_evaluation
 from src.ingestion.chunker import chunk_documents
@@ -153,6 +154,18 @@ def _search(settings: Settings, query: str, mode: str, top_k: int, backend: str)
     )
 
 
+def _compare_chunking(settings: Settings) -> None:
+    embedder = _load_embedder(settings)
+    documents = load_documents(settings.data_dir / "kb_documents.json")
+    queries = load_queries(
+        settings.data_dir / "eval_queries.json",
+        known_doc_ids={document.doc_id for document in documents},
+    )
+    payload = compare_chunking(settings, embedder, queries)
+    path = write_chunking_report(payload, settings.reports_dir)
+    LOGGER.info("Wrote %s", path)
+
+
 def _init_db(settings: Settings, reset: bool) -> None:
     try:
         embedder = _load_embedder(settings)
@@ -216,6 +229,11 @@ def build_parser() -> argparse.ArgumentParser:
     stats = subparsers.add_parser("stats", help="Show document and chunk counts")
     _add_backend_argument(stats)
 
+    subparsers.add_parser(
+        "compare-chunking",
+        help="Compare document, fixed-window and semantic chunking",
+    )
+
     reset = subparsers.add_parser("reset-db", help="Drop and recreate all tables")
     reset.add_argument("--yes", action="store_true", help="Confirm destructive reset")
 
@@ -265,6 +283,8 @@ def main() -> None:
             else _database(settings, embedder)
         )
         print(json.dumps(database.stats(), indent=2))
+    elif args.command == "compare-chunking":
+        _compare_chunking(settings)
     elif args.command == "reset-db":
         if not args.yes:
             raise SystemExit("Refusing to reset without --yes")
@@ -279,6 +299,7 @@ def main() -> None:
             backend=backend,
         )
         _evaluate(settings, repeats=3, backend=backend, database=database)
+        _compare_chunking(settings)
 
 
 if __name__ == "__main__":
