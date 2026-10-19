@@ -172,6 +172,56 @@ def chart_embeddings() -> None:
     _save(fig, "embedding_comparison_zh.png")
 
 
+def chart_rerankers() -> None:
+    heuristic = _load("results_bge_large_pgvector.json")["summary"]["hybrid_rerank"]
+    cross = _load("results_bge_reranker_gpu.json")["summary"]["hybrid_rerank"]
+    metric_keys = ["recall@1", "recall@3", "mrr", "ndcg@5"]
+    metric_labels = ["Recall@1", "Recall@3", "MRR", "nDCG@5"]
+    names = ["元数据启发式", "BGE Cross-Encoder"]
+    values = [heuristic, cross]
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4.6))
+    width = 0.32
+    positions = list(range(len(metric_keys)))
+    for index, (name, item) in enumerate(zip(names, values, strict=True)):
+        axes[0].bar(
+            [p + (index - 0.5) * width for p in positions],
+            [item["metrics"][key] for key in metric_keys],
+            width=width,
+            label=name,
+            color=COLORS[index],
+        )
+    axes[0].set_xticks(positions)
+    axes[0].set_xticklabels(metric_labels)
+    axes[0].set_ylim(0, 1.05)
+    axes[0].set_ylabel("分数")
+    axes[0].set_title("Hybrid + 重排序质量", fontsize=12)
+    axes[0].legend(fontsize=8)
+    axes[0].grid(axis="y", alpha=0.25)
+
+    axes[1].bar(
+        [0 - 0.18, 1 - 0.18],
+        [heuristic["latency"]["p50_ms"], cross["latency"]["p50_ms"]],
+        width=0.36,
+        label="P50",
+        color="#3274a1",
+    )
+    axes[1].bar(
+        [0 + 0.18, 1 + 0.18],
+        [heuristic["latency"]["p99_ms"], cross["latency"]["p99_ms"]],
+        width=0.36,
+        label="P99",
+        color="#e1812c",
+    )
+    axes[1].set_xticks([0, 1])
+    axes[1].set_xticklabels(names, fontsize=9)
+    axes[1].set_ylabel("毫秒 (ms)")
+    axes[1].set_title("重排序检索延迟", fontsize=12)
+    axes[1].legend()
+    axes[1].grid(axis="y", alpha=0.25)
+    _save(fig, "reranker_comparison_zh.png")
+
+
 def chart_architecture() -> None:
     steps = [
         "知识库\nJSON",
@@ -229,6 +279,7 @@ def main() -> None:
     chart_chunking(chunking)
     chart_index_tuning(index_tuning)
     chart_embeddings()
+    chart_rerankers()
     chart_architecture()
     print("中文图表已生成到", FIGURES)
 

@@ -7,6 +7,8 @@ from collections.abc import Sequence
 from dataclasses import replace
 from typing import Protocol
 
+import numpy as np
+
 from src.config import Settings
 from src.models import ParsedQuery, SearchHit
 
@@ -167,9 +169,18 @@ class HeuristicReranker:
 class CrossEncoderReranker:
     """Optional Sentence-Transformers Cross-Encoder with a safe fallback."""
 
-    def __init__(self, model_name: str) -> None:
+    def __init__(
+        self,
+        model_name: str,
+        device: str | None = None,
+        fp16: bool = False,
+        max_length: int = 512,
+    ) -> None:
         self.name = model_name
         self.model_name = model_name
+        self.device = device
+        self.fp16 = fp16
+        self.max_length = max_length
         self._model: object | None = None
         self._failed = False
         self._fallback = HeuristicReranker()
@@ -182,7 +193,17 @@ class CrossEncoderReranker:
         try:
             from sentence_transformers import CrossEncoder
 
-            self._model = CrossEncoder(self.model_name)
+            model_kwargs: dict[str, object] | None = None
+            if self.fp16 and self.device != "cpu":
+                import torch
+
+                model_kwargs = {"torch_dtype": torch.float16}
+            self._model = CrossEncoder(
+                self.model_name,
+                device=self.device,
+                model_kwargs=model_kwargs,
+                max_length=self.max_length,
+            )
         except Exception:
             self._failed = True
             return None
@@ -206,18 +227,18 @@ class CrossEncoderReranker:
             self._failed = True
             return self._fallback.rerank(query, parsed, hits, top_n)
 
+        heuristic_scores = {
+            hit.doc_id: hit.score
+            for hit in self._fallback.rerank(query, parsed, hits, len(hits))
+        }
         scored: list[SearchHit] = []
         for hit, raw_score in zip(hits, predictions, strict=True):
-            tier_bonus = 0.15 if parsed.card_tier and hit.card_tier == parsed.card_tier else 0.0
-            year_bonus = (
-                0.05
-                if parsed.effective_year and hit.effective_year == parsed.effective_year
-                else 0.0
-            )
+            cross_score = 1.0 / (1.0 + np.exp(-float(raw_score)))
+            metadata_score = heuristic_scores.get(hit.doc_id, 0.0)
             scored.append(
                 replace(
                     hit,
-                    score=float(raw_score) + tier_bonus + year_bonus,
+                    score=0.65 * cross_score + 0.35 * metadata_score,
                     source="cross-encoder",
                 )
             )
@@ -229,6 +250,10 @@ def build_reranker(settings: Settings) -> Reranker:
     """Build the configured reranker."""
 
     if settings.reranker_provider == "cross-encoder":
-        return CrossEncoderReranker(settings.reranker_model)
+        return CrossEncoderReranker(
+            settings.reranker_model,
+            device=settings.reranker_device or None,
+            fp16=settings.reranker_fp16,
+        )
     return HeuristicReranker()
 

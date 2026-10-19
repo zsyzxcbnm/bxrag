@@ -29,6 +29,7 @@ GPU 上查询 Embedding 约 **25 ms P50 / 30 ms P99**，因此混合检索+重�
 - [分块策略对比](reports/chunking.zh-CN.md)
 - [HNSW 索引参数扫描](reports/index_tuning.zh-CN.md)
 - [Embedding 方案对比](reports/embedding_comparison.zh-CN.md)
+- [重排序器对比](reports/reranker_comparison.zh-CN.md)
 - [战略架构路线图](docs/roadmap.zh-CN.md)
 
 ## 架构
@@ -125,6 +126,17 @@ Windows 也可以使用 `scripts/run.ps1`，例如：
 .\scripts\run.ps1 chunking
 .\scripts\run.ps1 index-bench
 ```
+
+## 重排序器
+
+默认使用元数据感知的启发式重排序。`bge-reranker-large` 也已接入：
+
+- 模型位置：`G:\博贤\data\models\bge-reranker-large`
+- GPU fp16 显存约 1.1GB
+- 在本数据集上 Recall@1/MRR 与启发式持平，但 nDCG@5 略低，P50 约慢 20 倍
+- 因此保留为可选 Cross-Encoder 能力，默认不启用
+
+详细对比见 [重排序器对比](reports/reranker_comparison.zh-CN.md)。
 
 ## 数据特点
 

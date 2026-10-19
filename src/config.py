@@ -31,6 +31,8 @@ class Settings(BaseSettings):
 
     reranker_provider: Literal["heuristic", "cross-encoder"] = "heuristic"
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    reranker_device: str | None = None
+    reranker_fp16: bool = False
 
     dense_limit: int = 50
     sparse_limit: int = 50

@@ -132,6 +132,22 @@ Install `pip install -e ".[cross-encoder]"` first. If the model cannot be loaded
 the reranker falls back to the heuristic implementation instead of failing the
 whole evaluation.
 
+### Local BGE reranker
+
+The provided `bge-reranker-large` is supported as a real Cross-Encoder:
+
+```text
+RERANKER_PROVIDER=cross-encoder
+RERANKER_MODEL=G:/博贤/data/models/bge-reranker-large
+RERANKER_DEVICE=cuda
+RERANKER_FP16=true
+```
+
+It runs on the 4GB GPU in fp16 (about 1.1GB), but on this synthetic policy
+dataset it does not beat the metadata heuristic: nDCG@5 is 0.961 vs 0.964 and
+P50 is about 163ms vs 8ms. It remains an optional provider; the default stays
+with the heuristic. See [reports/reranker_comparison.md](reports/reranker_comparison.md).
+
 ## BGE-large-en-v1.5
 
 BGE-large is the recommended English CPU default for this dataset:
