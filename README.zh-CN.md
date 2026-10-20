@@ -182,6 +182,14 @@ API 通过 `api` compose profile 启动：
 docker compose --profile api up -d --build
 ```
 
+首次部署需要导入数据，否则 API 能启动但数据库是空的：
+
+```powershell
+docker compose --profile api build api
+docker compose --profile api run --rm api python -m src.cli ingest
+docker compose --profile api up -d api
+```
+
 访问：
 
 - Swagger UI：`http://localhost:8000/docs`

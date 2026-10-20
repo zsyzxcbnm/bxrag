@@ -289,6 +289,14 @@ The API is available through the `api` compose profile:
 docker compose --profile api up -d --build
 ```
 
+The first deployment needs a one-off ingest so the API has data:
+
+```powershell
+docker compose --profile api build api
+docker compose --profile api run --rm api python -m src.cli ingest
+docker compose --profile api up -d api
+```
+
 Open:
 
 - Swagger UI: `http://localhost:8000/docs`

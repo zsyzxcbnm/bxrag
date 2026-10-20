@@ -39,6 +39,8 @@ services:
       KMP_DUPLICATE_LIB_OK: "TRUE"
     volumes:
       - ./data/models:/models:ro
+      - ./data:/app/data:ro
+      - ./reports:/app/reports
 
 volumes:
   apex_pgdata:

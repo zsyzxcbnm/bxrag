@@ -1,0 +1,16 @@
+.git
+.git-local
+.venv
+.venv-gpu
+.cache
+.tmp
+.idea
+.mypy_cache
+.pytest_cache
+.ruff_cache
+data/models
+data/artifacts
+reports
+dist
+tmp
+*.pdf
