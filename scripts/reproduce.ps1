@@ -46,13 +46,25 @@ $env:JUDGE_DEVICE = "cuda"
 $env:KMP_DUPLICATE_LIB_OK = "TRUE"
 $env:REPORTS_DIR = "reports"
 
+$ModelArgs = @()
+if (-not (Test-Path (Join-Path $Root "data\models\bge-large-en-v1.5"))) {
+    $ModelArgs += "bge-embedding"
+}
+if (-not (Test-Path (Join-Path $Root "data\models\bge-reranker-large"))) {
+    $ModelArgs += "bge-reranker"
+}
+if ($ModelArgs.Count -gt 0) {
+    Write-Host "Downloading missing models: $($ModelArgs -join ', ')"
+    & $Python scripts\download_models.py @ModelArgs
+}
+
 $RequiredModels = @(
     (Join-Path $Root $env:EMBEDDING_MODEL),
     (Join-Path $Root $env:RERANKER_MODEL)
 )
 foreach ($Model in $RequiredModels) {
     if (-not (Test-Path $Model)) {
-        throw "Missing model: $Model. Run: & '$Python' scripts\download_models.py bge-embedding bge-reranker"
+        throw "Missing model after download: $Model"
     }
 }
 

@@ -141,7 +141,6 @@ chunking comparison, and writes Chinese charts to `reports/offline/`.
 ### Full PostgreSQL + BGE GPU run
 
 ```powershell
-& .\.venv\Scripts\python.exe scripts\download_models.py bge-embedding bge-reranker
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
@@ -149,12 +148,6 @@ Equivalent Make target:
 
 ```text
 make reproduce-gpu
-```
-
-Before the GPU target, models can be downloaded with:
-
-```text
-make download-models
 ```
 
 The full static/test check is:
@@ -175,7 +168,9 @@ The optional judge model is downloaded with `make download-judge`.
 
 This starts the pgvector container, rebuilds the 1024-dimensional BGE index,
 runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
-the Chinese charts in `reports/`.
+the Chinese charts in `reports/`. Missing models are downloaded automatically
+on the first run (about 5GB; network required). Docker and an NVIDIA GPU are
+required for this profile.
 
 Both commands use `.venv` and the project-local cache/tmp directories.
 `requirements.txt` is a convenience wrapper around the canonical

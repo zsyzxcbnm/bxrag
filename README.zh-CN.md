@@ -126,7 +126,6 @@ make reproduce
 ### 完整 PostgreSQL + BGE GPU
 
 ```powershell
-& .\.venv\Scripts\python.exe scripts\download_models.py bge-embedding bge-reranker
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
@@ -134,12 +133,6 @@ make reproduce
 
 ```text
 make reproduce-gpu
-```
-
-GPU 复现前可以先下载模型：
-
-```text
-make download-models
 ```
 
 完整测试和静态检查：
@@ -159,7 +152,8 @@ make docker-api
 可选的 Judge 模型用 `make download-judge` 下载。
 
 脚本会启动 pgvector 容器、重建 1024 维 BGE 索引、运行完整评测、HNSW 参数扫描、
-元数据消融，并重新生成 `reports/` 下的中文图表。
+元数据消融，并重新生成 `reports/` 下的中文图表。首次运行会自动下载缺失模型
+（约 5GB，需要网络）；该 profile 需要 Docker 和 NVIDIA GPU。
 
 两条命令都使用项目内 `.venv` 和项目内缓存/临时目录。
 `requirements.txt` 只是 `pyproject.toml` 的便捷入口，依赖的权威定义仍在 `pyproject.toml`。
