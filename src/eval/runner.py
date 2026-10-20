@@ -15,6 +15,7 @@ from src.models import QueryExample
 from src.retrieval.pipeline import RetrievalMode, RetrievalPipeline
 
 MODES: tuple[RetrievalMode, ...] = ("dense_only", "sparse_only", "hybrid", "hybrid_rerank")
+EVAL_TOP_K = 10
 
 
 def percentile(values: list[float], percentile_value: float) -> float:
@@ -43,11 +44,17 @@ class EvalRunner:
         settings: Settings,
         repeats: int = 3,
         backend: str | None = None,
+        top_k: int = EVAL_TOP_K,
+        use_metadata: bool = False,
     ) -> None:
+        if top_k < 10:
+            raise ValueError("top_k must be at least 10 to compute Recall@10 and nDCG@10")
         self.pipeline = pipeline
         self.settings = settings
         self.repeats = max(1, repeats)
         self.backend = backend or settings.backend
+        self.top_k = top_k
+        self.use_metadata = use_metadata
 
     def run(self, queries: list[QueryExample]) -> dict[str, Any]:
         """Run all modes and return a JSON-serializable result payload."""
@@ -67,6 +74,8 @@ class EvalRunner:
                 "rrf_k": self.settings.rrf_k,
                 "dense_weight": self.settings.dense_weight,
                 "sparse_weight": self.settings.sparse_weight,
+                "top_k": self.top_k,
+                "use_metadata": self.use_metadata,
             },
             "summary": {},
             "per_query": {},
@@ -81,7 +90,12 @@ class EvalRunner:
             per_query: dict[str, Any] = {}
 
             for query in queries:
-                first_result = self.pipeline.search(query.query, mode=mode)
+                first_result = self.pipeline.search(
+                    query.query,
+                    mode=mode,
+                    top_k=self.top_k,
+                    use_metadata=self.use_metadata,
+                )
                 ranked_ids = [hit.doc_id for hit in first_result.hits]
                 metrics = evaluate_ranking(ranked_ids, query.relevant_doc_ids)
                 for name, value in metrics.items():
@@ -99,7 +113,12 @@ class EvalRunner:
                 for stage, value in first_result.timings_ms.items():
                     stage_latencies.setdefault(stage, []).append(value)
                 for _ in range(self.repeats - 1):
-                    repeated = self.pipeline.search(query.query, mode=mode)
+                    repeated = self.pipeline.search(
+                        query.query,
+                        mode=mode,
+                        top_k=self.top_k,
+                        use_metadata=self.use_metadata,
+                    )
                     query_latencies.append(repeated.timings_ms["total_ms"])
                     query_retrieval.append(
                         sum(

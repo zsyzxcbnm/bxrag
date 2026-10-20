@@ -5,6 +5,20 @@ credit-card support knowledge base. The project is intentionally retrieval-first
 the benchmark measures whether the right policy document is found, not whether a
 chat model sounds convincing.
 
+## For reviewers
+
+Run commands from the repository root after cloning. The shortest verification
+is:
+
+```powershell
+git clone https://github.com/zsyzxcbnm/bxrag.git
+cd bxrag
+powershell -ExecutionPolicy Bypass -File .\scripts\reproduce.ps1
+```
+
+See [REVIEW.md](REVIEW.md) for code checks, full BGE GPU, and Docker/API
+verification.
+
 Chinese documentation: [README.zh-CN.md](README.zh-CN.md) ·
 [战略架构路线图](docs/roadmap.zh-CN.md) ·
 [中文评测报告](reports/results.zh-CN.md) ·
@@ -13,32 +27,48 @@ Chinese documentation: [README.zh-CN.md](README.zh-CN.md) ·
 ## What is included
 
 - PostgreSQL + `pgvector` storage with HNSW and full-text indexes.
-- Document-level, fixed-window and semantic chunking strategies.
+- Document-level, fixed-window and sentence-aware chunking strategies.
 - Dense retrieval, PostgreSQL `tsvector` retrieval, weighted Reciprocal Rank
-  Fusion and a second-stage reranker.
+  Fusion and an optional second-stage reranker.
 - Offline and optional API-backed embedding/reranker providers.
 - Recall@K, Precision@K, MRR, nDCG@K and P50/P95/P99 latency evaluation.
 - Markdown report, CSV raw results and PNG charts.
 - A memory backend that mirrors the database interface for offline validation.
 
-Current PostgreSQL + pgvector run with local BGE-large-en-v1.5: dense-only
-Recall@1 **0.772** / MRR **0.922**; hybrid + rerank Recall@1 **0.817** / MRR
-**0.967** / nDCG@5 **0.964**, retrieval P50 **7.7 ms** and P99 **10.4 ms**;
-GPU query embedding adds about **25 ms** P50. Approximate end-to-end latency is
-**32 ms P50 / 40 ms P99**. The HNSW sweep reports 2.5 ms P50 / 7-8 ms P99. See
-[reports/results.md](reports/results.md) and
+Current PostgreSQL + pgvector run with local BGE-large-en-v1.5, ten results per
+query, metadata rules disabled, and 0.5/0.5 dense/sparse RRF weights:
+
+- Dense-only: Recall@1 **0.806**, MRR **0.956**.
+- Default rules-free Hybrid RRF: Recall@1 **0.850**, MRR **1.000**, nDCG@5
+  **0.994**, retrieval P50 **8.10 ms**, P99 **10.28 ms**.
+- Optional Hybrid + heuristic rerank: Recall@1 **0.850**, MRR **1.000**, nDCG@5
+  **0.991**, retrieval P50 **9.55 ms**, P99 **12.57 ms**.
+
+GPU query embedding adds about **27-29 ms** P50. Approximate end-to-end latency
+is **35.44 ms P50 / 41.20 ms P99** for the default Hybrid RRF path and
+**38.71 ms P50 / 46.84 ms P99** for Hybrid + rerank. The HNSW sweep reports
+2.5 ms P50 / 7-8 ms P99. See [reports/results.md](reports/results.md) and
 [reports/chunking.md](reports/chunking.md).
 
-Important ablation: the rules-free RRF baseline is stronger on the 30 labeled
-queries (Recall@1 0.850, MRR 1.000, nDCG@5 0.994). The card-tier/year hard
-filters and metadata heuristic are dataset-informed and are reported separately
-in [reports/ablation_metadata.md](reports/ablation_metadata.md).
+Rules-free RRF is the default because the metadata rules are dataset-informed
+and do not generalize cleanly: the ablation still puts RRF ahead of the
+metadata heuristic (Recall@1 0.850 vs 0.817, MRR 1.000 vs 0.967). Metadata
+filters and heuristic bonuses remain available as an opt-in comparison in
+[reports/ablation_metadata.md](reports/ablation_metadata.md).
 
-| Embedding | Dense Recall@1 | Dense MRR | Hybrid + rerank Recall@1 | Hybrid + rerank MRR | nDCG@5 |
-|---|---:|---:|---:|---:|---:|
-| TF-IDF + SVD baseline | 0.761 | 0.917 | 0.783 | 0.950 | 0.950 |
-| BGE-large-en-v1.5 | 0.772 | 0.922 | **0.817** | **0.967** | **0.964** |
-| Qwen3-Embedding-0.6B | **0.817** | **0.967** | **0.817** | **0.967** | 0.961 |
+All rows below use the default 0.5/0.5 RRF weights, metadata rules disabled,
+and the same ten-result evaluation. The neural rows run on CUDA (RTX 3050 Ti):
+
+| Embedding | RRF dense/sparse | Dense R@1 | Dense MRR | Hybrid R@1 | Hybrid MRR | Hybrid nDCG@5 | Rerank R@1 | Rerank MRR | Rerank nDCG@5 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| TF-IDF + SVD baseline | 0.5/0.5 | 0.694 | 0.894 | 0.750 | 0.950 | 0.939 | 0.772 | 0.950 | 0.943 |
+| BGE-large-en-v1.5 | 0.5/0.5 | 0.806 | 0.956 | **0.850** | **1.000** | **0.994** | **0.850** | **1.000** | 0.991 |
+| Qwen3-Embedding-0.6B | 0.5/0.5 | 0.817 | 0.983 | 0.817 | 0.983 | 0.981 | **0.850** | **1.000** | 0.991 |
+
+The per-model reports record their exact provider, device and weights:
+[TF-IDF](reports/results_tfidf_pgvector.md) ·
+[BGE](reports/results_bge_large_pgvector.md) ·
+[Qwen3](reports/results_qwen3_pgvector.md).
 
 ## Architecture
 
@@ -49,7 +79,7 @@ data/kb_documents.json
   normalize + metadata
         |
         v
-  document / fixed / semantic chunks
+  document / fixed / sentence-aware chunks
         |
         v
   embedder (local LSA, BGE, Qwen3 or OpenAI)
@@ -62,11 +92,14 @@ data/kb_documents.json
                        v
                   weighted RRF
                        |
-                       v
-              Cross-Encoder or heuristic
-                       |
-                       v
-                    Top-5 evidence
+             +---------+---------+
+             |                   |
+             v                   v
+      Top-5 evidence     optional reranker
+         (default)        Cross-Encoder
+                              |
+                              v
+                       Top-5 evidence
 ```
 
 ## Quick start with PostgreSQL
@@ -141,7 +174,6 @@ chunking comparison, and writes Chinese charts to `reports/offline/`.
 ### Full PostgreSQL + BGE GPU run
 
 ```powershell
-& .\.venv\Scripts\python.exe scripts\download_models.py bge-embedding bge-reranker
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
@@ -151,9 +183,27 @@ Equivalent Make target:
 make reproduce-gpu
 ```
 
+The full static/test check is:
+
+```text
+make verify
+```
+
+The Docker deployment path is also wrapped:
+
+```text
+make docker-build
+make docker-ingest
+make docker-api
+```
+
+The optional judge model is downloaded with `make download-judge`.
+
 This starts the pgvector container, rebuilds the 1024-dimensional BGE index,
 runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
-the Chinese charts in `reports/`.
+the Chinese charts in `reports/`. Missing models are downloaded automatically
+on the first run (about 5GB; network required). Docker and an NVIDIA GPU are
+required for this profile.
 
 Both commands use `.venv` and the project-local cache/tmp directories.
 `requirements.txt` is a convenience wrapper around the canonical
@@ -168,7 +218,15 @@ scripts are the correct entry points.
 The default is deliberately offline and reproducible:
 
 - Embedding: local TF-IDF + Truncated SVD, 128 dimensions.
-- Reranker: metadata-aware heuristic reranker.
+- Retrieval: weighted RRF over dense and sparse candidates, with metadata
+  rules disabled.
+- Reranker: optional. The serving default is `hybrid` (RRF only);
+  `hybrid_rerank` enables the heuristic or Cross-Encoder stage.
+
+Metadata filters and heuristic bonuses are opt-in. Pass `use_metadata=true` to
+the API, or `--use-metadata` to `python -m src.cli search`, together with
+`mode=hybrid_rerank`. They are evaluated separately in the ablation because
+they were designed against this 30-query benchmark.
 
 To use OpenAI embeddings, install the optional dependency and set:
 
@@ -205,13 +263,13 @@ RERANKER_FP16=true
 ```
 
 It runs on the 4GB GPU in fp16 (about 1.1GB), but on this synthetic policy
-dataset it does not beat the metadata heuristic: nDCG@5 is 0.961 vs 0.964 and
-P50 is about 163ms vs 8ms. It remains an optional provider; the default stays
-with the heuristic. See [reports/reranker_comparison.md](reports/reranker_comparison.md).
+dataset it does not beat the default rules-free RRF: nDCG@5 is 0.979 vs 0.994
+and P50 is about 176 ms vs 8 ms. It remains an optional provider. See
+[reports/reranker_comparison.md](reports/reranker_comparison.md).
 
 ## BGE-large-en-v1.5
 
-BGE-large is the recommended English CPU default for this dataset:
+BGE-large is the recommended neural embedding for this English dataset:
 
 ```text
 EMBEDDING_PROVIDER=sentence-transformers
@@ -249,8 +307,9 @@ $env:KMP_DUPLICATE_LIB_OK='TRUE'
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 
-On the RTX 3050 Ti, BGE query embedding is about **25 ms P50** and the complete
-hybrid + rerank path is about **32 ms P50 / 40 ms P99**.
+On the RTX 3050 Ti, BGE query embedding is about **27-29 ms P50**. Approximate
+end-to-end latency is **35.44 ms P50 / 41.20 ms P99** for Hybrid RRF and
+**38.71 ms P50 / 46.84 ms P99** for Hybrid + rerank.
 
 ## Qwen3-Embedding-0.6B
 
@@ -270,7 +329,7 @@ dimension changes from 128 to 1024:
 ```powershell
 python -m src.cli reset-db --yes
 python -m src.cli ingest
-python -m src.cli eval --dense-weight 0.7 --sparse-weight 0.3
+python -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
 ```
 
 On this Windows/Anaconda setup an OpenMP runtime conflict appears when PyTorch
@@ -283,7 +342,7 @@ PostgreSQL retrieval path; a CUDA/ONNX/TEI deployment is the next optimization.
 
 ```text
 python -m src.cli init-db [--reset]
-python -m src.cli ingest [--strategy document|fixed|semantic|all] [--refit]
+python -m src.cli ingest [--strategy document|fixed|sentence|all] [--refit]
 python -m src.cli index
 python -m src.cli eval [--repeats 3] [--backend postgres|memory]
 python -m src.cli compare-chunking
@@ -383,9 +442,11 @@ The four pipelines are:
 3. Hybrid with weighted RRF.
 4. Hybrid + reranker.
 
-The headline metrics are Recall@1, MRR and nDCG@5. Recall@10 saturates on this
-small dataset. Latency is measured end-to-end; database-only timing is kept in
-the raw JSON so the two are not conflated.
+The evaluation fetches **ten** ranked documents per query and computes Recall
+and nDCG at both 5 and 10. Recall@1, MRR and nDCG@5 remain the most
+discriminating metrics; Recall@10 often saturates on this small dataset but is
+now measured over ten actual results. Latency is measured end-to-end;
+database-only timing is kept in the raw JSON so the two are not conflated.
 
 ## Tests and checks
 
@@ -403,6 +464,8 @@ mypy src
   per-query tuning.
 - The PostgreSQL/pgvector path is the intended delivery path, but the offline
   backend exists because Docker may require administrator privileges on Windows.
-- No answer-generation or LLM-judge pipeline is included in this first
-  closed-loop version.
+- Answer generation and LLM-as-a-Judge are available through
+  `src/eval/judge.py` and `reports/llm_judge.md`, but the 0.5B local judge is a
+  smoke test, not a reliable production evaluator. Retrieval scores never use
+  generated answers.
 

@@ -102,10 +102,10 @@ class RetrievalPipeline:
     def search(
         self,
         query: str,
-        mode: RetrievalMode = "hybrid_rerank",
+        mode: RetrievalMode = "hybrid",
         top_k: int | None = None,
         chunk_strategy: str = "document",
-        use_metadata: bool = True,
+        use_metadata: bool = False,
     ) -> RetrievalResult:
         """Run one of four retrieval modes and return ranked document hits."""
 
@@ -116,7 +116,7 @@ class RetrievalPipeline:
         parsed = parse_query(query)
         filters = self._filters(parsed) if use_metadata else {}
         timings: dict[str, float] = {}
-        limit = top_k or self.settings.final_k
+        limit = top_k if top_k is not None else self.settings.final_k
 
         query_vector: np.ndarray | None = None
         if mode in {"dense_only", "hybrid", "hybrid_rerank"}:

@@ -46,3 +46,6 @@ class DatabaseLike(Protocol):
 
     def stats(self) -> dict[str, Any]:
         """Return storage statistics."""
+
+    def close(self) -> None:
+        """Release any backend resources."""

@@ -10,12 +10,12 @@
 
 | Reranker | Recall@1 | Recall@3 | MRR | nDCG@5 | Retrieval P50 | Retrieval P99 |
 |---|---:|---:|---:|---:|---:|---:|
-| Metadata heuristic | **0.817** | **0.944** | 0.967 | 0.964 | **7.54 ms** | **10.55 ms** |
-| BGE Cross-Encoder (pure) | **0.817** | **0.944** | **0.983** | **0.979** | 170.62 ms | 182.04 ms |
+| Metadata heuristic | **0.817** | **0.944** | 0.967 | 0.964 | **8.54 ms** | **13.55 ms** |
+| BGE Cross-Encoder (pure) | **0.817** | **0.944** | **0.983** | **0.979** | 176.02 ms | 218.71 ms |
 
 ![Reranker comparison](figures/reranker_comparison_zh.png)
 
-The Cross-Encoder P50 is about 170 ms, roughly 20x the heuristic path.
+The Cross-Encoder P50 is about 176 ms, roughly 20x the metadata-heuristic path.
 
 ## Conclusion
 
@@ -25,7 +25,7 @@ metadata heuristic:
 
 - MRR rises from 0.967 to 0.983.
 - nDCG@5 rises from 0.964 to 0.979.
-- Retrieval P50 rises from about 8 ms to about 170 ms.
+- Retrieval P50 rises from about 8.5 ms to about 176 ms.
 
 However, the rules-free RRF baseline is still stronger on this particular
 30-query set (Recall@1 0.850, MRR 1.000, nDCG@5 0.994). See
@@ -36,10 +36,10 @@ candidates, while the Cross-Encoder can compare the query and passage more
 flexibly. A simple 65/35 blend with the heuristic actually reduced nDCG@5 to
 0.961, so pure Cross-Encoder scoring is the better control.
 
-The production default therefore remains the heuristic reranker. The
-Cross-Encoder is kept as an optional provider for larger or more semantic
-corpora, and as evidence that the pipeline can integrate a real second-stage
-model.
+Neither reranker is the production default. The default path is rules-free
+Hybrid RRF, which is both stronger on this benchmark and faster. The
+Cross-Encoder remains an optional provider for larger or more semantic corpora,
+and as evidence that the pipeline can integrate a real second-stage model.
 
 ## Reproduce
 

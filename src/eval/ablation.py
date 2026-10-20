@@ -11,7 +11,7 @@ from typing import Any
 from src.config import Settings
 from src.db import Database
 from src.eval.metrics import evaluate_ranking
-from src.eval.runner import percentile
+from src.eval.runner import EVAL_TOP_K, percentile
 from src.ingestion.embedder import Embedder
 from src.models import QueryExample
 from src.retrieval.pipeline import RetrievalPipeline
@@ -69,6 +69,7 @@ def run_ablation(
             "cross_encoder": settings.reranker_model,
             "cross_encoder_device": settings.reranker_device,
             "cross_encoder_fp16": settings.reranker_fp16,
+            "top_k": EVAL_TOP_K,
         },
         "summary": {},
         "per_query": {},
@@ -86,6 +87,7 @@ def run_ablation(
             first = pipeline.search(
                 query.query,
                 mode=mode,  # type: ignore[arg-type]
+                top_k=EVAL_TOP_K,
                 use_metadata=use_metadata,
             )
             ranked = [hit.doc_id for hit in first.hits]
@@ -107,6 +109,7 @@ def run_ablation(
                 repeated = pipeline.search(
                     query.query,
                     mode=mode,  # type: ignore[arg-type]
+                    top_k=EVAL_TOP_K,
                     use_metadata=use_metadata,
                 )
                 retrieval_latencies.append(
@@ -165,8 +168,10 @@ def write_ablation(payload: dict[str, Any], reports_dir: Path) -> Path:
                 name,
                 metrics.get("recall@1", 0),
                 metrics.get("recall@3", 0),
+                metrics.get("recall@10", 0),
                 metrics.get("mrr", 0),
                 metrics.get("ndcg@5", 0),
+                metrics.get("ndcg@10", 0),
                 item["retrieval_latency"]["p50_ms"],
                 item["retrieval_latency"]["p99_ms"],
             ]
@@ -178,17 +183,31 @@ def write_ablation(payload: dict[str, Any], reports_dir: Path) -> Path:
         newline="",
     ) as handle:
         writer = csv.writer(handle)
-        writer.writerow(["pipeline", "recall@1", "recall@3", "mrr", "ndcg@5", "p50_ms", "p99_ms"])
+        writer.writerow(
+            [
+                "pipeline",
+                "recall@1",
+                "recall@3",
+                "recall@10",
+                "mrr",
+                "ndcg@5",
+                "ndcg@10",
+                "p50_ms",
+                "p99_ms",
+            ]
+        )
         writer.writerows(rows)
 
     lines = [
-        "| Pipeline | Recall@1 | Recall@3 | MRR | nDCG@5 | Retrieval P50 | Retrieval P99 |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| Pipeline | Recall@1 | Recall@3 | Recall@10 | MRR | nDCG@5 | nDCG@10 | "
+        "Retrieval P50 | Retrieval P99 |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in rows:
         lines.append(
             f"| {row[0]} | {row[1]:.3f} | {row[2]:.3f} | {row[3]:.3f} | "
-            f"{row[4]:.3f} | {row[5]:.2f} ms | {row[6]:.2f} ms |"
+            f"{row[4]:.3f} | {row[5]:.3f} | {row[6]:.3f} | "
+            f"{row[7]:.2f} ms | {row[8]:.2f} ms |"
         )
     table = "\n".join(lines)
     report = f"""# Metadata Rule Ablation
@@ -199,14 +218,15 @@ This experiment separates three effects:
   card-tier/year filters and no manual reranker.
 - `no_metadata_cross_encoder`: the same retrieval, followed by the pure BGE
   Cross-Encoder without heuristic blending.
-- `metadata_heuristic`: the project default, with card-tier/year filters and
-  the metadata-aware heuristic reranker.
+- `metadata_heuristic`: an opt-in configuration with card-tier/year filters
+  and the metadata-aware heuristic reranker.
 
 {table}
 
-The metadata rules are dataset-informed, so the default score should not be
-treated as a clean holdout. This table makes the optimism explicit and shows
-the independent Cross-Encoder control.
+The metadata rules are dataset-informed and are not the project default. This
+table makes their performance explicit and compares them with the rules-free
+RRF and Cross-Encoder controls. Every row retrieves ten documents; @5 and @10
+metrics are derived from the same ranking.
 """
     path = reports_dir / "ablation_metadata.md"
     path.write_text(report, encoding="utf-8")

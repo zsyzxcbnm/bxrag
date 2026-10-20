@@ -54,8 +54,12 @@ def fixed_window_chunks(
     return chunks
 
 
-def semantic_chunks(document: Document, max_chars: int = 360) -> list[Chunk]:
-    """Group sentences into small, context-preserving semantic units."""
+def sentence_aware_chunks(document: Document, max_chars: int = 360) -> list[Chunk]:
+    """Pack complete sentences into chunks without embedding-based segmentation.
+
+    The strategy preserves sentence boundaries and prepends document metadata.
+    It does not perform semantic clustering or infer section structure.
+    """
 
     if max_chars <= 0:
         raise IngestionError("max_chars must be positive")
@@ -78,9 +82,15 @@ def semantic_chunks(document: Document, max_chars: int = 360) -> list[Chunk]:
 
     header = f"{document.title}. Product: {document.card_tier}. Year: {document.effective_year}."
     return [
-        _make_chunk(document, "semantic", index, f"{header} {group}")
+        _make_chunk(document, "sentence", index, f"{header} {group}")
         for index, group in enumerate(groups)
     ]
+
+
+def semantic_chunks(document: Document, max_chars: int = 360) -> list[Chunk]:
+    """Deprecated alias for :func:`sentence_aware_chunks`."""
+
+    return sentence_aware_chunks(document, max_chars=max_chars)
 
 
 def chunk_documents(
@@ -95,8 +105,8 @@ def chunk_documents(
             chunks.extend(document_chunks(document))
         elif strategy == "fixed":
             chunks.extend(fixed_window_chunks(document))
-        elif strategy == "semantic":
-            chunks.extend(semantic_chunks(document))
+        elif strategy in {"sentence", "semantic"}:
+            chunks.extend(sentence_aware_chunks(document))
         else:
             raise IngestionError(f"Unknown chunking strategy: {strategy}")
     return chunks

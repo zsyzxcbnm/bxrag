@@ -1,4 +1,4 @@
-pipeline,recall@1,recall@3,mrr,ndcg@5,p50_ms,p99_ms
-no_metadata_rrf,0.85,0.955556,1.0,0.993614,8.161,14.034
-no_metadata_cross_encoder,0.816667,0.944444,0.983333,0.978857,168.575,180.417
-metadata_heuristic,0.816667,0.944444,0.966667,0.964498,7.387,10.006
+pipeline,recall@1,recall@3,recall@10,mrr,ndcg@5,ndcg@10,p50_ms,p99_ms
+no_metadata_rrf,0.85,0.955556,1.0,1.0,0.993614,0.993614,8.117,10.242
+no_metadata_cross_encoder,0.816667,0.944444,1.0,0.983333,0.978857,0.978857,176.021,218.707
+metadata_heuristic,0.816667,0.944444,0.966667,0.966667,0.964498,0.964498,8.542,13.549

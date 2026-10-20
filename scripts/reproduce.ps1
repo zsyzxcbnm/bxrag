@@ -12,6 +12,14 @@ if (-not (Test-Path $Python)) {
     & (Join-Path $Root "scripts\setup.ps1")
 }
 
+function Invoke-Python {
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Arguments)
+    & $Python @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "Python command failed with exit code $LASTEXITCODE`: $($Arguments -join ' ')"
+    }
+}
+
 $env:MPLCONFIGDIR = Join-Path $Root ".cache\matplotlib"
 New-Item -ItemType Directory -Force -Path $env:MPLCONFIGDIR | Out-Null
 $env:DENSE_WEIGHT = "0.5"
@@ -24,8 +32,8 @@ if ($Profile -eq "offline") {
     $env:EMBEDDING_MODEL = "local-tfidf-svd"
     $env:EMBEDDING_DIM = "128"
     $env:REPORTS_DIR = "reports/offline"
-    & $Python -m src.cli all --backend memory --refit
-    & $Python scripts/generate_zh_charts.py
+    Invoke-Python -m src.cli all --backend memory --refit
+    Invoke-Python scripts/generate_zh_charts.py
     Write-Host "Offline reproduction complete: reports/offline"
     exit 0
 }
@@ -46,22 +54,34 @@ $env:JUDGE_DEVICE = "cuda"
 $env:KMP_DUPLICATE_LIB_OK = "TRUE"
 $env:REPORTS_DIR = "reports"
 
+$ModelArgs = @()
+if (-not (Test-Path (Join-Path $Root "data\models\bge-large-en-v1.5"))) {
+    $ModelArgs += "bge-embedding"
+}
+if (-not (Test-Path (Join-Path $Root "data\models\bge-reranker-large"))) {
+    $ModelArgs += "bge-reranker"
+}
+if ($ModelArgs.Count -gt 0) {
+    Write-Host "Downloading missing models: $($ModelArgs -join ', ')"
+    Invoke-Python scripts\download_models.py @ModelArgs
+}
+
 $RequiredModels = @(
     (Join-Path $Root $env:EMBEDDING_MODEL),
     (Join-Path $Root $env:RERANKER_MODEL)
 )
 foreach ($Model in $RequiredModels) {
     if (-not (Test-Path $Model)) {
-        throw "Missing model: $Model. Run: & '$Python' scripts\download_models.py bge-embedding bge-reranker"
+        throw "Missing model after download: $Model"
     }
 }
 
-& $Python -m src.cli reset-db --yes
-& $Python -m src.cli all
-& $Python -m src.cli benchmark-index
-& $Python -m src.cli ablation-metadata
+Invoke-Python -m src.cli reset-db --yes
+Invoke-Python -m src.cli all
+Invoke-Python -m src.cli benchmark-index
+Invoke-Python -m src.cli ablation-metadata
 Copy-Item "reports\results.json" "reports\results_bge_large_pgvector.json" -Force
 Copy-Item "reports\results.csv" "reports\results_bge_large_pgvector.csv" -Force
 Copy-Item "reports\results.md" "reports\results_bge_large_pgvector.md" -Force
-& $Python scripts/generate_zh_charts.py
+Invoke-Python scripts/generate_zh_charts.py
 Write-Host "BGE GPU reproduction complete: reports"

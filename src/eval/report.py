@@ -21,24 +21,26 @@ _MODE_LABELS = {
 
 def _metric_table(summary: dict[str, Any]) -> str:
     lines = [
-        "| Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | "
-        "nDCG@5 | P50 (ms) | P99 (ms) |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| Pipeline | Recall@1 | Recall@3 | Recall@5 | Recall@10 | Precision@5 | MRR | "
+        "nDCG@5 | nDCG@10 | P50 (ms) | P99 (ms) |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for mode, label in _MODE_LABELS.items():
         item = summary[mode]
         metrics = item["metrics"]
         latency = item["latency"]
         lines.append(
-            "| {label} | {r1:.3f} | {r3:.3f} | {r5:.3f} | {p5:.3f} | {mrr:.3f} | "
-            "{ndcg:.3f} | {p50:.2f} | {p99:.2f} |".format(
+            "| {label} | {r1:.3f} | {r3:.3f} | {r5:.3f} | {r10:.3f} | {p5:.3f} | "
+            "{mrr:.3f} | {ndcg:.3f} | {ndcg10:.3f} | {p50:.2f} | {p99:.2f} |".format(
                 label=label,
                 r1=metrics.get("recall@1", 0),
                 r3=metrics.get("recall@3", 0),
                 r5=metrics.get("recall@5", 0),
+                r10=metrics.get("recall@10", 0),
                 p5=metrics.get("precision@5", 0),
                 mrr=metrics.get("mrr", 0),
                 ndcg=metrics.get("ndcg@5", 0),
+                ndcg10=metrics.get("ndcg@10", 0),
                 p50=latency["p50_ms"],
                 p99=latency["p99_ms"],
             )
@@ -74,7 +76,7 @@ def _end_to_end_table(summary: dict[str, Any]) -> str:
 
 
 def _plot_metrics(summary: dict[str, Any], output: Path) -> None:
-    metrics = ["recall@1", "recall@5", "mrr", "ndcg@5"]
+    metrics = ["recall@1", "recall@5", "recall@10", "mrr", "ndcg@5", "ndcg@10"]
     modes = list(_MODE_LABELS)
     width = 0.18
     fig, ax = plt.subplots(figsize=(9, 4.6))
@@ -87,7 +89,7 @@ def _plot_metrics(summary: dict[str, Any], output: Path) -> None:
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Score")
     ax.set_title("Retrieval quality by pipeline")
-    ax.legend(fontsize=8, ncol=4, loc="upper center", bbox_to_anchor=(0.5, 1.15))
+    ax.legend(fontsize=8, ncol=4, loc="upper center", bbox_to_anchor=(0.5, -0.12))
     ax.grid(axis="y", alpha=0.25)
     fig.tight_layout()
     fig.savefig(output, dpi=160)
@@ -144,9 +146,16 @@ def _failure_section(payload: dict[str, Any]) -> str:
     lines.extend(regressed[:10] or ["- None in this run."])
     lines.append("")
     lines.append(
-        "The dominant error mode in this dataset is card-tier confusion: the same policy "
-        "exists for several products with slightly different numbers. Metadata-aware "
-        "reranking is therefore more valuable than generic semantic similarity."
+        f"Hybrid + rerank moved the first relevant document upward in {len(improved)} "
+        f"queries and downward in {len(regressed)}. These are per-query diagnostics; the "
+        "aggregate table above is the primary comparison."
+    )
+    lines.append("")
+    lines.append(
+        "Card-tier confusion remains a plausible error source because the same policy exists "
+        "for several products with slightly different numbers. It does not follow that "
+        "metadata rules should be enabled by default: the separate metadata ablation is the "
+        "appropriate test, and metadata rules remain disabled in the headline run."
     )
     lines.append("")
     lines.append(
@@ -180,9 +189,11 @@ def generate_report(payload: dict[str, Any], reports_dir: Path) -> Path:
                 "recall@1",
                 "recall@3",
                 "recall@5",
+                "recall@10",
                 "precision@5",
                 "mrr",
                 "ndcg@5",
+                "ndcg@10",
                 "latency_median_ms",
                 "first_relevant_rank",
             ]
@@ -197,15 +208,19 @@ def generate_report(payload: dict[str, Any], reports_dir: Path) -> Path:
                         metrics.get("recall@1", 0),
                         metrics.get("recall@3", 0),
                         metrics.get("recall@5", 0),
+                        metrics.get("recall@10", 0),
                         metrics.get("precision@5", 0),
                         metrics.get("mrr", 0),
                         metrics.get("ndcg@5", 0),
+                        metrics.get("ndcg@10", 0),
                         round(item["latency_ms"]["median"], 3),
                         item["first_relevant_rank"],
                     ]
                 )
 
     metadata = payload["metadata"]
+    top_k = int(metadata.get("top_k", 10))
+    use_metadata = bool(metadata.get("use_metadata", False))
     if metadata["backend"] == "postgres":
         hybrid_bullet = (
             "- Hybrid retrieval uses Reciprocal Rank Fusion over dense and PostgreSQL\n"
@@ -231,6 +246,18 @@ def generate_report(payload: dict[str, Any], reports_dir: Path) -> Path:
             "logic without Docker or pgvector; HNSW index tuning is not exercised here.\n"
             "Use the `bge-gpu` reproduction profile for PostgreSQL and HNSW metrics."
         )
+    if use_metadata:
+        configuration_note = (
+            "This run enables card-tier/year filters and metadata-aware heuristic scoring. "
+            "Those rules are dataset-informed, so compare them with the rules-free ablation "
+            "before treating this configuration as the default."
+        )
+    else:
+        configuration_note = (
+            "The headline run disables metadata rules: card-tier/year filters and metadata "
+            "heuristic bonuses are disabled. Metadata rules are opt-in and evaluated "
+            "separately in `ablation_metadata.md`."
+        )
     report = f"""# Apex RAG Retrieval Evaluation
 
 Generated at `{metadata["generated_at"]}`.
@@ -246,8 +273,10 @@ Generated at `{metadata["generated_at"]}`.
 - RRF `k`: **{metadata["rrf_k"]}**
 - RRF weights: dense **{metadata["dense_weight"]}**, sparse **{metadata["sparse_weight"]}**
 - Rerank candidates: **{metadata["rerank_candidates"]}**
+- Results fetched per query: **{top_k}**
+- Metadata rules: **{"enabled" if use_metadata else "disabled"}**
 
-The configured embedding provider and metadata-aware heuristic reranker are
+{configuration_note} The configured embedding and reranker providers are
 recorded above so the run is reproducible. The OpenAI embedding and
 Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
@@ -278,10 +307,11 @@ sum of percentiles, not a joint distribution):
 - Sparse query terms are OR-ed before `ts_rank_cd`; strict AND semantics
   produced near-zero recall on long natural-language questions.
 - Hybrid + rerank applies a second-stage scorer to the top candidates and
-  returns the final top 5.
-- Recall@10 is deliberately not the headline metric: with 150 short documents
-  and multi-label relevance it saturates quickly. Recall@1, MRR and nDCG@5 are
-  the discriminating metrics.
+  returns the requested number of results.
+- Recall and nDCG are reported at both 5 and 10. The evaluation fetches
+  **{top_k}** results, so `Recall@10` is computed over ten actual documents.
+  `@5` reflects the evidence window used by the demo, while `@10` measures
+  wider candidate recall. On this small corpus `@10` often saturates quickly.
 
 ## Index verification
 
@@ -300,6 +330,8 @@ sum of percentiles, not a joint distribution):
   through the provider configuration. BGE-large uses its retrieval query prefix.
 - End-to-end latency includes query embedding and reranking; database-only
   latency is reported separately in the raw JSON.
+- The evaluation requests **{top_k}** ranked documents and derives @5 and @10
+  metrics from that same ranking.
 """
     report_path = reports_dir / "results.md"
     report_path.write_text(report, encoding="utf-8")

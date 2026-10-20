@@ -198,3 +198,6 @@ class MemoryDatabase:
             "strategies": len({chunk.strategy for chunk in self.chunks.values()}),
             "chunks_size": "in-memory",
         }
+
+    def close(self) -> None:
+        """Memory storage has no external connection to close."""

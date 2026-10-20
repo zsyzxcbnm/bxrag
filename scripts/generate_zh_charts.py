@@ -29,7 +29,7 @@ MODE_ZH = {
 STRATEGY_ZH = {
     "document": "文档级",
     "fixed": "固定窗口",
-    "semantic": "语义切分",
+    "sentence": "句子感知",
 }
 
 COLORS = ["#3274a1", "#e1812c", "#3a923a", "#c03d3e", "#7b5aa6"]
@@ -60,8 +60,8 @@ def _save(fig: plt.Figure, name: str) -> None:
 
 def chart_quality(results: dict[str, Any]) -> None:
     summary = results["summary"]
-    metric_keys = ["recall@1", "recall@5", "mrr", "ndcg@5"]
-    metric_labels = ["Recall@1", "Recall@5", "MRR", "nDCG@5"]
+    metric_keys = ["recall@1", "recall@5", "recall@10", "mrr", "ndcg@5", "ndcg@10"]
+    metric_labels = ["Recall@1", "Recall@5", "Recall@10", "MRR", "nDCG@5", "nDCG@10"]
     modes = list(MODE_ZH)
     width = 0.18
     fig, ax = plt.subplots(figsize=(10, 5.2))
@@ -73,8 +73,8 @@ def chart_quality(results: dict[str, Any]) -> None:
     ax.set_xticklabels(metric_labels, fontsize=11)
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("分数")
-    ax.set_title("Apex 信用卡知识库：检索质量对比（BGE-large GPU）", fontsize=14)
-    ax.legend(ncol=4, fontsize=9, loc="upper center", bbox_to_anchor=(0.5, 1.12))
+    ax.set_title("Apex 信用卡知识库：检索质量对比", fontsize=14)
+    ax.legend(ncol=4, fontsize=9, loc="upper center", bbox_to_anchor=(0.5, -0.12))
     ax.grid(axis="y", alpha=0.25)
     _save(fig, "metrics_comparison_zh.png")
 
@@ -113,8 +113,8 @@ def chart_latency(results: dict[str, Any]) -> None:
 
 def chart_chunking(chunking: dict[str, Any]) -> None:
     strategies = list(STRATEGY_ZH)
-    metrics = ["recall@1", "recall@5", "mrr", "ndcg@5"]
-    labels = ["Recall@1", "Recall@5", "MRR", "nDCG@5"]
+    metrics = ["recall@1", "recall@5", "recall@10", "mrr", "ndcg@5"]
+    labels = ["Recall@1", "Recall@5", "Recall@10", "MRR", "nDCG@5"]
     width = 0.24
     fig, ax = plt.subplots(figsize=(10, 4.8))
     for index, strategy in enumerate(strategies):
@@ -125,8 +125,9 @@ def chart_chunking(chunking: dict[str, Any]) -> None:
     ax.set_xticklabels(labels)
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("分数")
-    ax.set_title("分块策略对比（离线 Memory Backend + TF-IDF）", fontsize=13)
-    ax.legend(ncol=3, fontsize=9)
+    embedding_model = chunking.get("embedding_model", "Memory Backend")
+    ax.set_title(f"分块策略对比（{embedding_model}）", fontsize=13)
+    ax.legend(ncol=3, fontsize=9, loc="upper center", bbox_to_anchor=(0.5, -0.12))
     ax.grid(axis="y", alpha=0.25)
     _save(fig, "chunking_comparison_zh.png")
 

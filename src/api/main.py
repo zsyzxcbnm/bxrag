@@ -12,8 +12,12 @@ from pydantic import BaseModel, Field
 
 from src.config import Settings, get_settings
 from src.db import Database
+from src.db_memory import MemoryDatabase
+from src.db_protocol import DatabaseLike
 from src.exceptions import ApexRagError, RetrievalError
+from src.ingestion.chunker import chunk_documents
 from src.ingestion.embedder import build_embedder
+from src.ingestion.loader import load_documents
 from src.retrieval.pipeline import RetrievalPipeline
 
 RetrievalModeName = Literal["dense_only", "sparse_only", "hybrid", "hybrid_rerank"]
@@ -65,9 +69,30 @@ class HealthResponse(BaseModel):
     stats: dict[str, object]
 
 
-def _build_service(settings: Settings) -> tuple[Database, RetrievalPipeline]:
+def _build_memory_service(settings: Settings) -> tuple[MemoryDatabase, RetrievalPipeline]:
+    """Load the supplied corpus into the offline backend at API startup."""
+
+    documents = load_documents(settings.data_dir / "kb_documents.json")
+    chunks = chunk_documents(documents, "document")
+    texts = [chunk.text for chunk in chunks]
+    embedder = build_embedder(settings, texts=texts)
+    vectors = embedder.embed(texts)
+    database = MemoryDatabase(embedder.dim)
+    database.init_schema()
+    database.upsert_documents(documents)
+    database.upsert_chunks(chunks, vectors)
+    pipeline = RetrievalPipeline(database=database, embedder=embedder, settings=settings)
+    return database, pipeline
+
+
+def _build_service(settings: Settings) -> tuple[DatabaseLike, RetrievalPipeline]:
+    """Build the configured storage backend and retrieval pipeline."""
+
+    if settings.backend == "memory":
+        return _build_memory_service(settings)
+
     embedder = build_embedder(settings)
-    database = Database(
+    database: DatabaseLike = Database(
         dsn=settings.postgres_dsn,
         embedding_dim=embedder.dim,
         hnsw_m=settings.hnsw_m,
@@ -104,7 +129,7 @@ app = FastAPI(
 def healthz() -> HealthResponse:
     """Return service and storage status."""
 
-    database: Database = app.state.database
+    database: DatabaseLike = app.state.database
     try:
         stats = database.stats()
     except psycopg.Error as exc:

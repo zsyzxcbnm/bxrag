@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
-from src.ingestion.chunker import chunk_documents, document_chunks, fixed_window_chunks
+from src.ingestion.chunker import (
+    chunk_documents,
+    document_chunks,
+    fixed_window_chunks,
+    sentence_aware_chunks,
+)
 from src.ingestion.normalizer import normalize_document
 
 
@@ -36,6 +41,13 @@ def test_fixed_window_produces_multiple_chunks() -> None:
 
 def test_all_strategies_dispatch() -> None:
     chunks = []
-    for strategy in ("document", "fixed", "semantic"):
+    for strategy in ("document", "fixed", "sentence"):
         chunks.extend(chunk_documents([_document()], strategy))
-    assert {chunk.strategy for chunk in chunks} == {"document", "fixed", "semantic"}
+    assert {chunk.strategy for chunk in chunks} == {"document", "fixed", "sentence"}
+
+
+def test_legacy_semantic_name_maps_to_sentence_aware() -> None:
+    legacy = chunk_documents([_document()], "semantic")
+    current = sentence_aware_chunks(_document())
+    assert [chunk.chunk_id for chunk in legacy] == [chunk.chunk_id for chunk in current]
+    assert all(chunk.strategy == "sentence" for chunk in legacy)

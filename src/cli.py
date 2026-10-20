@@ -53,7 +53,7 @@ def _ingest(
 
     if strategy == "all":
         chunks = []
-        for item in ("document", "fixed", "semantic"):
+        for item in ("document", "fixed", "sentence"):
             chunks.extend(chunk_documents(documents, item))
     else:
         chunks = chunk_documents(documents, strategy)
@@ -127,7 +127,14 @@ def _evaluate(
     LOGGER.info("Wrote %s", report_path)
 
 
-def _search(settings: Settings, query: str, mode: str, top_k: int, backend: str) -> None:
+def _search(
+    settings: Settings,
+    query: str,
+    mode: str,
+    top_k: int,
+    backend: str,
+    use_metadata: bool,
+) -> None:
     embedder = _load_embedder(settings)
     database = (
         _build_memory_database(settings, embedder)
@@ -135,7 +142,12 @@ def _search(settings: Settings, query: str, mode: str, top_k: int, backend: str)
         else _database(settings, embedder)
     )
     pipeline = RetrievalPipeline(database=database, embedder=embedder, settings=settings)
-    result = pipeline.search(query, mode=mode, top_k=top_k)  # type: ignore[arg-type]
+    result = pipeline.search(
+        query,
+        mode=mode,  # type: ignore[arg-type]
+        top_k=top_k,
+        use_metadata=use_metadata,
+    )
     print(
         json.dumps(
             {
@@ -252,8 +264,9 @@ def build_parser() -> argparse.ArgumentParser:
     ingest = subparsers.add_parser("ingest", help="Load, embed and upsert the knowledge base")
     ingest.add_argument(
         "--strategy",
-        choices=("document", "fixed", "semantic", "all"),
+        choices=("document", "fixed", "sentence", "semantic", "all"),
         default="document",
+        help="'semantic' is accepted as a legacy alias for 'sentence'.",
     )
     ingest.add_argument("--refit", action="store_true", help="Retrain the local embedder")
     ingest.add_argument("--reset", action="store_true", help="Drop existing tables first")
@@ -273,9 +286,14 @@ def build_parser() -> argparse.ArgumentParser:
     search.add_argument(
         "--mode",
         choices=("dense_only", "sparse_only", "hybrid", "hybrid_rerank"),
-        default="hybrid_rerank",
+        default="hybrid",
     )
     search.add_argument("--top-k", type=int, default=5)
+    search.add_argument(
+        "--use-metadata",
+        action="store_true",
+        help="Enable card-tier/year filters and metadata heuristic scoring.",
+    )
     _add_backend_argument(search)
 
     stats = subparsers.add_parser("stats", help="Show document and chunk counts")
@@ -283,7 +301,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser(
         "compare-chunking",
-        help="Compare document, fixed-window and semantic chunking",
+        help="Compare document, fixed-window and sentence-aware chunking",
     )
     subparsers.add_parser(
         "benchmark-index",
@@ -344,6 +362,7 @@ def _main() -> None:
             args.mode,
             args.top_k,
             backend=args.backend or settings.backend,
+            use_metadata=args.use_metadata,
         )
     elif args.command == "stats":
         backend = args.backend or settings.backend

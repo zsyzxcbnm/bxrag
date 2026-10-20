@@ -83,7 +83,7 @@ class Reranker(Protocol):
         parsed: ParsedQuery,
         hits: Sequence[SearchHit],
         top_n: int,
-        use_metadata: bool = True,
+        use_metadata: bool = False,
     ) -> list[SearchHit]:
         """Return the highest-scoring candidates."""
         ...
@@ -100,7 +100,7 @@ class HeuristicReranker:
         parsed: ParsedQuery,
         hits: Sequence[SearchHit],
         top_n: int,
-        use_metadata: bool = True,
+        use_metadata: bool = False,
     ) -> list[SearchHit]:
         query_token_list = _token_list(query)
         query_tokens = set(query_token_list)
@@ -228,11 +228,17 @@ class CrossEncoderReranker:
         parsed: ParsedQuery,
         hits: Sequence[SearchHit],
         top_n: int,
-        use_metadata: bool = True,
+        use_metadata: bool = False,
     ) -> list[SearchHit]:
         model = self._load()
         if model is None:
-            return self._fallback.rerank(query, parsed, hits, top_n)
+            return self._fallback.rerank(
+                query,
+                parsed,
+                hits,
+                top_n,
+                use_metadata=use_metadata,
+            )
 
         pairs = [(query, f"{hit.title}. {hit.content}") for hit in hits]
         try:
@@ -240,10 +246,23 @@ class CrossEncoderReranker:
         except Exception as exc:
             self._failed = True
             LOGGER.warning("Cross-Encoder prediction failed; using heuristic fallback: %s", exc)
-            return self._fallback.rerank(query, parsed, hits, top_n)
+            return self._fallback.rerank(
+                query,
+                parsed,
+                hits,
+                top_n,
+                use_metadata=use_metadata,
+            )
 
         heuristic_scores = {
-            hit.doc_id: hit.score for hit in self._fallback.rerank(query, parsed, hits, len(hits))
+            hit.doc_id: hit.score
+            for hit in self._fallback.rerank(
+                query,
+                parsed,
+                hits,
+                len(hits),
+                use_metadata=use_metadata,
+            )
         }
         scored: list[SearchHit] = []
         for hit, raw_score in zip(hits, predictions, strict=True):

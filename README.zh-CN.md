@@ -3,21 +3,37 @@
 面向 Apex Card Services 信用卡客服知识库的可复现混合检索与评测工程。项目重点在
 **检索质量、排序效果和延迟**，而不是做一个只看起来会聊天的 Demo。
 
+## 致评审人员
+
+所有命令都在 `git clone` 后的仓库根目录执行。最短验证命令：
+
+```powershell
+git clone https://github.com/zsyzxcbnm/bxrag.git
+cd bxrag
+powershell -ExecutionPolicy Bypass -File .\scripts\reproduce.ps1
+```
+
+代码检查、完整 BGE GPU 和 Docker/API 验证见
+[REVIEW.zh-CN.md](REVIEW.zh-CN.md)。
+
 英文版见 [README.md](README.md)。
 
 ## 当前结果
 
-当前主结果来自本地 **BGE-large-en-v1.5 + PostgreSQL/pgvector + CUDA GPU**：
+当前主结果来自本地 **BGE-large-en-v1.5 + PostgreSQL/pgvector + CUDA GPU**，
+每条查询实际取 10 条结果，关闭元数据规则，使用 0.5/0.5 的 RRF 权重；
+下表中 BGE 和 Qwen3 两行都使用 CUDA（RTX 3050 Ti）：
 
-| 管线 | Recall@1 | Recall@5 | MRR | nDCG@5 | 检索 P50 | 检索 P99 |
-|---|---:|---:|---:|---:|---:|---:|
-| 仅稠密检索 | 0.772 | 0.944 | 0.922 | 0.914 | 3.06 ms | 8.12 ms |
-| 仅稀疏检索 | 0.750 | 0.967 | 0.933 | 0.935 | 2.83 ms | 4.57 ms |
-| 混合检索 + RRF | 0.817 | 0.967 | 0.967 | 0.960 | 6.28 ms | 9.58 ms |
-| 混合检索 + 重排序 | **0.817** | **0.967** | **0.967** | **0.964** | **7.68 ms** | **10.36 ms** |
+| 管线 | Recall@1 | Recall@5 | Recall@10 | MRR | nDCG@5 | nDCG@10 | 检索 P50 | 检索 P99 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 仅稠密检索 | 0.806 | 0.978 | 0.989 | 0.956 | 0.948 | 0.953 | 3.03 ms | 9.90 ms |
+| 仅稀疏检索 | 0.750 | 1.000 | 1.000 | 0.950 | 0.956 | 0.956 | 4.48 ms | 7.04 ms |
+| 混合检索 + RRF（默认） | **0.850** | **1.000** | **1.000** | **1.000** | **0.994** | **0.994** | **8.10 ms** | **10.28 ms** |
+| 混合检索 + 重排序（可选） | **0.850** | **1.000** | **1.000** | **1.000** | 0.991 | 0.991 | 9.55 ms | 12.57 ms |
 
-GPU 上查询 Embedding 约 **25 ms P50 / 30 ms P99**，因此混合检索+重排序的近似
-端到端延迟约为 **32 ms P50 / 40 ms P99**，已经低于 100ms。
+GPU 上查询 Embedding 约 **27-29 ms P50 / 31-34 ms P99**。默认 RRF 的近似端到端
+延迟约为 **35.44 ms P50 / 41.20 ms P99**；可选重排序路径约为
+**38.71 ms P50 / 46.84 ms P99**。
 
 ![检索质量对比](reports/figures/metrics_comparison_zh.png)
 
@@ -34,15 +50,16 @@ GPU 上查询 Embedding 约 **25 ms P50 / 30 ms P99**，因此混合检索+重�
 - [战略架构路线图](docs/roadmap.zh-CN.md)
 
 重要消融结论：不做人工元数据规则、直接使用 RRF 的基线反而最好
-（Recall@1 **0.850**、MRR **1.000**、nDCG@5 **0.994**）。卡种/年份硬过滤和
-启发式规则是为这份 30 条数据设计的，应视为有调优偏差的方案。
+（Recall@1 **0.850**、MRR **1.000**、nDCG@5 **0.994**），因此 rules-free RRF
+已成为默认路径。卡种/年份硬过滤和元数据启发式是为这份 30 条数据设计的，
+保留为可选的对照方案，不参与默认检索。
 
 ## 架构
 
 ![中文架构图](reports/figures/architecture_zh.png)
 
 离线链路负责数据校验、元数据抽取、分块、向量化和索引构建；在线链路负责查询解析、
-稠密/稀疏召回、RRF 融合、重排序和 Top-5 证据返回。
+稠密/稀疏召回和 RRF 融合，默认直接返回 Top-5 证据；重排序是可选阶段。
 
 ## 目录结构
 
@@ -126,7 +143,6 @@ make reproduce
 ### 完整 PostgreSQL + BGE GPU
 
 ```powershell
-& .\.venv\Scripts\python.exe scripts\download_models.py bge-embedding bge-reranker
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
@@ -136,8 +152,25 @@ make reproduce
 make reproduce-gpu
 ```
 
+完整测试和静态检查：
+
+```text
+make verify
+```
+
+Docker 部署路径也有对应 target：
+
+```text
+make docker-build
+make docker-ingest
+make docker-api
+```
+
+可选的 Judge 模型用 `make download-judge` 下载。
+
 脚本会启动 pgvector 容器、重建 1024 维 BGE 索引、运行完整评测、HNSW 参数扫描、
-元数据消融，并重新生成 `reports/` 下的中文图表。
+元数据消融，并重新生成 `reports/` 下的中文图表。首次运行会自动下载缺失模型
+（约 5GB，需要网络）；该 profile 需要 Docker 和 NVIDIA GPU。
 
 两条命令都使用项目内 `.venv` 和项目内缓存/临时目录。
 `requirements.txt` 只是 `pyproject.toml` 的便捷入口，依赖的权威定义仍在 `pyproject.toml`。
@@ -233,12 +266,16 @@ Faithfulness。0.5B 小模型只适合做流程冒烟测试：Context Relevance 
 
 ## 重排序器
 
-默认使用元数据感知的启发式重排序。`bge-reranker-large` 也已接入：
+默认不启用重排序，直接走 rules-free Hybrid RRF。需要时可以选择启发式或
+`bge-reranker-large` Cross-Encoder：
 
 - 模型位置：`data\models\bge-reranker-large`
 - GPU fp16 显存约 1.1GB
-- 在本数据集上 Recall@1/MRR 与启发式持平，但 nDCG@5 略低，P50 约慢 20 倍
+- 在本数据集上弱于 rules-free RRF（Recall@1 0.817 vs 0.850），P50 约慢 20 倍
 - 因此保留为可选 Cross-Encoder 能力，默认不启用
+
+元数据过滤和启发式加分同样不是默认配置：API 需要显式传
+`use_metadata=true`，CLI 需要显式加 `--use-metadata`。
 
 详细对比见 [重排序器对比](reports/reranker_comparison.zh-CN.md)。
 
@@ -262,7 +299,7 @@ Faithfulness。0.5B 小模型只适合做流程冒烟测试：Context Relevance 
 ## 已知限制
 
 - 当前评测集很小，不能直接外推到 10M 文档。
-- 默认重排序器是启发式规则；可切换为 Cross-Encoder。
+- 默认不启用重排序；可切换到启发式或 Cross-Encoder，但都需显式选择。
 - 当前主结果使用本地 BGE GPU，模型文件约 1.3GB 权重，不提交到 Git。
 - GPU 环境是独立 venv，生产部署应使用 CUDA/ONNX/TEI 服务化方案。
 
