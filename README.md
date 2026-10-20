@@ -163,6 +163,16 @@ The full static/test check is:
 make verify
 ```
 
+The Docker deployment path is also wrapped:
+
+```text
+make docker-build
+make docker-ingest
+make docker-api
+```
+
+The optional judge model is downloaded with `make download-judge`.
+
 This starts the pgvector container, rebuilds the 1024-dimensional BGE index,
 runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
 the Chinese charts in `reports/`.

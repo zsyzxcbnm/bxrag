@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python.exe
 
-.PHONY: up down install setup init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck verify download-models reset reproduce reproduce-gpu
+.PHONY: up down install setup init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck verify download-models download-judge reset reproduce reproduce-gpu docker-build docker-ingest docker-api docker-down
 
 up:
 	docker compose up -d db
@@ -41,6 +41,9 @@ judge:
 download-models:
 	$(PYTHON) scripts/download_models.py bge-embedding bge-reranker
 
+download-judge:
+	$(PYTHON) scripts/download_models.py judge
+
 zh-charts:
 	$(PYTHON) scripts/generate_zh_charts.py
 
@@ -65,4 +68,16 @@ reproduce:
 
 reproduce-gpu:
 	powershell -ExecutionPolicy Bypass -File scripts/reproduce.ps1 -Profile bge-gpu
+
+docker-build:
+	docker compose --profile api build api
+
+docker-ingest:
+	docker compose --profile api run --rm api python -m src.cli ingest
+
+docker-api:
+	docker compose --profile api up -d api
+
+docker-down:
+	docker compose --profile api down
 

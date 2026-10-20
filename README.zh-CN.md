@@ -148,6 +148,16 @@ make download-models
 make verify
 ```
 
+Docker 部署路径也有对应 target：
+
+```text
+make docker-build
+make docker-ingest
+make docker-api
+```
+
+可选的 Judge 模型用 `make download-judge` 下载。
+
 脚本会启动 pgvector 容器、重建 1024 维 BGE 索引、运行完整评测、HNSW 参数扫描、
 元数据消融，并重新生成 `reports/` 下的中文图表。
 
