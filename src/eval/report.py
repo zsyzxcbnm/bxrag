@@ -206,6 +206,31 @@ def generate_report(payload: dict[str, Any], reports_dir: Path) -> Path:
                 )
 
     metadata = payload["metadata"]
+    if metadata["backend"] == "postgres":
+        hybrid_bullet = (
+            "- Hybrid retrieval uses Reciprocal Rank Fusion over dense and PostgreSQL\n"
+            "  full-text candidates."
+        )
+        index_section = (
+            "The PostgreSQL schema contains `idx_chunks_embedding_hnsw` (HNSW, cosine) and\n"
+            "`idx_chunks_fts` (GIN). Dense retrieval is split into an HNSW candidate query\n"
+            "and a separate document-metadata fetch; this prevents the planner from doing a\n"
+            "full scan plus sort just to join product metadata. The HNSW sweep in\n"
+            "`index_tuning.md` reports Recall@10 **1.000** for every tested configuration,\n"
+            "with candidate-search P50 around **2.5 ms** and P99 around **7-8 ms**. All\n"
+            "tested `m`, `ef_construction` and `ef_search` values remain far below 100 ms;\n"
+            "`m=16`, `ef_construction=64`, `ef_search=80` is the default."
+        )
+    else:
+        hybrid_bullet = (
+            "- Hybrid retrieval uses Reciprocal Rank Fusion over dense and in-memory\n"
+            "  BM25-style sparse scoring."
+        )
+        index_section = (
+            "This run uses the in-memory backend. It validates retrieval and evaluation\n"
+            "logic without Docker or pgvector; HNSW index tuning is not exercised here.\n"
+            "Use the `bge-gpu` reproduction profile for PostgreSQL and HNSW metrics."
+        )
     report = f"""# Apex RAG Retrieval Evaluation
 
 Generated at `{metadata["generated_at"]}`.
@@ -249,8 +274,7 @@ sum of percentiles, not a joint distribution):
 
 - Dense-only is the required baseline; sparse-only isolates the value of exact
   lexical matching on policy numbers, product names and time limits.
-- Hybrid retrieval uses Reciprocal Rank Fusion over dense and PostgreSQL
-  full-text candidates.
+{hybrid_bullet}
 - Sparse query terms are OR-ed before `ts_rank_cd`; strict AND semantics
   produced near-zero recall on long natural-language questions.
 - Hybrid + rerank applies a second-stage scorer to the top candidates and
@@ -261,14 +285,7 @@ sum of percentiles, not a joint distribution):
 
 ## Index verification
 
-The PostgreSQL schema contains `idx_chunks_embedding_hnsw` (HNSW, cosine) and
-`idx_chunks_fts` (GIN). Dense retrieval is split into an HNSW candidate query
-and a separate document-metadata fetch; this prevents the planner from doing a
-full scan plus sort just to join product metadata. The HNSW sweep in
-`index_tuning.md` reports Recall@10 **1.000** for every tested configuration,
-with candidate-search P50 around **2.5 ms** and P99 around **7-8 ms**. All
-tested `m`, `ef_construction` and `ef_search` values remain far below 100 ms;
-`m=16`, `ef_construction=64`, `ef_search=80` is the default.
+{index_section}
 
 {_failure_section(payload)}
 

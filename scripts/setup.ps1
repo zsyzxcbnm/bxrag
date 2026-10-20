@@ -12,6 +12,8 @@ if (-not (Test-Path $Python)) {
 $env:PIP_CACHE_DIR = Join-Path $Root ".cache\pip"
 $env:TMP = Join-Path $Root ".tmp"
 $env:TEMP = $env:TMP
+$env:MPLCONFIGDIR = Join-Path $Root ".cache\matplotlib"
+New-Item -ItemType Directory -Force -Path $env:MPLCONFIGDIR | Out-Null
 
 & $Python -m pip install --index-url https://download.pytorch.org/whl/cu128 "torch==2.11.0+cu128"
 & $Python -m pip install -e ".[api,cross-encoder,dev,openai]"

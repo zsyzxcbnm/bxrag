@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python.exe
 
-.PHONY: up down install init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck reset
+.PHONY: up down install init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck reset reproduce
 
 up:
 	docker compose up -d db
@@ -52,4 +52,7 @@ typecheck:
 
 reset:
 	$(PYTHON) -m src.cli reset-db --yes
+
+reproduce:
+	powershell -ExecutionPolicy Bypass -File scripts/reproduce.ps1 -Profile offline
 

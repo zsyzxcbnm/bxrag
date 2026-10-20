@@ -1,6 +1,6 @@
 # Apex RAG Retrieval Evaluation
 
-Generated at `2026-10-19T13:21:59.876866+00:00`.
+Generated at `2026-10-20T03:12:13.247254+00:00`.
 
 ## Setup
 
@@ -22,10 +22,10 @@ Sentence-Transformers Cross-Encoder providers can be enabled through `.env`.
 
 | Pipeline | Recall@1 | Recall@3 | Recall@5 | Precision@5 | MRR | nDCG@5 | P50 (ms) | P99 (ms) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 3.06 | 8.12 |
-| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 2.83 | 4.57 |
-| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 6.28 | 9.58 |
-| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 7.68 | 10.36 |
+| Dense only | 0.772 | 0.889 | 0.944 | 0.267 | 0.922 | 0.914 | 2.95 | 4.89 |
+| Sparse only | 0.750 | 0.922 | 0.967 | 0.280 | 0.933 | 0.935 | 5.04 | 6.06 |
+| Hybrid (RRF) | 0.817 | 0.922 | 0.967 | 0.280 | 0.967 | 0.960 | 8.84 | 10.84 |
+| Hybrid + rerank | 0.817 | 0.944 | 0.967 | 0.280 | 0.967 | 0.964 | 7.68 | 12.87 |
 
 The table's P50/P99 columns measure the retrieval path (query embedding excluded):
 vector search, sparse search, fusion and reranking. Query-embedding latency is
@@ -33,20 +33,20 @@ reported separately because it depends on the model and device:
 
 | Pipeline | Embedding P50 (ms) | Embedding P99 (ms) |
 |---|---:|---:|
-| Dense only | 20.60 | 28.88 |
+| Dense only | 21.16 | 27.05 |
 | Sparse only | 0.00 | 0.00 |
-| Hybrid (RRF) | 27.38 | 31.12 |
-| Hybrid + rerank | 24.65 | 30.02 |
+| Hybrid (RRF) | 21.13 | 30.45 |
+| Hybrid + rerank | 21.19 | 30.19 |
 
 Approximate end-to-end latency (retrieval + embedding percentiles; this is a
 sum of percentiles, not a joint distribution):
 
 | Pipeline | Approx. end-to-end P50 (ms) | Approx. end-to-end P99 (ms) |
 |---|---:|---:|
-| Dense only | 23.66 | 37.00 |
-| Sparse only | 2.83 | 4.57 |
-| Hybrid (RRF) | 33.66 | 40.70 |
-| Hybrid + rerank | 32.33 | 40.38 |
+| Dense only | 24.12 | 31.95 |
+| Sparse only | 5.04 | 6.06 |
+| Hybrid (RRF) | 29.96 | 41.29 |
+| Hybrid + rerank | 28.87 | 43.06 |
 
 ![Retrieval quality](figures/metrics_comparison.png)
 
@@ -91,20 +91,6 @@ Queries where hybrid + rerank moved the first relevant document downward:
 The dominant error mode in this dataset is card-tier confusion: the same policy exists for several products with slightly different numbers. Metadata-aware reranking is therefore more valuable than generic semantic similarity.
 
 A second issue is label exhaustiveness. For generic questions the judgment often lists only one or two card tiers even when another tier's policy contains the same fact. For example, DOC-0023 for Q-005 and DOC-0053 for Q-011 are semantically valid but not labeled relevant. Strict Recall/MRR therefore understates retrieval quality; it should not be tuned away by overfitting to the 30 labeled queries.
-
-## Metadata-rule ablation
-
-The main table uses card-tier/year filtering and the metadata heuristic. A
-separate rules-free ablation is important:
-
-| Pipeline | Recall@1 | MRR | nDCG@5 | Retrieval P50 |
-|---|---:|---:|---:|---:|
-| Pure RRF, no metadata rules | **0.850** | **1.000** | **0.994** | 8.29 ms |
-| Pure BGE Cross-Encoder | 0.817 | 0.983 | 0.979 | 170.62 ms |
-| Metadata heuristic | 0.817 | 0.967 | 0.964 | 7.54 ms |
-
-See [ablation_metadata.md](ablation_metadata.md). The metadata rules are
-dataset-informed and should not be treated as a clean holdout.
 
 ## Reproducibility and limitations
 

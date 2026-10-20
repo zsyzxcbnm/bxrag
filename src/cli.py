@@ -307,6 +307,7 @@ def build_parser() -> argparse.ArgumentParser:
         "all",
         help="Ingest the default dataset and run evaluation",
     )
+    all_parser.add_argument("--refit", action="store_true", help="Retrain the local embedder")
     _add_backend_argument(all_parser)
     return parser
 
@@ -370,7 +371,7 @@ def _main() -> None:
         database = _ingest(
             settings,
             "document",
-            refit=False,
+            refit=args.refit,
             reset=False,
             backend=backend,
         )

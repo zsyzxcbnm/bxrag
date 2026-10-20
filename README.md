@@ -120,6 +120,30 @@ database. The PostgreSQL path remains the production-oriented implementation.
 - The CLI reports expected application errors through a single boundary and
   exits non-zero without dumping a full traceback.
 
+## One-command reproduction
+
+### Offline: no Docker, no GPU, no downloaded embedding model
+
+```powershell
+.\scripts\reproduce.ps1
+```
+
+This creates/uses `.venv`, runs the 150-document ingestion against the
+in-memory BM25 + cosine backend, runs the four retrieval pipelines, runs the
+chunking comparison, and writes Chinese charts to `reports/offline/`.
+
+### Full PostgreSQL + BGE GPU run
+
+```powershell
+.\scripts\reproduce.ps1 -Profile bge-gpu
+```
+
+This starts the pgvector container, rebuilds the 1024-dimensional BGE index,
+runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
+the Chinese charts in `reports/`.
+
+Both commands use `.venv` and the project-local cache/tmp directories.
+
 ## Embedding and reranker providers
 
 The default is deliberately offline and reproducible:

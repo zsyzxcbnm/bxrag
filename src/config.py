@@ -44,8 +44,8 @@ class Settings(BaseSettings):
     rerank_candidates: int = 20
     final_k: int = 5
     rrf_k: int = 60
-    dense_weight: float = 0.4
-    sparse_weight: float = 0.6
+    dense_weight: float = 0.5
+    sparse_weight: float = 0.5
 
     hnsw_m: int = 16
     hnsw_ef_construction: int = 64

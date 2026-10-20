@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +14,9 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 ROOT = Path(__file__).resolve().parents[1]
-REPORTS = ROOT / "reports"
+REPORTS = Path(os.environ.get("REPORTS_DIR", "reports"))
+if not REPORTS.is_absolute():
+    REPORTS = ROOT / REPORTS
 FIGURES = REPORTS / "figures"
 
 MODE_ZH = {
@@ -34,6 +37,13 @@ COLORS = ["#3274a1", "#e1812c", "#3a923a", "#c03d3e", "#7b5aa6"]
 
 def _load(name: str) -> dict[str, Any]:
     return json.loads((REPORTS / name).read_text(encoding="utf-8"))
+
+
+def _load_optional(name: str) -> dict[str, Any] | None:
+    path = REPORTS / name
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _setup_font() -> None:
@@ -145,7 +155,10 @@ def chart_embeddings() -> None:
         "BGE-large": "results_bge_large_pgvector.json",
         "Qwen3-0.6B": "results_qwen3_pgvector.json",
     }
-    data = {name: _load(file)["summary"] for name, file in files.items()}
+    loaded = {name: _load_optional(file) for name, file in files.items()}
+    if any(item is None for item in loaded.values()):
+        return
+    data = {name: item["summary"] for name, item in loaded.items() if item is not None}
     metric_keys = ["recall@1", "mrr", "ndcg@5"]
     metric_labels = ["Recall@1", "MRR", "nDCG@5"]
     names = list(files)
@@ -171,7 +184,10 @@ def chart_embeddings() -> None:
 
 
 def chart_rerankers() -> None:
-    ablation = _load("ablation_metadata.json")["summary"]
+    payload = _load_optional("ablation_metadata.json")
+    if payload is None:
+        return
+    ablation = payload["summary"]
     heuristic = ablation["metadata_heuristic"]
     cross = ablation["no_metadata_cross_encoder"]
     metric_keys = ["recall@1", "recall@3", "mrr", "ndcg@5"]
@@ -222,7 +238,9 @@ def chart_rerankers() -> None:
 
 
 def chart_ablation() -> None:
-    payload = _load("ablation_metadata.json")
+    payload = _load_optional("ablation_metadata.json")
+    if payload is None:
+        return
     names = {
         "no_metadata_rrf": "纯 RRF",
         "no_metadata_cross_encoder": "纯 Cross-Encoder",
@@ -310,11 +328,12 @@ def main() -> None:
     _setup_font()
     results = _load("results.json")
     chunking = _load("chunking.json")
-    index_tuning = _load("index_tuning.json")
     chart_quality(results)
     chart_latency(results)
     chart_chunking(chunking)
-    chart_index_tuning(index_tuning)
+    index_tuning = _load_optional("index_tuning.json")
+    if index_tuning is not None:
+        chart_index_tuning(index_tuning)
     chart_embeddings()
     chart_rerankers()
     chart_ablation()

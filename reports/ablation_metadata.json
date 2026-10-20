@@ -26,19 +26,19 @@
         "ndcg@10": 0.993614
       },
       "retrieval_latency": {
-        "p50_ms": 8.289,
-        "p99_ms": 12.824
+        "p50_ms": 8.161,
+        "p99_ms": 14.034
       },
       "embedding_latency": {
-        "p50_ms": 21.863,
-        "p99_ms": 27.18
+        "p50_ms": 21.373,
+        "p99_ms": 29.358
       },
       "stage_mean_ms": {
-        "embed_ms": 7.428,
-        "dense_ms": 3.318,
-        "sparse_ms": 4.361,
-        "fusion_ms": 0.608,
-        "total_ms": 16.022
+        "embed_ms": 7.647,
+        "dense_ms": 3.263,
+        "sparse_ms": 4.36,
+        "fusion_ms": 0.577,
+        "total_ms": 16.152
       }
     },
     "no_metadata_cross_encoder": {
@@ -58,20 +58,20 @@
         "ndcg@10": 0.978857
       },
       "retrieval_latency": {
-        "p50_ms": 170.624,
-        "p99_ms": 182.041
+        "p50_ms": 168.575,
+        "p99_ms": 180.417
       },
       "embedding_latency": {
-        "p50_ms": 21.326,
-        "p99_ms": 28.573
+        "p50_ms": 20.728,
+        "p99_ms": 28.399
       },
       "stage_mean_ms": {
-        "embed_ms": 7.394,
-        "dense_ms": 3.991,
-        "sparse_ms": 4.566,
-        "fusion_ms": 0.591,
-        "rerank_ms": 158.21,
-        "total_ms": 175.072
+        "embed_ms": 7.084,
+        "dense_ms": 3.915,
+        "sparse_ms": 4.368,
+        "fusion_ms": 0.56,
+        "rerank_ms": 156.948,
+        "total_ms": 173.172
       }
     },
     "metadata_heuristic": {
@@ -91,20 +91,20 @@
         "ndcg@10": 0.964498
       },
       "retrieval_latency": {
-        "p50_ms": 7.542,
-        "p99_ms": 10.551
+        "p50_ms": 7.387,
+        "p99_ms": 10.006
       },
       "embedding_latency": {
-        "p50_ms": 21.17,
-        "p99_ms": 27.612
+        "p50_ms": 21.003,
+        "p99_ms": 28.141
       },
       "stage_mean_ms": {
-        "embed_ms": 7.259,
-        "dense_ms": 3.247,
-        "sparse_ms": 2.732,
-        "fusion_ms": 0.484,
-        "rerank_ms": 1.203,
-        "total_ms": 15.377
+        "embed_ms": 7.273,
+        "dense_ms": 3.191,
+        "sparse_ms": 2.717,
+        "fusion_ms": 0.47,
+        "rerank_ms": 1.197,
+        "total_ms": 15.303
       }
     }
   },

@@ -106,6 +106,28 @@ PostgreSQL/pgvector 后端。
 - CLI 有统一异常边界：业务配置/数据/存储错误会输出清晰错误并以非零状态退出，
   不会直接甩出完整堆栈。
 
+## 一键复现
+
+### 离线模式：不需要 Docker、GPU 或下载模型
+
+```powershell
+.\scripts\reproduce.ps1
+```
+
+脚本会自动创建/使用 `.venv`，用内存 BM25 + cosine 后端导入 150 条文档，
+运行四条检索管线、Chunking 对比，并把中文图表写到 `reports/offline/`。
+
+### 完整 PostgreSQL + BGE GPU
+
+```powershell
+.\scripts\reproduce.ps1 -Profile bge-gpu
+```
+
+脚本会启动 pgvector 容器、重建 1024 维 BGE 索引、运行完整评测、HNSW 参数扫描、
+元数据消融，并重新生成 `reports/` 下的中文图表。
+
+两条命令都使用项目内 `.venv` 和项目内缓存/临时目录。
+
 ## Embedding 方案
 
 项目支持三种 Embedding：

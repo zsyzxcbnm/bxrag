@@ -28,4 +28,5 @@ tmp/
 data/artifacts/*.joblib
 data/artifacts/*.json
 data/models/
+reports/offline/
 
