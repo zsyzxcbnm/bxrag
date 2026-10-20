@@ -114,6 +114,12 @@ PostgreSQL/pgvector 后端。
 .\scripts\reproduce.ps1
 ```
 
+如果安装了 `make`，等价命令是：
+
+```text
+make reproduce
+```
+
 脚本会自动创建/使用 `.venv`，用内存 BM25 + cosine 后端导入 150 条文档，
 运行四条检索管线、Chunking 对比，并把中文图表写到 `reports/offline/`。
 
@@ -124,10 +130,17 @@ PostgreSQL/pgvector 后端。
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
+等价的 Make 命令：
+
+```text
+make reproduce-gpu
+```
+
 脚本会启动 pgvector 容器、重建 1024 维 BGE 索引、运行完整评测、HNSW 参数扫描、
 元数据消融，并重新生成 `reports/` 下的中文图表。
 
 两条命令都使用项目内 `.venv` 和项目内缓存/临时目录。
+`requirements.txt` 只是 `pyproject.toml` 的便捷入口，依赖的权威定义仍在 `pyproject.toml`。
 
 模型权重不提交到 Git。`docker compose up -d` 只启动 PostgreSQL，不会自动导入数据
 或运行评测；请使用上面的一键脚本。

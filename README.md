@@ -128,6 +128,12 @@ database. The PostgreSQL path remains the production-oriented implementation.
 .\scripts\reproduce.ps1
 ```
 
+Equivalent Make target (if `make` is installed):
+
+```text
+make reproduce
+```
+
 This creates/uses `.venv`, runs the 150-document ingestion against the
 in-memory BM25 + cosine backend, runs the four retrieval pipelines, runs the
 chunking comparison, and writes Chinese charts to `reports/offline/`.
@@ -139,11 +145,19 @@ chunking comparison, and writes Chinese charts to `reports/offline/`.
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
+Equivalent Make target:
+
+```text
+make reproduce-gpu
+```
+
 This starts the pgvector container, rebuilds the 1024-dimensional BGE index,
 runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
 the Chinese charts in `reports/`.
 
 Both commands use `.venv` and the project-local cache/tmp directories.
+`requirements.txt` is a convenience wrapper around the canonical
+`pyproject.toml` dependency metadata.
 
 The models are intentionally not committed to Git. `docker compose up -d` only
 starts PostgreSQL; it does not import data or run evaluation. The one-command

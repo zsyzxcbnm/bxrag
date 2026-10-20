@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python.exe
 
-.PHONY: up down install init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck reset reproduce
+.PHONY: up down install setup init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck reset reproduce reproduce-gpu
 
 up:
 	docker compose up -d db
@@ -10,6 +10,9 @@ down:
 
 install:
 	$(PYTHON) -m pip install -e ".[api,cross-encoder,dev,openai]"
+
+setup:
+	powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
 
 init:
 	$(PYTHON) -m src.cli init-db
@@ -38,8 +41,7 @@ judge:
 zh-charts:
 	$(PYTHON) scripts/generate_zh_charts.py
 
-all:
-	$(PYTHON) -m src.cli all
+all: reproduce
 
 test:
 	$(PYTHON) -m pytest
@@ -55,4 +57,7 @@ reset:
 
 reproduce:
 	powershell -ExecutionPolicy Bypass -File scripts/reproduce.ps1 -Profile offline
+
+reproduce-gpu:
+	powershell -ExecutionPolicy Bypass -File scripts/reproduce.ps1 -Profile bge-gpu
 
