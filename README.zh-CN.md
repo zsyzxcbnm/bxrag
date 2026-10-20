@@ -120,6 +120,7 @@ PostgreSQL/pgvector 后端。
 ### 完整 PostgreSQL + BGE GPU
 
 ```powershell
+& .\.venv\Scripts\python.exe scripts\download_models.py bge-embedding bge-reranker
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
@@ -127,6 +128,9 @@ PostgreSQL/pgvector 后端。
 元数据消融，并重新生成 `reports/` 下的中文图表。
 
 两条命令都使用项目内 `.venv` 和项目内缓存/临时目录。
+
+模型权重不提交到 Git。`docker compose up -d` 只启动 PostgreSQL，不会自动导入数据
+或运行评测；请使用上面的一键脚本。
 
 ## Embedding 方案
 

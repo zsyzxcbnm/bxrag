@@ -46,6 +46,16 @@ $env:JUDGE_DEVICE = "cuda"
 $env:KMP_DUPLICATE_LIB_OK = "TRUE"
 $env:REPORTS_DIR = "reports"
 
+$RequiredModels = @(
+    $env:EMBEDDING_MODEL,
+    $env:RERANKER_MODEL
+)
+foreach ($Model in $RequiredModels) {
+    if (-not (Test-Path $Model)) {
+        throw "Missing model: $Model. Run: & '$Python' scripts\download_models.py bge-embedding bge-reranker"
+    }
+}
+
 & $Python -m src.cli reset-db --yes
 & $Python -m src.cli all
 & $Python -m src.cli benchmark-index

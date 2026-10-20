@@ -135,6 +135,7 @@ chunking comparison, and writes Chinese charts to `reports/offline/`.
 ### Full PostgreSQL + BGE GPU run
 
 ```powershell
+& .\.venv\Scripts\python.exe scripts\download_models.py bge-embedding bge-reranker
 .\scripts\reproduce.ps1 -Profile bge-gpu
 ```
 
@@ -143,6 +144,10 @@ runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
 the Chinese charts in `reports/`.
 
 Both commands use `.venv` and the project-local cache/tmp directories.
+
+The models are intentionally not committed to Git. `docker compose up -d` only
+starts PostgreSQL; it does not import data or run evaluation. The one-command
+scripts are the correct entry points.
 
 ## Embedding and reranker providers
 
