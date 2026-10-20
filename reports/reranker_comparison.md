@@ -45,11 +45,11 @@ model.
 
 ```powershell
 $env:RERANKER_PROVIDER='cross-encoder'
-$env:RERANKER_MODEL='G:\博贤\data\models\bge-reranker-large'
+$env:RERANKER_MODEL='data\models\bge-reranker-large'
 $env:RERANKER_DEVICE='cuda'
 $env:RERANKER_FP16='true'
 
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval `
+& '.\.venv\Scripts\python.exe' -m src.cli eval `
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 

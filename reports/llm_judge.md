@@ -1,6 +1,6 @@
 # LLM-as-a-Judge Evaluation
 
-Judge model: `G:\博贤\data\models\Qwen2.5-0.5B-Instruct`
+Judge model: `data\models\Qwen2.5-0.5B-Instruct`
 
 ## Summary
 

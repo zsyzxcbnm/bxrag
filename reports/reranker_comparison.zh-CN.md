@@ -40,11 +40,11 @@ query 和 passage。把 Cross-Encoder 与启发式按 65/35 简单融合后，nD
 
 ```powershell
 $env:RERANKER_PROVIDER='cross-encoder'
-$env:RERANKER_MODEL='G:\博贤\data\models\bge-reranker-large'
+$env:RERANKER_MODEL='data\models\bge-reranker-large'
 $env:RERANKER_DEVICE='cuda'
 $env:RERANKER_FP16='true'
 
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval `
+& '.\.venv\Scripts\python.exe' -m src.cli eval `
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 

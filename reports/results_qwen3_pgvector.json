@@ -4,7 +4,7 @@
     "query_count": 30,
     "backend": "postgres",
     "embedding_provider": "sentence-transformers",
-    "embedding_model": "G:\\博贤\\data\\models\\Qwen3-Embedding-0.6B",
+    "embedding_model": "data\\models\\Qwen3-Embedding-0.6B",
     "embedding_dim": 1024,
     "embedding_device": "cpu",
     "reranker": "heuristic",

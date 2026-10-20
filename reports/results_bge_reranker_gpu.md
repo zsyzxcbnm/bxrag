@@ -6,10 +6,10 @@ Generated at `2026-10-19T14:01:13.926261+00:00`.
 
 - Queries: **30**
 - Storage backend: `postgres`
-- Embedding: `G:\博贤\data\models\bge-large-en-v1.5` (1024 dimensions)
+- Embedding: `data\models\bge-large-en-v1.5` (1024 dimensions)
 - Embedding provider: `sentence-transformers`
 - Embedding device: `cuda:0`
-- Reranker: `G:\博贤\data\models\bge-reranker-large`
+- Reranker: `data\models\bge-reranker-large`
 - RRF `k`: **60**
 - RRF weights: dense **0.5**, sparse **0.5**
 - Rerank candidates: **20**

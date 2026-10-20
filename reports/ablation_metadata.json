@@ -2,9 +2,9 @@
   "metadata": {
     "query_count": 30,
     "repeats": 3,
-    "embedding_model": "G:\\博贤\\data\\models\\bge-large-en-v1.5",
+    "embedding_model": "data\\models\\bge-large-en-v1.5",
     "embedding_dim": 1024,
-    "cross_encoder": "G:\\博贤\\data\\models\\bge-reranker-large",
+    "cross_encoder": "data\\models\\bge-reranker-large",
     "cross_encoder_device": "cuda",
     "cross_encoder_fp16": true
   },

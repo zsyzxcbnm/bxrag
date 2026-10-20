@@ -6,7 +6,7 @@ Generated at `2026-10-19T12:37:00.272894+00:00`.
 
 - Queries: **30**
 - Storage backend: `postgres`
-- Embedding: `G:\博贤\data\models\Qwen3-Embedding-0.6B` (1024 dimensions)
+- Embedding: `data\models\Qwen3-Embedding-0.6B` (1024 dimensions)
 - Embedding provider: `sentence-transformers`
 - Embedding device: `cpu`
 - Reranker: `heuristic`

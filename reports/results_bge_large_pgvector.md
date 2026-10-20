@@ -6,7 +6,7 @@ Generated at `2026-10-20T03:12:13.247254+00:00`.
 
 - Queries: **30**
 - Storage backend: `postgres`
-- Embedding: `G:\博贤\data\models\bge-large-en-v1.5` (1024 dimensions)
+- Embedding: `data\models\bge-large-en-v1.5` (1024 dimensions)
 - Embedding provider: `sentence-transformers`
 - Embedding device: `cuda:0`
 - Reranker: `heuristic`

@@ -34,21 +34,21 @@ docker compose up -d db
 $env:BACKEND = "postgres"
 $env:POSTGRES_DSN = "postgresql://apex:apex@localhost:5432/apex"
 $env:EMBEDDING_PROVIDER = "sentence-transformers"
-$env:EMBEDDING_MODEL = Join-Path $Root "data\models\bge-large-en-v1.5"
+$env:EMBEDDING_MODEL = "data\models\bge-large-en-v1.5"
 $env:EMBEDDING_DIM = "1024"
 $env:EMBEDDING_DEVICE = "cuda"
-$env:RERANKER_MODEL = Join-Path $Root "data\models\bge-reranker-large"
+$env:RERANKER_MODEL = "data\models\bge-reranker-large"
 $env:RERANKER_DEVICE = "cuda"
 $env:RERANKER_FP16 = "true"
 $env:JUDGE_PROVIDER = "local"
-$env:JUDGE_MODEL = Join-Path $Root "data\models\Qwen2.5-0.5B-Instruct"
+$env:JUDGE_MODEL = "data\models\Qwen2.5-0.5B-Instruct"
 $env:JUDGE_DEVICE = "cuda"
 $env:KMP_DUPLICATE_LIB_OK = "TRUE"
 $env:REPORTS_DIR = "reports"
 
 $RequiredModels = @(
-    $env:EMBEDDING_MODEL,
-    $env:RERANKER_MODEL
+    (Join-Path $Root $env:EMBEDDING_MODEL),
+    (Join-Path $Root $env:RERANKER_MODEL)
 )
 foreach ($Model in $RequiredModels) {
     if (-not (Test-Path $Model)) {

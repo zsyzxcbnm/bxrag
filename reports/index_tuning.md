@@ -1,6 +1,6 @@
 # HNSW Index Tuning
 
-Embedding: `G:\博贤\data\models\bge-large-en-v1.5` (1024 dimensions)
+Embedding: `data\models\bge-large-en-v1.5` (1024 dimensions)
 
 Queries: **30**, repeats: **3**.
 Recall is measured against `NumPy cosine top-10 over all 150 chunk vectors`. The index scan is

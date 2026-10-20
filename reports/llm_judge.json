@@ -1,5 +1,5 @@
 {
-  "judge_model": "G:\\博贤\\data\\models\\Qwen2.5-0.5B-Instruct",
+  "judge_model": "data\\models\\Qwen2.5-0.5B-Instruct",
   "summary": {
     "queries": 30,
     "context_relevance_mean_1_to_5": 4.0,

@@ -65,31 +65,31 @@ tests/                      指标、融合、查询解析、分块测试
 ```powershell
 docker compose up -d db
 .\scripts\setup.ps1
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli init-db
+& '.\.venv\Scripts\python.exe' -m src.cli init-db
 ```
 
 ### 2. 使用 BGE + GPU 重建索引
 
-所有项目依赖统一安装在项目内 `G:\博贤\.venv`，不再往 D 盘 Anaconda 安装。
+所有项目依赖统一安装在项目内 `.venv`，不再往 系统 Anaconda 安装。
 该环境包含 CUDA PyTorch：
 
 ```powershell
 $env:EMBEDDING_PROVIDER='sentence-transformers'
-$env:EMBEDDING_MODEL='G:\博贤\data\models\bge-large-en-v1.5'
+$env:EMBEDDING_MODEL='data\models\bge-large-en-v1.5'
 $env:EMBEDDING_DIM='1024'
 $env:EMBEDDING_DEVICE='cuda'
 $env:KMP_DUPLICATE_LIB_OK='TRUE'
 
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli reset-db --yes
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli ingest
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval `
+& '.\.venv\Scripts\python.exe' -m src.cli reset-db --yes
+& '.\.venv\Scripts\python.exe' -m src.cli ingest
+& '.\.venv\Scripts\python.exe' -m src.cli eval `
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 
 ### 3. 无 Docker 的离线验证
 
 ```powershell
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli all --backend memory
+& '.\.venv\Scripts\python.exe' -m src.cli all --backend memory
 ```
 
 离线后端使用内存 BM25 + cosine，只用于验证检索和评测逻辑；正式指标请使用
@@ -166,15 +166,15 @@ Represent this sentence for searching relevant passages:
 ## 常用命令
 
 ```text
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli init-db
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli ingest
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli search "What is the balance transfer fee?"
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli compare-chunking
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli benchmark-index
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli ablation-metadata
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli judge
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli stats
+& '.\.venv\Scripts\python.exe' -m src.cli init-db
+& '.\.venv\Scripts\python.exe' -m src.cli ingest
+& '.\.venv\Scripts\python.exe' -m src.cli eval --dense-weight 0.5 --sparse-weight 0.5
+& '.\.venv\Scripts\python.exe' -m src.cli search "What is the balance transfer fee?"
+& '.\.venv\Scripts\python.exe' -m src.cli compare-chunking
+& '.\.venv\Scripts\python.exe' -m src.cli benchmark-index
+& '.\.venv\Scripts\python.exe' -m src.cli ablation-metadata
+& '.\.venv\Scripts\python.exe' -m src.cli judge
+& '.\.venv\Scripts\python.exe' -m src.cli stats
 ```
 
 Windows 也可以使用 `scripts/run.ps1`，例如：
@@ -235,7 +235,7 @@ Faithfulness。0.5B 小模型只适合做流程冒烟测试：Context Relevance 
 
 默认使用元数据感知的启发式重排序。`bge-reranker-large` 也已接入：
 
-- 模型位置：`G:\博贤\data\models\bge-reranker-large`
+- 模型位置：`data\models\bge-reranker-large`
 - GPU fp16 显存约 1.1GB
 - 在本数据集上 Recall@1/MRR 与启发式持平，但 nDCG@5 略低，P50 约慢 20 倍
 - 因此保留为可选 Cross-Encoder 能力，默认不启用

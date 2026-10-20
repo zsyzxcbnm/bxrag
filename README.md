@@ -199,7 +199,7 @@ The provided `bge-reranker-large` is supported as a real Cross-Encoder:
 
 ```text
 RERANKER_PROVIDER=cross-encoder
-RERANKER_MODEL=G:/博贤/data/models/bge-reranker-large
+RERANKER_MODEL=data/models/bge-reranker-large
 RERANKER_DEVICE=cuda
 RERANKER_FP16=true
 ```
@@ -215,7 +215,7 @@ BGE-large is the recommended English CPU default for this dataset:
 
 ```text
 EMBEDDING_PROVIDER=sentence-transformers
-EMBEDDING_MODEL=G:/博贤/data/models/bge-large-en-v1.5
+EMBEDDING_MODEL=data/models/bge-large-en-v1.5
 EMBEDDING_DIM=1024
 EMBEDDING_DEVICE=cpu
 ```
@@ -235,17 +235,17 @@ See [reports/results_bge_large_pgvector.md](reports/results_bge_large_pgvector.m
 ### GPU inference
 
 All project dependencies are installed in the project-local environment
-`G:\博贤\.venv`; do not install packages into the D-drive Anaconda base
+`.venv`; do not install packages into the system Anaconda base
 environment. The environment includes CUDA PyTorch:
 
 ```powershell
 $env:EMBEDDING_PROVIDER='sentence-transformers'
-$env:EMBEDDING_MODEL='G:\博贤\data\models\bge-large-en-v1.5'
+$env:EMBEDDING_MODEL='data\models\bge-large-en-v1.5'
 $env:EMBEDDING_DIM='1024'
 $env:EMBEDDING_DEVICE='cuda'
 $env:KMP_DUPLICATE_LIB_OK='TRUE'
 
-& 'G:\博贤\.venv\Scripts\python.exe' -m src.cli eval `
+& '.\.venv\Scripts\python.exe' -m src.cli eval `
   --dense-weight 0.5 --sparse-weight 0.5 --repeats 3
 ```
 
@@ -258,7 +258,7 @@ Qwen3 remains available through the same provider interface:
 
 ```text
 EMBEDDING_PROVIDER=sentence-transformers
-EMBEDDING_MODEL=G:/博贤/data/models/Qwen3-Embedding-0.6B
+EMBEDDING_MODEL=data/models/Qwen3-Embedding-0.6B
 EMBEDDING_DIM=1024
 EMBEDDING_DEVICE=cpu
 ```
