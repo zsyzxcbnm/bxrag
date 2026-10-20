@@ -151,6 +151,18 @@ Equivalent Make target:
 make reproduce-gpu
 ```
 
+Before the GPU target, models can be downloaded with:
+
+```text
+make download-models
+```
+
+The full static/test check is:
+
+```text
+make verify
+```
+
 This starts the pgvector container, rebuilds the 1024-dimensional BGE index,
 runs evaluation, HNSW parameter sweep, metadata-rule ablation, and regenerates
 the Chinese charts in `reports/`.

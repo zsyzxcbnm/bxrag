@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python.exe
 
-.PHONY: up down install setup init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck reset reproduce reproduce-gpu
+.PHONY: up down install setup init ingest index eval chunking index-bench ablation judge zh-charts all test lint typecheck verify download-models reset reproduce reproduce-gpu
 
 up:
 	docker compose up -d db
@@ -38,6 +38,9 @@ ablation:
 judge:
 	$(PYTHON) -m src.cli judge
 
+download-models:
+	$(PYTHON) scripts/download_models.py bge-embedding bge-reranker
+
 zh-charts:
 	$(PYTHON) scripts/generate_zh_charts.py
 
@@ -51,6 +54,8 @@ lint:
 
 typecheck:
 	$(PYTHON) -m mypy src
+
+verify: test lint typecheck
 
 reset:
 	$(PYTHON) -m src.cli reset-db --yes

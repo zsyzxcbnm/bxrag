@@ -136,6 +136,18 @@ make reproduce
 make reproduce-gpu
 ```
 
+GPU 复现前可以先下载模型：
+
+```text
+make download-models
+```
+
+完整测试和静态检查：
+
+```text
+make verify
+```
+
 脚本会启动 pgvector 容器、重建 1024 维 BGE 索引、运行完整评测、HNSW 参数扫描、
 元数据消融，并重新生成 `reports/` 下的中文图表。
 
