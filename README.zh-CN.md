@@ -3,6 +3,19 @@
 面向 Apex Card Services 信用卡客服知识库的可复现混合检索与评测工程。项目重点在
 **检索质量、排序效果和延迟**，而不是做一个只看起来会聊天的 Demo。
 
+## 致评审人员
+
+所有命令都在 `git clone` 后的仓库根目录执行。最短验证命令：
+
+```powershell
+git clone https://github.com/zsyzxcbnm/bxrag.git
+cd bxrag
+powershell -ExecutionPolicy Bypass -File .\scripts\reproduce.ps1
+```
+
+代码检查、完整 BGE GPU 和 Docker/API 验证见
+[REVIEW.zh-CN.md](REVIEW.zh-CN.md)。
+
 英文版见 [README.md](README.md)。
 
 ## 当前结果
